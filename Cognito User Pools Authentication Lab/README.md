@@ -1,0 +1,442 @@
+![AWS_logo_RGB.png](img/AWS_logo_RGB.png)
+
+<a id="Top"></a>
+## Cognito User Pool Authentication Lab
+This lab will guide you through adding authentication to a Unity game using Cognito User Pools and the AWS SDK for .NET. This will involve configuring a user pool and adding code to the Unity game client to integrate the Cognito service with the game. 
+
+## Agenda 
+
+* [Overview](#Overview)
+* [Task 1: Creating a Cognito User Pool](#Task1)
+* [Task 2: Open and Explore Sample Game in Unity](#Task2)
+* [Task 3: Add User Sign-Up Functionality](#Task3)
+* [Task 4: Add User Sign-In Functionality](#Task4)
+* [Task 5: Testing the Game](#Task5)
+* [Clean Up](#cleanup)
+* [Appendix - Additional Reading](#additionalreading)
+
+<a id="Overview"></a>
+[[Top](#Top)]
+
+## Overview
+
+
+### Amazon Cognito
+
+Amazon Cognito is a service that provides authentication, authorization, and user management for your web and mobile games. Players can sign-up and sign-in directly with a username and password, or through third party identity providers like Facebook, Amazon, or Google. There are two main components of Amazon Cognito:
+
+##### User Pools
+A user pool is a user directory that provides sign-up and sign-in options for your app users. Users in a user pool have an associated directory profile.  
+
+##### Identity Pools
+An Identity pool enables you to grant temporary AWS credentials to access AWS services to players. Identity pools support anonymous guest users.  
+
+### Unity
+
+Unity is a cross-platform game engine developed by Unity Technologies that is used to create the core game that will be the basis of this lab. Unity uses a C++ runtime and C# for scripting, so to be able to add AWS functionality to the game the AWS SDK for .NET is included as a package in Unity.
+
+### Getting Started
+
+This lab will focus specifically on creating an Amazon Cognito user pool to authenticate users for a Unity Game. It will walk through the process of building out a user pool and then will highlight how the AWS SDK for .NET is used in Unity to provide user sign-up and sign-in functionality. 
+
+### Prerequisites
+
+For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
+
+*	An AWS account with an appropriate level of permissions to use Cognito
+*	Unity 2019.1.0
+*	Visual Studio 2019
+
+
+<a id="Task1"></a>
+[[Top](#Top)]
+
+## Task 1: Creating a Cognito User Pool
+
+In order to add authentication to your Unity game, you first need to create a user pool in Cognito. 
+
+1.	Sign into the AWS Management Console and on the Services menu, click **Cognito**. 
+2.	Choose **Manage User Pools**. 
+
+<p align="center"><img src="img/1.png" /></p>
+
+3.	Click **Create a user pool**.
+4.	Add a name for your user pool. For this example, _AWSUserPool_ will be used as the name. 
+5.	Select **Step through settings** to get a better understanding of the customizations and features Cognito offers. 
+
+<p align="center"><img src="img/2.png" /></p>
+
+6.	This will take you to the _attributes_ page where you can begin to customize your user pool.
+
+	* You can define how you want your users to sign-in. For now, leave it as default, which allows your users to sign-in with a username and password.  Optionally, you can allow your users to sign-in with an email or phone number as well. 
+
+	* There are also different _attributes_ that you can require during the sign-up process. These are fields that are required when signing up for a user account. Leave the default email attribute selected. You can also add custom attributes. 
+
+7.	Leave these fields as default and select **Next step**.
+8.	The next page lets you customize password policies. Make sure to:
+
+* **Unselect** Require numbers
+* **Unselect** Require special character
+* **Unselect** Require uppercase letters
+* **Unselect** Require lowercase letters
+
+	* You can require a certain complexity for your passwords by requiring numbers, special characters, uppercase letters, and lowercase letters. These are all enabled by default.  In production, it is security best practice to require a complex password for your users. However, for the purpose of this lab, you will unselect all of these requirements to make the sign-up process more simplistic. 
+
+<p align="center"><img src="img/3.png" /></p>
+
+9.	Select **Next step**.
+10.	Review the other customizations you can make on this page, leave them as default, and select **Next step**.
+
+	* This page shows other features you can enable, like _Multi-Factor Authentication_ to add an extra layer of security when your users sign-in. You also have to provide a role to allow Amazon Cognito to send SMS messages to users on your behalf. This is called an IAM role, which is our _Identity and Access Management_ service that helps define access and management permissions for your AWS users and resources.  
+
+11.	 On the next page, under the part that says “Do you want to customize your email verification messages?”, change **Verification type** from Code to Link. 
+
+        * This will allow your users to verify their email in a convenient way by clicking a link during the sign-up process.
+
+<p align="center"><img src="img/4.png" /></p> 
+
+12.	Click **Next step**.
+13.	Click **Add tag** and enter the following configurations:
+* **Tag Key:** Name
+* **Tag Value:** Cognito User Pool for AWS Serverless Unity Game
+
+     * You can add tags to your AWS resources, which will help you identify them easily, keep your resources organized, and can help better understand billing costs. 
+
+<p align="center"><img src="img/5.png" /></p> 
+
+14.	Click **Next step**.
+15.	Under “Do you want to remember your user’s devices?” leave the default **“No”** selected for now, and click **Next step**. 
+
+     * This is a feature that helps enable device tracking and remembering. It can provide insight into the usage of your app’s users and reduce the friction associated with Multi-Factor Authentication. 
+
+16.	Click **Next step**.
+17.	On this page, select **Add an app client** and configure:
+* **App client name:** AppClient
+* **Unselect** Generate client secret
+18.	 Click **Create app client**. Your configurations should look like the following:
+
+     * Within Cognito, an app is an entity within a user pool that has permission to call unauthenticated APIs, such as APIs to register, sign in, and handle forgotten passwords. This does not require an authenticated user. To call these APIs, an app client ID is necessary. 
+
+<p align="center"><img src="img/6.png" /></p> 
+
+19. Click **Next step**.
+
+     * On this page you can create customized workflows using AWS Lambda functions to create triggers. For example, you can define authentication challenges, like completing a CAPTCHA.
+
+20.	Accept the defaults and click **Next step**.
+21.	Review your configurations for your Cognito user pool. Click **Create pool**. 
+22.	Now, you will be at a page where you can view and edit the general settings of the user pool you just created. On the left-hand navigation panel under **App Integration**, select **Domain name**.
+
+<p align="center"><img src="img/7.png" /></p> 
+
+23.	Add a unique prefix to your Amazon Cognito domain to be able to use the user pool within your mobile game. 
+24.	Click **Check availability** to make sure your domain name is unique.
+25.	Select **Save changes**. 
+26.	There is some information you will need to reference later when you are adding Cognito functionality to your Unity game. On the left-hand navigation panel, click **General Settings**. 
+27.	At the top of the page, you will see your **Pool Id**. Save this in a notepad for later.
+28.	On the left-hand navigation panel under **App integration**, select **App client settings**. You will see your **App client ID**. Save this in a notepad for later as well. 
+
+Congratulations! You have created your Amazon Cognito user pool successfully. Now, it is time to integrate it into your Unity game. 
+
+
+<a id="Task2"></a>
+[[Top](#Top)]
+
+## Task 2: Open and Explore Sample Game in Unity 
+
+You have officially created a Cognito User Pool, which serves as a user directory to provide sign-up and sign-in functionality for your video game. Now, it is time to open up and explore a sample project in Unity that you will begin adding authentication functionality to. 
+
+29.	**Download or clone** the files in this repository to the directory of your choice.
+30.	Open the project in Unity. This can be done by opening up **Unity Hub**, selecting **Add**, and then navigating to the project folder _“Serverless-Games-on-AWS”_ containing the files you just downloaded. Inside this, select the folder _“Cognito User Pool Authentication Lab”_ containing the Unity project files. It should look similar to this:
+
+<p align="center"><img src="img/8.png" /></p> 
+
+31.	Once you have opened the project, browse the assets that make up this game.
+
+     * The core game has been built already for you in Unity. You will take this core game and add functionality to it using AWS as you progress through this lab. The baseline of this game has been built using the free John Lemon’s Haunted Jaunt assets from the Unity Asset store, which can be found here for your reference: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
+
+     * The game has already been built for you, but if you want to familiarize yourself with Unity you can run through the tutorial to build the game yourself. Otherwise, browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
+
+<p align="center"><img width="400" src="img/9.png" /></p> 
+
+32.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to include Cognito in your game. 
+
+   * **Note:** There are other ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. It is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you will use the AWS SDK for .NET which supports C#.
+
+     * Also, when creating your own Unity game, you must make sure to follow these steps to change settings to be able to add .NET SDK assemblies to Unity as plugins.
+
+       * Navigate to Edit -> Project Settings -> Player -> Other Settings
+       * Change Scripting Runtime Version to .NET 4.x Equivalent
+       * Change the Scripting Backend to Mono
+       * Change the API Compatibility Level to .NET Standard 2.0
+
+     * These steps are not necessary now to be able to do this lab since the Unity game has been provided for you, but are necessary when developing your own game that uses the .NET SDK. 
+    
+<p align="center"><img src="img/10.png" /></p> 
+
+
+<a id="Task3"></a>
+[[Top](#Top)]
+
+## Task 3: Add User Sign-Up Functionality
+
+Once you have your Unity sample game open and explored around a bit, it is time to begin coding some AWS functionality into the game. You will first add user sign-up functionality to your game. 
+
+33.	Navigate to the **Scripts** folder in Assets and open up the **Cognito.cs** script to be edited in Visual Studio. 
+
+* This is the script that has been created to allow player sign-up and sign-in functionality for your game. You will need to write some code to make your script function correctly. Let’s walk through this together.
+
+* The first part of this script (lines 1-10) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder. 
+     
+     <p align="center"><img width="400" src="img/11.png" /></p> 
+
+* For example, you can see **using Amazon.CognitoIdentityProvider** (line 6) which allows you to use the Amazon Cognito User Pools API. This will allow you to do things like create a user pool to manage directories and users, as well as authenticate users to obtain tokens related to the user identity and access policies. 
+
+* Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.  
+
+<p align="center"><img width="700" src="img/12.png" /></p> 
+
+* UI elements are declared (lines 15-20). It is necessary to create and reference sign-up and sign-in buttons, as well as input text fields so that your players can type their username and password when signing up or signing in. These game objects have already been created and placed in a scene for you. You can find these as child objects of the Canvas game object in the Unity hierarchy window. 
+
+34.	Now you need to start filling in some information. Add your **User Pool ID** and **App Client ID** that you created when you set up your Cognito user pool to lines 22 and 23. You should have these values saved in a notepad from earlier in the lab. 
+35.	Also define the **Region** you created your user pool in. This lab has been done in US East 1 for reference. Your variables should look similar to this:
+
+<p align="center"><img src="img/13.png" /></p> 
+
+* Line 26 is a Boolean variable **signInSuccessful** that has been created to store whether or not the user has signed in successfully or not. Let’s move on to the next part of the script:
+   
+<p align="center"><img src="img/14.png" /></p> 
+
+* The start method runs on game start. Two listeners have been added to our sign-up and sign in buttons that will execute methods when the buttons have been clicked. We are also initializing the **signInSuccessful** variable to false at the start. 
+
+* When the sign-up button is clicked, the **on_signup_click()** function is executed which triggers the S**ignUpMethodAsync()** method, which is blank right now! Let’s write some code to add functionality to this method so that you can actually sign up a user to your Cognito user pool. 
+
+36.	Scroll down to **line 57**. This is where the **SignUpMethodAsync()** should start. 
+37.	First, declare variables. When you created your Cognito user pool, you required your user to fill out three fields when signing up for an account. These are **username**, **password**, and **email**. You will need a field for each of these. Declare these variables at the top of your function:
+
+
+```
+string userName = UsernameField.text;
+string password = PasswordField.text;
+string email = EmailField.text;
+```    
+	    
+  * This takes the inputs of the text fields and assigns them to variables. 
+     
+38.	Then, you need to create an **AmazonCognitoIdentityProviderClient**. Add the following line of code to your method: 
+
+```
+AmazonCognitoIdentityProviderClient provider = new AmazonCognitoIdentityProviderClient(new Amazon.Runtime.AnonymousAWSCredentials(), Region);
+```
+
+* Here you are creating and initializing an Amazon Cognito Identity Provider Client so that you can begin making calls to the Cognito API to sign-up users. This statement constructs a provider client using AWS credentials and the region endpoint in the constructor.
+
+39.	 Next, you need to create a **SignUpRequest** to sign up a user to your Cognito user pool. 
+```
+SignUpRequest signUpRequest = new SignUpRequest()
+{
+   ClientId = AppClientID,
+   Username = userName,
+   Password = password
+};
+```
+
+* The SignUpRequest needs to know your Cognito App Client ID as well as the username and password that the player typed in when trying to sign-up. 
+
+40.	Next, create a list of **attributes** and add it to the **signUpRequest** you just created. 
+
+```
+List<AttributeType> attributes = new List<AttributeType>()
+{
+   new AttributeType(){Name = "email", Value = email}
+};
+
+signUpRequest.UserAttributes = attributes;
+```
+
+* When you created your user pool, email was selected to be a required attribute when a player creates an account. You can also define other attributes that you might want required as well. These can be built-in attributes that AWS offers already, like phone number and address, or even your own custom attributes. You need to add the email attribute to the **signUpRequest** you created, otherwise your code will not work since you specifically required email as an attribute.  
+
+41.	Now you just need to actually submit your request to sign the player up! Do this in a try-catch block:
+
+```
+try
+{
+   SignUpResponse request = await provider.SignUpAsync(signUpRequest);
+
+   Debug.Log("Sign up worked");
+}
+catch (Exception e)
+{
+   Debug.Log("Exception: " + e);
+   return;
+}
+```
+
+* Here, you have a try-catch block where you try to submit the request to sign up your player to your Cognito user pool. If the request is successful, it prints a message to the console saying the sign up worked. If the request fails, you catch the exception and print the error message to the console to help with debugging. 
+
+42.	**Verify** that your final code looks like this:
+
+<p align="center"><img src="img/15.png" /></p> 
+
+Congratulations! You have added sign-up functionality with Cognito to your Unity game. 
+
+
+<a id="Task4"></a>
+[[Top](#Top)]
+
+## Task 4: Add User Sign-In Functionality
+
+Once you are done adding user sign-up functionality, you can begin adding user sign-in functionality to your game. 
+
+43.	 In the same **Cognito.cs** script, you will notice if you look at the **Start()** method again, there is also a listener on the sign-in button. This triggers an **on_signin_click()** method that calls to an asynchronous **SignInUser()** function. This function is also blank – time to start coding! 
+
+<p align="center"><img src="img/16.png" /></p> 
+
+44.	Go to the beginning of the **SignInUser()** function.
+45.	It is time to declare some variables again. You need to get the username and password that a player types into the textbox in order to authenticate the user during the sign-in process. Code the following **username** and **password** variables at the beginning of the function:
+
+```
+string userName = UsernameField.text;
+string password = PasswordField.text;
+```
+
+46. You also need to create the **Cognito Identity Provider Client** again.
+
+```
+AmazonCognitoIdentityProviderClient provider = new AmazonCognitoIdentityProviderClient(new Amazon.Runtime.AnonymousAWSCredentials(), Region);
+```
+	
+47.	Now, you need to create a **user pool** variable that is a representation of your Cognito user pool. You also need a **user** variable that is a representation of the user that is trying to sign-in. 
+
+```
+CognitoUserPool userPool = new CognitoUserPool(PoolID, AppClientID, provider);
+CognitoUser user = new CognitoUser(userName, AppClientID, userPool, provider);
+```
+
+48.	Once this is done, you need to authenticate your user by validating the username and password
+
+```
+InitiateSrpAuthRequest authRequest = new InitiateSrpAuthRequest()
+{
+   Password = password
+};
+```
+	
+	
+   * This is done through the **Secure Remote Password (SRP)** protocol, which helps to simplify the authentication process of Amazon Cognito user pools. It is a secure password-based authentication and key-exchange protocol that solves the challenge of authenticating clients to servers securely. 
+
+49.	Now, you can call another function **StartWithSrpAuthAsync()** which will authenticate the user and return an **AuthFlowResponse** object. This has an **AuthenticationResult** property that contains the user’s session tokens if the authentication is successful. 
+
+```
+try
+{
+   AuthFlowResponse authResponse = await user.StartWithSrpAuthAsync(authRequest).ConfigureAwait(false);
+            
+   GetUserRequest getUserRequest = new GetUserRequest();
+   getUserRequest.AccessToken = authResponse.AuthenticationResult.AccessToken;
+
+   Debug.Log("User Access Token: " + getUserRequest.AccessToken);
+   signInSuccessful = true;
+}
+catch(Exception e)
+{
+   Debug.Log("Exception: " + e);
+   return;
+}
+```
+
+* Here, you are taking the returned token and logging it in the console to see that the authentication is successful. You also change the Boolean variable signInSuccessful to true.
+
+* For the purposes of this lab, the game logic is more simplistic – if you look at the update method, you are constantly checking the Boolean variable. When this variable is true after successful authentication of the user, then load the game scene to allow the user to start playing the game. 
+
+* In practice, the returned token can be used to incorporate player-related features in the game, like allowing the player access to their game inventory for example.   
+
+50.	**Verify** that your final code looks like this:
+
+<p align="center"><img src="img/17.png" /></p>
+
+Congratulations! You have added sign-in functionality with Cognito to your Unity game. 
+
+<a id="Task5"></a>
+[[Top](#Top)]
+
+## Task 5: Testing the Game 
+
+Now that you are finished adding both sign-up and sign-in functionality to your game, you can test this functionality to ensure that it works!
+
+51.	Save your final Cognito.cs script. 
+52.	Navigate to the **Scenes** folder in Assets. 
+53.	Open the **CognitoTestScene**.
+54.	**Play** the unity game.
+55.	Enter a test username, test password, and your real email into the text fields. Make sure to put in your real email since you will need a verification link to confirm the user. Also, make sure your password is 6 characters or longer. 
+56.	Hit the **sign-up** button. You should see in the console that the sign up worked.
+
+<p align="center"><img width="400" src="img/18.png" /></p>
+
+57.	To verify that the sign-up process worked, go back to your browser with the **AWS Management Console** open.
+58.	Go to **Services** and then select **Cognito**.
+59.	Select **Manage User Pools**
+60.	Under **General settings**, select **Users and groups**
+61.	You should see a user signed up. You can also view additional information about the user. Right now, you should see that the account status is _UNCONFIRMED_. This is because the email has not been verified yet.
+
+<p align="center"><img src="img/19.png" /></p>
+
+62.	Check your email. You should get an email with a verification link. Click the link to **verify** your email.
+63.	A browser window should open that says: 
+
+<p align="center"><img src="img/20.png" /></p>
+
+64.	Go back to the **AWS Management Console** and refresh the page. Your user should be confirmed now!
+
+<p align="center"><img src="img/21.png" /></p>
+
+65.	Go back to Unity and hit the **sign-in** button to sign-in with the credentials you just used to create your user. 
+66.	The sign-in should be successful. You should see the access token has been returned in the console. It is a JWT token that should look similar to this:
+
+```
+User Access Token: eyJraWQiOiIydU5JSHNvTkttYlhwdzNTTkFvbnV5empqZjJnVytxTm9KYndFZ2hRUjFZPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJiOGE2YjNhYS1kMjgyLTQzY2EtYmY1Ni1jYmY5ZjdhZDliOTUiLCJldmVudF9pZCI6IjVkMzExN2Q1LTJiOWItNGMwMi1iZDAxLWQ2ZmU1OTdmNWE1YyIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1NjQ2ODcxNzgsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2J6RVp5RHZwQSIsImV4cCI6MTU2NDY5MDc3OCwiaWF0IjoxNTY0Njg3MTc4LCJqdGkiOiI4MjgyOTk0MC1mMjNjLTQxZGQtYjVlYi1mZjgxZjYwZWI4YzUiLCJjbGllbnRfaWQiOiIyNGtmMmNnZGRtYm45a2g3OG9wbG9mMTAwOSIsInVzZXJuYW1lIjoidGVzdFVzZXIifQ.PgREPvj4l6T6KeFYNlqKdd41CVhELcURXE_NhZ-WOfrtiMKqt9q_SWQ5hR_CK-MAtxz-nBJ_CoghmLcuImsIRMhyGI8NSbBUJhzakg-S5eyzV3PTxeO2Z9g76KFwZ-0ufwuhbJZKl02-CN23sVnJaFJApSR5ZlOGClSIKlqPHFTzHUA6IVCZWpasLzpIfzCMioO1Oe6l-tXR3p0OSRMH0FndIxUXP1zu1OkhM9VAboGbw7vD2dfydNkVdaDLfMmgnCG5x02A0TcZYtSFdYSmjtTG__UymWWuKqYNZd1hZPjNtIc-D24ec59hIFSTR-y6aOBO96nWSObB_Pema2AEpA
+```
+
+67.	You can decode this JWT token using https://jwt.io/. Copy the JWT User Access Token that is returned in the console and open this link in a web browser
+68.	Paste the JWT token you copied into the encoded section of this website. It should return decoded information like the header, payload, and signature. It will look similar to this:
+
+<p align="center"><img src="img/22.png" /></p>
+
+69.	After successful authentication of your user, the game should load the next scene where you are now able to play.
+
+Congratulations! You have now tested that the sign-up and sign-in functionality you added to your Unity game works successfully. Now you can play the game! The objective is to escape the haunted house while avoiding enemies like gargoyles and ghosts. Good luck!
+
+
+<a id="cleanup"></a>
+[[Top](#Top)]
+
+## Clean Up 
+
+Now that you have successfully created an Amazon Cognito user pool, added user sign-up and sign-in functionality to your Unity game, and tested it to ensure that it works, you can clean up your environment by spinning down AWS resources. This helps to ensure you are not charged for any resources that you may accidentally leave running.
+
+70.	Make sure to delete your Amazon Cognito user pool. Navigate to your user pool by selecting **Services**, then choosing **Cognito**.
+71.	Choose **Manage User Pools** and select the user pool you have created.
+72.	At the top right in general settings, you will see a **Delete pool** button. Press this to delete your user pool.
+
+
+<a id="additionalreading"></a>
+[[Top](#Top)]
+
+## Appendix - Additional Reading
+
+What is Amazon Cognito?  
+https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html
+
+AWS SDK for .NET Developer Guide  
+https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/welcome.html
+
+Amazon Game Tech blog   
+https://aws.amazon.com/blogs/gametech/
+
+How to integrate the AWS .NET SDK for games using C#  
+https://aws.amazon.com/blogs/gametech/how-to-integrate-the-aws-net-sdk-for-games-using-csharp/
+
+
+
+
+
