@@ -145,14 +145,5 @@ public class Cognito : MonoBehaviour
             Debug.Log("EXCEPTION" + e);
             return;
         }
-
-       
-
     }
-
-
-
-
-
-
 }
