@@ -151,7 +151,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 11. On line 19, add your **S3 bucket name** between the quotation marks. Your variables should look similar to this:
 
-<p align="center"><img src="img/6.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/6.png" /></p> 
 
 * Lets take a closer look at the other variables that are defined. On line 21, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab. 
 
