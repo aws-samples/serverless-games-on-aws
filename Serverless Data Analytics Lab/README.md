@@ -102,11 +102,20 @@ You have created your S3 data lake! Now, it is time to create a sample project i
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity4.png" /></p> 
 
-5. **Download** the Unity package in this GitHub repository called _ServerlessAnalytics.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package..
-
+5. **Download** the Unity package in this GitHub repository called _ServerlessAnalytics.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package.
 
 	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
-    
+	
+6. Click on the **Scenes** folder under Assets. Open the scene titled **SampleScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
+
+7. You need to fix the build settings for this project before getting started. Under File > Build Settings, click **Add Open Scenes**. It should add the SampleScene under index 0. Your final configurations should look like this:
+
+IMAGE OF BUILD SETTINGS HERE!!!!
+
+8. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
+
+PLUGINS IMAGE HERE!!!
+
     
 8.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to S3.  
 
