@@ -58,13 +58,13 @@ In order to add authentication to your Unity game, you first need to create a us
 1.	Sign into the AWS Management Console and on the Services menu, click **Cognito**. 
 2.	Choose **Manage User Pools**. 
 
-<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/1.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/1.png" /></p>
 
 3.	Click **Create a user pool**.
 4.	Add a name for your user pool. For this example, _AWSUserPool_ will be used as the name. 
 5.	Select **Step through settings** to get a better understanding of the customizations and features Cognito offers. 
 
-<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/2.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/2.png" /></p>
 
 6.	This will take you to the _attributes_ page where you can begin to customize your user pool.
 
@@ -82,7 +82,7 @@ In order to add authentication to your Unity game, you first need to create a us
 
 	* You can require a certain complexity for your passwords by requiring numbers, special characters, uppercase letters, and lowercase letters. These are all enabled by default.  In production, it is security best practice to require a complex password for your users. However, for the purpose of this lab, you will unselect all of these requirements to make the sign-up process more simplistic. 
 
-<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/3.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/3.png" /></p>
 
 9.	Select **Next step**.
 10.	Review the other customizations you can make on this page, leave them as default, and select **Next step**.
@@ -93,7 +93,7 @@ In order to add authentication to your Unity game, you first need to create a us
 
         * This will allow your users to verify their email in a convenient way by clicking a link during the sign-up process.
 
-<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/4.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/4.png" /></p> 
 
 12.	Click **Next step**.
 13.	Click **Add tag** and enter the following configurations:
@@ -102,7 +102,7 @@ In order to add authentication to your Unity game, you first need to create a us
 
      * You can add tags to your AWS resources, which will help you identify them easily, keep your resources organized, and can help better understand billing costs. 
 
-<p align="center"><img src="img/5.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/5.png" /></p> 
 
 14.	Click **Next step**.
 15.	Under “Do you want to remember your user’s devices?” leave the default **“No”** selected for now, and click **Next step**. 
@@ -117,7 +117,7 @@ In order to add authentication to your Unity game, you first need to create a us
 
      * Within Cognito, an app is an entity within a user pool that has permission to call unauthenticated APIs, such as APIs to register, sign in, and handle forgotten passwords. This does not require an authenticated user. To call these APIs, an app client ID is necessary. 
 
-<p align="center"><img src="img/6.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/6.png" /></p> 
 
 19. Click **Next step**.
 
@@ -127,7 +127,7 @@ In order to add authentication to your Unity game, you first need to create a us
 21.	Review your configurations for your Cognito user pool. Click **Create pool**. 
 22.	Now, you will be at a page where you can view and edit the general settings of the user pool you just created. On the left-hand navigation panel under **App Integration**, select **Domain name**.
 
-<p align="center"><img src="img/7.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/7.png" /></p> 
 
 23.	Add a unique prefix to your Amazon Cognito domain to be able to use the user pool within your mobile game. 
 24.	Click **Check availability** to make sure your domain name is unique.
@@ -148,21 +148,21 @@ You have officially created a Cognito User Pool, which serves as a user director
 
 1.	**Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
 
-<p align="center"><img src="img/unity1.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity1.png" /></p> 
 
  * You will use a sample game that has been built already for you in Unity. You will take this core game and add functionality to it using AWS as you progress through this lab. The baseline of this game is built using the free John Lemon’s Haunted Jaunt assets from the Unity Asset store at the link in step 29. You can run through the tutorial yourself if you wish, which takes around 5 and a half hours, or you can simply download the completed sample project. For this tutorial, it is assumed that you download the completed sample project. 
  
 2. When you click the link above, it should open up the Unity Asset Store. Click **Add to My Assets** and sign into your Unity account if necessary. 
 
-<p align="center"><img src="img/unity2.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity2.png" /></p> 
 
 3. You should see a drop down at the top of the screen that says _"Added to My Assets"_. On this same drop down, click **Open in Unity**. This will open Unity Hub. 
 
-<p align="center"><img src="img/unity3.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity3.png" /></p> 
 
 4. On the left navigation panel in the Unity Hub, click **Learn**. This will open up a page where you can find sample projects to download. You should see the John Lemon's Haunted Jaunt: 3D Beginner project downloaded. **Click** this to open the project in Unity.
 
-<p align="center"><img src="img/unity4.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity4.png" /></p> 
 
 5. **Download** the Unity package in this GitHub repository called _CognitoAuthentication.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package...
 
@@ -176,11 +176,11 @@ You have officially created a Cognito User Pool, which serves as a user director
 
 9. Under File > Build Settings, click **Add Open Scenes** again. It should add the SampleScene under index 1. Your final configurations should look like this:
 
-<p align="center"><img src="img/unity5.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity5.png" /></p> 
 
 10. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
 
-<p align="center"><img width="400" src="img/9.png" /></p> 
+<p align="center"><img width="400" src="http://d2a4jpfnohww2y.cloudfront.net/cognito/9.png" /></p> 
 
 11.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to include Cognito in your game. 
 
@@ -195,7 +195,7 @@ You have officially created a Cognito User Pool, which serves as a user director
 
      * These steps are not necessary now to be able to do this lab since the Unity game has been provided for you, but are necessary when developing your own game that uses the .NET SDK. 
     
-<p align="center"><img src="img/10.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/10.png" /></p> 
 
 
 <a id="Task3"></a>
@@ -211,24 +211,24 @@ Once you have your Unity sample game open and explored around a bit, it is time 
 
 * The first part of this script (lines 1-10) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder. 
      
-     <p align="center"><img width="400" src="img/11.png" /></p> 
+     <p align="center"><img width="400" src="http://d2a4jpfnohww2y.cloudfront.net/cognito/11.png" /></p> 
 
 * For example, you can see **using Amazon.CognitoIdentityProvider** (line 6) which allows you to use the Amazon Cognito User Pools API. This will allow you to do things like create a user pool to manage directories and users, as well as authenticate users to obtain tokens related to the user identity and access policies. 
 
 * Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.  
 
-<p align="center"><img width="700" src="img/12.png" /></p> 
+<p align="center"><img width="700" src="http://d2a4jpfnohww2y.cloudfront.net/cognito/12.png" /></p> 
 
 * UI elements are declared (lines 15-20). It is necessary to create and reference sign-up and sign-in buttons, as well as input text fields so that your players can type their username and password when signing up or signing in. These game objects have already been created and placed in a scene for you. You can find these as child objects of the Canvas game object in the Unity hierarchy window. 
 
 2.	Now you need to start filling in some information. Add your **User Pool ID** and **App Client ID** that you created when you set up your Cognito user pool to lines 22 and 23. You should have these values saved in a notepad from earlier in the lab. 
 3.	Also define the **Region** you created your user pool in. This lab has been done in US East 1 for reference. Your variables should look similar to this:
 
-<p align="center"><img src="img/13.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/13.png" /></p> 
 
 * Line 26 is a Boolean variable **signInSuccessful** that has been created to store whether or not the user has signed in successfully or not. Let’s move on to the next part of the script:
    
-<p align="center"><img src="img/14.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/14.png" /></p> 
 
 * The start method runs on game start. Two listeners have been added to our sign-up and sign in buttons that will execute methods when the buttons have been clicked. We are also initializing the **signInSuccessful** variable to false at the start. 
 
@@ -299,7 +299,7 @@ catch (Exception e)
 
 10.	**Verify** that your final code looks like this:
 
-<p align="center"><img src="img/15.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/15.png" /></p> 
 
 Congratulations! You have added sign-up functionality with Cognito to your Unity game. 
 
@@ -313,7 +313,7 @@ Once you are done adding user sign-up functionality, you can begin adding user s
 
 1.	 In the same **Cognito.cs** script, you will notice if you look at the **Start()** method again, there is also a listener on the sign-in button. This triggers an **on_signin_click()** method that calls to an asynchronous **SignInUser()** function. This function is also blank – time to start coding! 
 
-<p align="center"><img src="img/16.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/16.png" /></p> 
 
 2.	Go to the beginning of the **SignInUser()** function.
 3.	It is time to declare some variables again. You need to get the username and password that a player types into the textbox in order to authenticate the user during the sign-in process. Code the following **username** and **password** variables at the beginning of the function:
@@ -376,7 +376,7 @@ catch(Exception e)
 
 8.	**Verify** that your final code looks like this:
 
-<p align="center"><img src="img/17.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/17.png" /></p>
 
 Congratulations! You have added sign-in functionality with Cognito to your Unity game. 
 
@@ -402,16 +402,16 @@ Now that you are finished adding both sign-up and sign-in functionality to your 
 10.	Under **General settings**, select **Users and groups**
 11.	You should see a user signed up. You can also view additional information about the user. Right now, you should see that the account status is _UNCONFIRMED_. This is because the email has not been verified yet.
 
-<p align="center"><img src="img/19.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/19.png" /></p>
 
 12.	Check your email. You should get an email with a verification link. Click the link to **verify** your email.
 13.	A browser window should open that says: 
 
-<p align="center"><img src="img/20.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/20.png" /></p>
 
 14.	Go back to the **AWS Management Console** and refresh the page. Your user should be confirmed now!
 
-<p align="center"><img src="img/21.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/21.png" /></p>
 
 15.	Go back to Unity and hit the **sign-in** button to sign-in with the credentials you just used to create your user. 
 16.	The sign-in should be successful. You should see the access token has been returned in the console. It is a JWT token that should look similar to this:
@@ -423,7 +423,7 @@ User Access Token: eyJraWQiOiIydU5JSHNvTkttYlhwdzNTTkFvbnV5empqZjJnVytxTm9KYndFZ
 17.	You can decode this JWT token using https://jwt.io/. Copy the JWT User Access Token that is returned in the console and open this link in a web browser
 18.	Paste the JWT token you copied into the encoded section of this website. It should return decoded information like the header, payload, and signature. It will look similar to this:
 
-<p align="center"><img src="img/22.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/22.png" /></p>
 
 19.	After successful authentication of your user, the game should load the next scene where you are now able to play.
 
