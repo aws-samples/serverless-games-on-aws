@@ -82,21 +82,32 @@ The first step is to create an Amazon S3 bucket, which will act as your centrali
 
 5. Click **Create**.
 
-You have created your S3 data lake! Now it is time to integrate it into a sample Unity game. You can open and explore a sample project in Unity that you will use to send game data to your S3 bucket. 
+You have created your S3 data lake! Now, it is time to create a sample project in Unity that you will begin adding authentication functionality to. 
 
-6.	**Download or clone** the files in this repository to the directory of your choice.
-7. Open the project in Unity. This can be done by opening up **Unity Hub**, selecting **Add**, and then navigating to the project folder _“Serverless-Games-on-AWS”_ containing the files you just downloaded. Inside this, select the folder _“Serverless Data Analytics Lab”_ containing the Unity project files. It should look similar to this:
+1.	**Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
 
-<p align="center"><img src="img/2.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity1.png" /></p> 
 
-7.	Once you have opened the project, browse the assets that make up this game.
+ * You will use a sample game that has been built already for you in Unity. You will take this core game and add functionality to it using AWS as you progress through this lab. The baseline of this game is built using the free John Lemon’s Haunted Jaunt assets from the Unity Asset store at the link in the previos step. You can run through the tutorial yourself if you wish, which takes around 5 and a half hours, or you can simply download the completed sample project. For this tutorial, it is assumed that you download the completed sample project. 
+ 
+2. When you click the link above, it should open up the Unity Asset Store. Click **Add to My Assets** and sign into your Unity account if necessary. 
 
-     * The core game has been built already for you in Unity. You will take this core game and add functionality to it using AWS as you progress through this lab. The baseline of this game has been built using the free John Lemon’s Haunted Jaunt assets from the Unity Asset store, which can be found here for your reference: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity2.png" /></p> 
 
-     * The game has already been built for you, but if you want to familiarize yourself with Unity you can run through the tutorial to build the game yourself. Otherwise, browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
+3. You should see a drop down at the top of the screen that says _"Added to My Assets"_. On this same drop down, click **Open in Unity**. This will open Unity Hub. 
 
-<p align="center"><img width="500" src="img/3.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity3.png" /></p> 
 
+4. On the left navigation panel in the Unity Hub, click **Learn**. This will open up a page where you can find sample projects to download. You should see the John Lemon's Haunted Jaunt: 3D Beginner project downloaded. **Click** this to open the project in Unity.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity4.png" /></p> 
+
+5. **Download** the Unity package in this GitHub repository called _ServerlessAnalytics.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package..
+
+
+	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
+    
+    
 8.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to S3.  
 
    * **Note:** There are other ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. It is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you will use the AWS SDK for .NET which supports C#.
