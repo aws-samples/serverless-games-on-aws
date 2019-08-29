@@ -58,13 +58,13 @@ In order to add authentication to your Unity game, you first need to create a us
 1.	Sign into the AWS Management Console and on the Services menu, click **Cognito**. 
 2.	Choose **Manage User Pools**. 
 
-<p align="center"><img src="img/1.png" /></p>
+<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/1.png" /></p>
 
 3.	Click **Create a user pool**.
 4.	Add a name for your user pool. For this example, _AWSUserPool_ will be used as the name. 
 5.	Select **Step through settings** to get a better understanding of the customizations and features Cognito offers. 
 
-<p align="center"><img src="img/2.png" /></p>
+<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/2.png" /></p>
 
 6.	This will take you to the _attributes_ page where you can begin to customize your user pool.
 
