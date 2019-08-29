@@ -4,7 +4,7 @@
 ## Serverless Data Analytics Lab
 This lab will guide you through creating a serverless analytics pipeline and integrating it into a Unity game using the AWS SDK for .NET. This lab will focus on using serverless services like Amazon S3, Amazon Kinesis, AWS Glue, Amazon Athena, and Amazon QuickSight. In this lab, you will build out the following architecture:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/architecture.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/analytics.png" /></p> 
 
 ## Agenda 
 
@@ -78,7 +78,7 @@ The first step is to create an Amazon S3 bucket, which will act as your centrali
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
 4. Choose the region for this bucket. Take note of both the bucket name and region for later.
 
-<p align="center"><img src="img/1.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/1.png" /></p> 
 
 5. Click **Create**.
 
@@ -129,13 +129,13 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * The first part of this script (lines 1-8) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder. 
 
-<p align="center"><img src="img/4.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/4.png" /></p> 
 
 * For example, you can see **using Amazon.S3** (line 6) which allows you to use the Amazon S3 API. This will allow you to do things like upload an object to a bucket or get an object from a bucket, for example. 
 
 * Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.  
 
-<p align="center"><img src="img/5.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/5.png" /></p> 
 
 * The first two variables define the key name and Amazon S3 Client. The key name is the object key which uniquely identifies the object in a bucket. The IAmazonS3 client is the interface that needs to be declared to access S3. This interface has many methods that can be used to do things in S3 - like uploading objects to a bucket, listing objects in a bucket, deleting a bucket, and more. 
 
@@ -153,7 +153,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * Lines 26-29 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won. 
 
-<p align="center"><img src="img/7.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/7.png" /></p> 
 
 * The start method runs the game on start of the scene. Here, the S3 client is initialized, _sent_ is set to false, and _data_ is initialized as a new hash table.
 
@@ -207,11 +207,11 @@ PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
 
 20. Stop playing the game and check out the contents of your S3 bucket. You should see data in there that looks similar to this:
 
-<p align="center"><img src="img/8.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/8.png" /></p> 
 
 21. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
-<p align="center"><img src="img/9.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/9.png" /></p> 
 
 Congratulations! You finished the first task. You successfully created an S3 data lake and integrated it with a Unity game using the AWS SDK .NET.
 
@@ -244,19 +244,19 @@ Now it's time to ingest a ton of sample data into your S3 data lake using Amazon
 
 32. This will open up a new tab like the one below where you can create a new IAM role. Select **Allow**.
 
-<p align="center"><img src="img/10.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/10.png" /></p> 
 
 33. You should be redirected back to the tab where you are configuring your Kinesis Firehose stream. Review your configuration settings and finally select **Create delivery stream**. You should now see your newly created stream on the Kinesis Firehose dashboard. It will take a minute or two to create, but once it says the status is active you can click into it to find details. 
 
 34. Now we need to have a data source. For this, you will use the **Amazon Kinesis Data Generator** found at this link: https://awslabs.github.io/amazon-kinesis-data-generator/web/producer.html. Open this link - you should see a webpage similar to the one below. 
 
-<p align="center"><img src="img/11.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/11.png" /></p> 
 
 35. Click the **Help** button. This page will walk you through how to configure Kinesis Data Generator with your AWS account. Follow the steps to **Create a Cognito User with CloudFormation**.
 
 36. This will bring you to the AWS Management Console CloudFormation dashboard. You should see the followng:
 
-<p align="center"><img src="img/12.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/12.png" /></p> 
 
 37. Hit **Next**. Create a username and password that will be used to sign into the Kinesis Data Generator. Hit **Next** again.
 
@@ -283,7 +283,7 @@ Now it's time to ingest a ton of sample data into your S3 data lake using Amazon
 
 This data represents random players playing your game. Your final configurations should look similar to this:
 
-<p align="center"><img src="img/13.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/13.png" /></p> 
 
 42. Hit **Send data**. You should see data starting to send. Let the data generator send a couple thousand records (3000 records for example would be a good stopping point) and then finally hit **Stop sending data to Kinesis**. 
 
@@ -291,7 +291,7 @@ This data represents random players playing your game. Your final configurations
 
 44. Select the **Monitoring** tab. It takes about 1 minute for your stream to start recieving data. Wait a little bit and then refresh a couple times to see metrics start populating, like below:
 
-<p align="center"><img src="img/14.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/14.png" /></p> 
 
 45. Go back to your S3 bucket to look at the contents and **verify** the data has been delivered. 
 
@@ -317,11 +317,11 @@ Now that you have all of the data you want to analyze in your S3 data lake, it i
 
 51. Now, you choose the data store you want to crawl through. It should be defaulted to S3, but you still need to specify the bucket and path of the data you want to discover. Select the **folder icon** to navigate to the path that the Kinesis Data Generator data is at.
 
-<p align="center"><img src="img/15.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/15.png" /></p> 
 
 52. Find your bucket, click the **+** next to it, and keep navigating inside the sub folders until you find the file that contains the sample data. Select the folder that file is in, similar to this:
 
-<p align="center"><img src="img/16.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/16.png" /></p> 
 
 53. Hit **Select** and then **Next**. Do not add another data store - continue hitting **Next**
 
@@ -331,7 +331,7 @@ Now that you have all of the data you want to analyze in your S3 data lake, it i
 
 56. On the page where you define a database, select **Add database** and give it a name. This lab will use the name _serverless-catalog_. Hit **Create** and then **Next**.
 
-<p align="center"><img src="img/17.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/17.png" /></p> 
 
 * You just created a Glue Data Catalog, which contains references to your data in S3. It is an index to the location, schema, and runtime metrics of your data and is populated by the Glue crawler. 
 
@@ -341,11 +341,11 @@ Now that you have all of the data you want to analyze in your S3 data lake, it i
 
 59. On the left-side navigation bar, select **Databases**. You should see the Glue Data Catalog that you have created. Select it and then click the link to view the tables in your catalog. 
 
-<p align="center"><img src="img/18.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/18.png" /></p> 
 
 * You should see a table if you click into it you will see information about the table and the schema of it like below:
 
-<p align="center"><img src="img/19.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/19.png" /></p> 
 
 Congratulations! You have successfully used AWS Glue to create a crawler and populate a Glue Data Catalog to discover the data in your S3 data lake.
 
@@ -371,7 +371,7 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time pl
 
 * Your final result should look like this:
 
-<p align="center"><img src="img/20.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/20.png" /></p> 
 
 63. After you run the query and the results display on the dashboard, click **Create** and then **Create view from query**. Give it a name. This lab uses _data-view_ as the name. Click **Create**. 
 
@@ -392,7 +392,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 67. On the left-hand panel, select **Security & permissions**. You need to allow QuickSight access to certain AWS services. Click **Add or remove** to edit the services QuickSight has permissions to access. Make sure both S3 and Athena are enabled.
 
-<p align="center"><img src="img/22.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/22.png" /></p> 
 
 68. After ensuring the correct permissions, go back to the region you were working in before if it is not US East 1, since this is the region you have been working in the entire lab and will be where your Glue Data Catalog and your Athena table view are. 
 
@@ -404,7 +404,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 72. Next, it says to choose your table. Select the **Glue Data Catalog** you queried in Athena. Then, select the **table view** you just created using Athena in the last task. It should look similar to this:
 
-<p align="center"><img src="img/21.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/21.png" /></p> 
 
 73. Hit **Select**. Next, you can choose to **Import to SPICE for quicker analytics** if you want to do so. SPICE is QuickSights in-memory calculation engine that improves the performance of importing data and creating visualizations. Select **Visualize**.
 
@@ -418,7 +418,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 78. After adding all three variables, click the drop down arrow next to the time played variable to sort it to be **ascending** by time played. You should end up with something that looks similar to this:
 
-<p align="center"><img src="img/23.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/23.png" /></p> 
 
 * This graph shows the average losses and average wins over time. In this case, the data is randomized, but in practice a graph like this could indicate that if your players are winning too much, the game might be too easy and they might get bored and stop playing. On the other hand, it could indicate that if your players are losing too often, the game might be too hard, and as a result the players could get frustrated and stop playing. 
 
@@ -426,7 +426,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 80. Hit **Apply**. Your final result should look something like this:
 
-<p align="center"><img src="img/24.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/24.png" /></p> 
 
 * Instead of showing all the win/loss data for all your players, adding a filter can help you take a look at the data for a subset of players or one individual player. 
 
