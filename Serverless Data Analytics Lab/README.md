@@ -1,4 +1,4 @@
-![AWS_logo_RGB.png](img/AWS_logo_RGB.png)
+![AWS_logo_RGB.png](http://d2a4jpfnohww2y.cloudfront.net/cognito/AWS_logo_RGB.png)
 
 <a id="Top"></a>
 ## Serverless Data Analytics Lab
