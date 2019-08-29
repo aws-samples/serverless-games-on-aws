@@ -82,7 +82,7 @@ In order to add authentication to your Unity game, you first need to create a us
 
 	* You can require a certain complexity for your passwords by requiring numbers, special characters, uppercase letters, and lowercase letters. These are all enabled by default.  In production, it is security best practice to require a complex password for your users. However, for the purpose of this lab, you will unselect all of these requirements to make the sign-up process more simplistic. 
 
-<p align="center"><img src="img/3.png" /></p>
+<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/3.png" /></p>
 
 9.	Select **Next step**.
 10.	Review the other customizations you can make on this page, leave them as default, and select **Next step**.
@@ -93,7 +93,7 @@ In order to add authentication to your Unity game, you first need to create a us
 
         * This will allow your users to verify their email in a convenient way by clicking a link during the sign-up process.
 
-<p align="center"><img src="img/4.png" /></p> 
+<p align="center"><img src="https://serverless-games-on-aws-github-images.s3.amazonaws.com/cognito/4.png" /></p> 
 
 12.	Click **Next step**.
 13.	Click **Add tag** and enter the following configurations:
