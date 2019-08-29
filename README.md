@@ -4,7 +4,7 @@ Learn how to build serverless games on AWS by integrating the AWS SDK for .NET w
 
 This is a repository filled with samples and hands-on labs to enable developers to create serverless games on AWS using services like Amazon Cognito, Amazon API Gateway, AWS Lambda, Amazon DynamoDB, and more. Below is a sample architecture for building out a serverless mobile or web game:
 
-<p align="center"><img src="img/Serverless%20Games.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/main/Serverless+Gaming.png" /></p>
 
 
 These labs will focus on building out different aspects of this architecture. Unity and the AWS SDK for .NET are used for these tutorials, however the concepts can be applied to other game engines. 
