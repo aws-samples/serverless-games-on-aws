@@ -1,3 +1,5 @@
+![AWS_logo_RGB.png](http://d2a4jpfnohww2y.cloudfront.net/cognito/AWS_logo_RGB.png)
+
 ## Serverless Games on AWS
 
 Learn how to build serverless games on AWS by integrating the AWS SDK for .NET with Unity.
