@@ -394,6 +394,7 @@ Now that you are finished adding both sign-up and sign-in functionality to your 
 5.	Enter a test username, test password, and your real email into the text fields. Make sure to put in your real email since you will need a verification link to confirm the user. Also, make sure your password is 6 characters or longer. 
 6.	Hit the **sign-up** button. You should see in the console that the sign up worked.
 
+<p align="center"><img width="400" src="http://d2a4jpfnohww2y.cloudfront.net/cognito/18.png" /></p>
 
 7.	To verify that the sign-up process worked, go back to your browser with the **AWS Management Console** open.
 8.	Go to **Services** and then select **Cognito**.
