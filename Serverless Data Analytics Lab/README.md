@@ -9,11 +9,12 @@ This lab will guide you through creating a serverless analytics pipeline and int
 ## Agenda 
 
 * [Overview](#Overview)
-* [Task 1: Creating an Amazon S3 Data Lake and Ingesting Player Data from Unity](#Task1)
-* [Task 2: Populating Data Lake with Amazon Kinesis Data Firehose](#Task2)
-* [Task 3: Using AWS Glue to Discover Data](#Task3)
-* [Task 4: Querying Data with Amazon Athena](#Task4)
-* [Task 5: Discovering Insights with Amazon QuickSight](#Task5)
+* [Task 1: Setting up Prerequisites and Permissions](#Task1)
+* [Task 2: Creating an Amazon S3 Data Lake and Ingesting Player Data from Unity](#Task2)
+* [Task 3: Populating Data Lake with Amazon Kinesis Data Firehose](#Task3)
+* [Task 4: Using AWS Glue to Discover Data](#Task4)
+* [Task 5: Querying Data with Amazon Athena](#Task5)
+* [Task 6: Discovering Insights with Amazon QuickSight](#Task6)
 * [Clean Up](#cleanup)
 * [Appendix - Additional Reading](#additionalreading)
 
@@ -55,20 +56,30 @@ Unity is a cross-platform game engine developed by Unity Technologies that is us
 ### Getting Started
 
 This lab will focus specifically on building out a serverless analytics pipeline and integrating it into a Unity game. You will first create an S3 data lake and integrate that into a Unity game using the AWS SDK .NET. You will populate the data lake with Kinesis, discover the data using Glue, practice querying the data with Athena, and then create visualizations from the data with QuickSight. 
+ 
+ <a id="Task1"></a>
+[[Top](#Top)]
 
-### Prerequisites
+## Task 1: Setting up Prerequisites and Permissions
+ 
+ ### Prerequisites
 
 For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
 
-*	An AWS account with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight)
-*	Unity 2019.1.0
-*	Visual Studio 2019
+* An AWS account with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+* Unity 2019.1.0
+* Visual Studio Code 1.38 
 
 
-<a id="Task1"></a>
+
+
+
+
+ 
+<a id="Task2"></a>
 [[Top](#Top)]
 
-## Task 1: Creating an Amazon S3 Data Lake and Ingesting Player Data from Unity
+## Task 2: Creating an Amazon S3 Data Lake and Ingesting Player Data from Unity
 
 The first step is to create an Amazon S3 bucket, which will act as your centralized data lake for all your game data. 
 
@@ -223,10 +234,10 @@ PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
 
 Congratulations! You finished the first task. You successfully created an S3 data lake and integrated it with a Unity game using the AWS SDK .NET.
 
-<a id="Task2"></a>
+<a id="Task3"></a>
 [[Top](#Top)]
 
-## Task 2: Populating Data Lake with Amazon Kinesis Data Firehose
+## Task 3: Populating Data Lake with Amazon Kinesis Data Firehose
 
 Now it's time to ingest a ton of sample data into your S3 data lake using Amazon Kinesis Data Firehose. This section of the lab is to give you practice getting hands-on with Amazon Kinesis as well as ingest a ton of sample data so that you have more to work with and analyze. 
 
@@ -306,10 +317,10 @@ This data represents random players playing your game. Your final configurations
 Congratulations! You have successfully created a Kinesis Data Firehose stream and used it to ingest sample records into your S3 data lake!
 
 
-<a id="Task3"></a>
+<a id="Task4"></a>
 [[Top](#Top)]
 
-## Task 3: Using AWS Glue to Discover Data
+## Task 4: Using AWS Glue to Discover Data
 
 Now that you have all of the data you want to analyze in your S3 data lake, it is time to discover that data and make it available to be queried. 
 
@@ -358,10 +369,10 @@ Now that you have all of the data you want to analyze in your S3 data lake, it i
 Congratulations! You have successfully used AWS Glue to create a crawler and populate a Glue Data Catalog to discover the data in your S3 data lake.
 
 
-<a id="Task4"></a>
+<a id="Task5"></a>
 [[Top](#Top)]
 
-## Task 4: Querying Data with Amazon Athena
+## Task 5: Querying Data with Amazon Athena
 
 Now that you have made your data discoverable, you can query your data for exactly what you want to analyze. 
 
@@ -385,10 +396,10 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time pl
 
 Congratulations! You have finished querying your data using Amazon Athena. 
 
-<a id="Task5"></a>
+<a id="Task6"></a>
 [[Top](#Top)]
 
-## Task 5: Discovering Insights with Amazon QuickSight
+## Task 6: Discovering Insights with Amazon QuickSight
 
 Now that you have queried for a subset of your data, it is time to analyze it using Amazon QuickSight.
 
