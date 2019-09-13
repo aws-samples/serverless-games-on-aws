@@ -68,7 +68,7 @@ For the purposes of this lab, you will be using the AWS Management Console as we
 
 * An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
 * **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
-* AWS Toolkit for Visual Studio Code
+* AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html
 
 If you already have these prerequisites installed and credentials configured, you can skip to the next section to [[start the lab](#Task2)].
 
