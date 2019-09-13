@@ -66,14 +66,63 @@ This lab will focus specifically on building out a serverless analytics pipeline
 
 For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
 
-* An AWS account with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
-* Unity 2019.1.0
-* Visual Studio Code 1.38 
+* An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+* **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
+* AWS Toolkit for Visual Studio Code
+* .NET SDK Core 
+
+If you already have these prerequisites installed and credentials configured, you can skip to the next section to [[start the lab](#Task2)].
 
 
+### Setting up Permissions
 
+First, you will need to create an IAM user with the appropriate permissions needed to do the lab if you do not have one already. AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage AWS users and groups, and use permissions to allow and deny their access to AWS resources. It is highly recommended that you do not use the default root user of your AWS account and instead provision your own IAM user for security purposes.
 
+1. Sign into your AWS account and go to the IAM landing page by clicking **Services > IAM**.
 
+2. Click **Users** on the left-hand navigation pane and then select **Add user**.
+
+3. Give your user a user name and make sure to enable **Programmatic access** so that you can download an access key and secret access key. You can also optionally enable **AWS Management Console access** if you would like to give your user the ability to sign-in to the AWS Management console.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM1.png" /></p> 
+
+4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the **AdministratorAccess** policy to add to your IAM user.
+
+DISCLAIMER: Here, you are giving your user full access to all AWS services and resources. You are doing this for ease and simplicity of this lab. This is **NOT BEST PRACTICES** in a production environment. Ideally, you want to make sure you are only giving IAM users permissions to only what they need and nothing more. It is best practices to be as fine-grained as possible when assigning permissions within your AWS account. For lab purposes, you can continue with Admin permissions. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
+
+5. Select **Next: Tags**, **Next: Review** and finally **Create user**.
+
+6. Make sure you **Download .csv** to download and save your access key ID and secret access key for use later.
+
+### Installing the AWS Toolkit for Visual Studio Code
+
+Now that you have created a user, you can follow the instructions to download the **AWS Toolkit for Visual Studio Code** at this link here: https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/getting-started.html
+
+Visual Studio Code is an open-source extension for the Visual Studio Code editor. This extension makes it easier for developers to develop, debug locally, and deploy serverless applications that use Amazon Web Services (AWS). Follow the instructions you see at every step here, including:
+
+1. Installing the AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-toolkit.html
+
+*       This will have you download some other prerequisites needed. Follow the steps to download **VS Code** if you do not have it installed already: https://code.visualstudio.com/
+
+2. Obtaining AWS Access Keys - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/obtain-credentials.html
+
+*       You have already done this in the last step when you created your IAM user and downloaded the access key ID and secret access key ID.
+
+3. Setting up your AWS Credentials - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-credentials.html
+
+*        This is an **important** step to follow. You need to configure VS Code to enable you to access your AWS resources. 
+
+4. Connecting to AWS - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/connect.html
+
+You can do the last two steps if you'd like (Changing AWS Regions & Configuring Your Toolchain) but these are not necessary for the lab. 
+
+5. Finally, set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** and set **External Script Editor** to Code as shown below.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/VSCode1.png" /></p> 
+
+You are done setting up the prerequisites needed for this lab.
 
  
 <a id="Task2"></a>
@@ -84,7 +133,7 @@ For the purposes of this lab, you will be using the AWS Management Console as we
 The first step is to create an Amazon S3 bucket, which will act as your centralized data lake for all your game data. 
 
 
-1.	Sign into the AWS Management Console and on the Services menu, click **S3**. 
+1. Sign into the AWS Management Console and on the Services menu, click **S3**. 
 2. Click **+ Create bucket**.
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
 4. Choose the region for this bucket. Take note of both the bucket name and region for later.
