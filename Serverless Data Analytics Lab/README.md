@@ -87,7 +87,7 @@ First, you will need to create an IAM user with the appropriate permissions need
 
 4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the **AdministratorAccess** policy to add to your IAM user.
 
-*      DISCLAIMER: Here, you are giving your user full access to all AWS services and resources. You are doing this for ease and simplicity of this lab. This is **NOT BEST PRACTICES** in a production environment. Ideally, you want to make sure you are only giving IAM users permissions to only what they need and nothing more. It is best practices to be as fine-grained as possible when assigning permissions within your AWS account. For lab purposes, you can continue with Admin permissions. 
+*   DISCLAIMER: Here, you are giving your user full access to all AWS services and resources. You are doing this for ease and simplicity of this lab. This is **NOT BEST PRACTICES** in a production environment. Ideally, you want to make sure you are only giving IAM users permissions to only what they need and nothing more. It is best practices to be as fine-grained as possible when assigning permissions within your AWS account. For lab purposes, you can continue with Admin permissions. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
 
