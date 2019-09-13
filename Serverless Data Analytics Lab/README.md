@@ -103,15 +103,15 @@ Visual Studio Code is an open-source extension for the Visual Studio Code editor
 
 1. Installing the AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-toolkit.html
 
-*       This will have you download some other prerequisites needed. Follow the steps to download **VS Code** if you do not have it installed already: https://code.visualstudio.com/
+*   This will have you download some other prerequisites needed. Follow the steps to download **VS Code** if you do not have it installed already: https://code.visualstudio.com/
 
 2. Obtaining AWS Access Keys - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/obtain-credentials.html
 
-*       You have already done this in the last step when you created your IAM user and downloaded the access key ID and secret access key ID.
+*   You have already done this in the last step when you created your IAM user and downloaded the access key ID and secret access key ID.
 
 3. Setting up your AWS Credentials - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-credentials.html
 
-*        This is an **important** step to follow. You need to configure VS Code to enable you to access your AWS resources. 
+*    This is an **important** step to follow. You need to configure VS Code to enable you to access your AWS resources. 
 
 4. Connecting to AWS - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/connect.html
 
