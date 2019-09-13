@@ -70,7 +70,7 @@ For the purposes of this lab, you will be using the AWS Management Console as we
 * **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
 * AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html
 
-If you already have these prerequisites installed and credentials configured, you can skip to the next section to [start the lab(#Task2)].
+If you already have these prerequisites installed and credentials configured, you can skip to [[Task2](#Task2)]
 
 
 ### Setting up Permissions
