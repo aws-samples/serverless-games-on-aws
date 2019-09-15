@@ -93,7 +93,7 @@ First, you will need to create an IAM user with the appropriate permissions need
 * AmazonKinesisFirehoseFullAccess
 * AWSGlueConsoleFullAccess
 
-Here, you are adding full access policies to the services needed to complete this lab for simplicity. 
+Here, you are adding full access policies to the services needed to complete this lab for simplicity. With IAM, you can be very fine-grained when assigning permissions to AWS services and to your resources. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
 
