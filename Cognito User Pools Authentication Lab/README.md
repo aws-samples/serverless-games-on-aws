@@ -7,11 +7,12 @@ This lab will guide you through adding authentication to a Unity game using Cogn
 ## Agenda 
 
 * [Overview](#Overview)
-* [Task 1: Create a Cognito User Pool](#Task1)
-* [Task 2: Create a Sample Game in Unity](#Task2)
-* [Task 3: Add User Sign-Up Functionality](#Task3)
-* [Task 4: Add User Sign-In Functionality](#Task4)
-* [Task 5: Testing the Game](#Task5)
+* [Task 1: Setting up Prerequisites and Permissions](#Task1)
+* [Task 2: Create a Cognito User Pool](#Task2)
+* [Task 3: Create a Sample Game in Unity](#Task3)
+* [Task 4: Add User Sign-Up Functionality](#Task4)
+* [Task 5: Add User Sign-In Functionality](#Task5)
+* [Task 6: Testing the Game](#Task6)
 * [Clean Up](#cleanup)
 * [Appendix - Additional Reading](#additionalreading)
 
@@ -39,19 +40,68 @@ Unity is a cross-platform game engine developed by Unity Technologies that is us
 
 This lab will focus specifically on creating an Amazon Cognito user pool to authenticate users for a Unity Game. It will walk through the process of building out a user pool and then will highlight how the AWS SDK for .NET is used in Unity to provide user sign-up and sign-in functionality. 
 
-### Prerequisites
-
-For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
-
-*	An AWS account with an appropriate level of permissions to use Cognito
-*	Unity 2019.1.0
-*	Visual Studio 2019
-
-
 <a id="Task1"></a>
 [[Top](#Top)]
 
-## Task 1: Create a Cognito User Pool
+
+## Task 1: Setting up Prerequisites and Permissions
+ 
+ ### Prerequisites
+
+For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
+
+* An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+* **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
+* AWS Command Line Interface (CLI) - https://aws.amazon.com/cli/
+
+If you already have these prerequisites installed and credentials configured, you can skip to [[Task2](#Task2)]
+
+
+### Setting up Permissions
+
+First, you will need to create an IAM user with the appropriate permissions needed to do the lab if you do not have one already. AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage AWS users and groups, and use permissions to allow and deny their access to AWS resources. It is highly recommended that you do not use the default root user of your AWS account and instead provision your own IAM user for security purposes.
+
+1. Sign into your AWS account and go to the IAM landing page by clicking **Services > IAM**.
+
+2. Click **Users** on the left-hand navigation pane and then select **Add user**.
+
+3. Give your user a user name and make sure to enable **Programmatic access** so that you can download an access key and secret access key. Also enable **AWS Management Console access** so that you can give your user the ability to sign-in to the AWS Management console.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM1.png" /></p> 
+
+4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the AdministratorAccess policy to add to your user.
+
+Here, you are adding full administrator access for simplicity of lab purposes. However, it is best practices that with IAM you assign fine-grained permissions to AWS services and to your resources. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
+
+5. Select **Next: Tags**, **Next: Review** and finally **Create user**.
+
+6. Make sure you **Download .csv** to download and save your access key ID and secret access key for use later.
+
+7. Sign into the AWS Management Console with the IAM credentials you just created. 
+
+### Installing the AWS CLI
+
+Now that you have created a user, you can install the AWS CLI. You are doing this to configure AWS credentials easily to your local machine to be able to complete the lab. 
+
+1. Installing the AWS CLI - https://aws.amazon.com/cli/
+
+2. Configure AWS credentials by opening a terminal and running:
+
+`aws configure`
+
+* It will prompt you for your access key ID, your secret access key ID, a region name, and an output format.
+* Enter the access key and secret access key that you downloaded in the last step.
+* Choose a region name. You can choose whatever region you want to work in, as long as that region supports all the services that this lab needs. This lab uses us-west-2 by default, so choose that if you'd like. 
+* For the output format, just leave that default by pressing enter on your keyboard.
+
+You are done setting up the prerequisites needed for this lab.
+
+<a id="Task2"></a>
+[[Top](#Top)]
+
+## Task 2: Create a Cognito User Pool
 
 In order to add authentication to your Unity game, you first need to create a user pool in Cognito. 
 
@@ -139,10 +189,10 @@ In order to add authentication to your Unity game, you first need to create a us
 Congratulations! You have created your Amazon Cognito user pool successfully. Now, it is time to integrate it into your Unity game. 
 
 
-<a id="Task2"></a>
+<a id="Task3"></a>
 [[Top](#Top)]
 
-## Task 2: Create a Sample Game in Unity 
+## Task 3: Create a Sample Game in Unity 
 
 You have officially created a Cognito User Pool, which serves as a user directory to provide sign-up and sign-in functionality for your video game. Now, it is time to create a sample project in Unity that you will begin adding authentication functionality to. 
 
@@ -198,10 +248,10 @@ You have officially created a Cognito User Pool, which serves as a user director
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/10.png" /></p> 
 
 
-<a id="Task3"></a>
+<a id="Task4"></a>
 [[Top](#Top)]
 
-## Task 3: Add User Sign-Up Functionality
+## Task 4: Add User Sign-Up Functionality
 
 Once you have your Unity sample game open and explored around a bit, it is time to begin coding some AWS functionality into the game. You will first add user sign-up functionality to your game. 
 
@@ -304,10 +354,10 @@ catch (Exception e)
 Congratulations! You have added sign-up functionality with Cognito to your Unity game. 
 
 
-<a id="Task4"></a>
+<a id="Task5"></a>
 [[Top](#Top)]
 
-## Task 4: Add User Sign-In Functionality
+## Task 5: Add User Sign-In Functionality
 
 Once you are done adding user sign-up functionality, you can begin adding user sign-in functionality to your game. 
 
@@ -380,10 +430,10 @@ catch(Exception e)
 
 Congratulations! You have added sign-in functionality with Cognito to your Unity game. 
 
-<a id="Task5"></a>
+<a id="Task6"></a>
 [[Top](#Top)]
 
-## Task 5: Testing the Game 
+## Task 6: Testing the Game 
 
 Now that you are finished adding both sign-up and sign-in functionality to your game, you can test this functionality to ensure that it works!
 
