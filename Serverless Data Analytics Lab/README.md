@@ -68,7 +68,7 @@ For the purposes of this lab, you will be using the AWS Management Console as we
 
 * An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
 * **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
-* AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html
+* AWS Command Line Interface (CLI) - https://aws.amazon.com/cli/
 
 If you already have these prerequisites installed and credentials configured, you can skip to [[Task2](#Task2)]
 
@@ -81,19 +81,13 @@ First, you will need to create an IAM user with the appropriate permissions need
 
 2. Click **Users** on the left-hand navigation pane and then select **Add user**.
 
-3. Give your user a user name and make sure to enable **Programmatic access** so that you can download an access key and secret access key. You can also optionally enable **AWS Management Console access** if you would like to give your user the ability to sign-in to the AWS Management console.
+3. Give your user a user name and make sure to enable **Programmatic access** so that you can download an access key and secret access key. Also enable **AWS Management Console access** so that you can give your user the ability to sign-in to the AWS Management console.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM1.png" /></p> 
 
-4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the following policies to add to your user:
+4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the AdministratorAccess policy to add to your user.
 
-* AWSQuicksightAthenaAccess
-* AmazonS3FullAccess
-* AmazonAthenaFullAccess
-* AmazonKinesisFirehoseFullAccess
-* AWSGlueConsoleFullAccess
-
-Here, you are adding full access policies to the services needed to complete this lab for simplicity. With IAM, you can be very fine-grained when assigning permissions to AWS services and to your resources. 
+Here, you are adding full administrator access for simplicity of lab purposes. However, it is best practices that with IAM you assign fine-grained permissions to AWS services and to your resources. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
 
@@ -101,31 +95,22 @@ Here, you are adding full access policies to the services needed to complete thi
 
 6. Make sure you **Download .csv** to download and save your access key ID and secret access key for use later.
 
-### Installing the AWS Toolkit for Visual Studio Code
+7. Sign into the AWS Management Console with the IAM credentials you just created. 
 
-Now that you have created a user, you can follow the instructions to download the **AWS Toolkit for Visual Studio Code** at this link here: https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/getting-started.html
+### Installing the AWS CLI
 
-AWS Toolkit for Visual Studio Code is an open-source extension for the Visual Studio Code editor. This extension makes it easier for developers to develop, debug locally, and deploy serverless applications that use Amazon Web Services (AWS). Follow the instructions you see at every step here, including:
+Now that you have created a user, you can install the AWS CLI. You are doing this to configure AWS credentials easily to your local machine to be able to complete the lab. 
 
-1. Installing the AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-toolkit.html
+1. Installing the AWS CLI - https://aws.amazon.com/cli/
 
-*   This will have you download some other prerequisites needed. Follow the steps to download **VS Code** if you do not have it installed already: https://code.visualstudio.com/
+2. Configure AWS credentials by opening a terminal and running:
 
-2. Obtaining AWS Access Keys - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/obtain-credentials.html
+`aws configure`
 
-*   You have already done this in the last step when you created your IAM user and downloaded the access key ID and secret access key ID.
-
-3. Setting up your AWS Credentials - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-credentials.html
-
-*    This is an **important** step to follow. You need to configure VS Code to enable you to access your AWS resources. 
-
-4. Connecting to AWS - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/connect.html
-
-You can do the last two steps if you'd like (Changing AWS Regions & Configuring Your Toolchain) but these are not necessary for the lab. 
-
-5. Finally, set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** if you are on Mac or **Edit > Preferences > External Tools** if you are on Windows and set **External Script Editor** to Code as shown below.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/VSCode1.png" /></p> 
+* It will prompt you for your access key ID, your secret access key ID, a region name, and an output format.
+* Enter the access key and secret access key that you downloaded in the last step.
+* Choose a region name. You can choose whatever region you want to work in, as long as that region supports all the services that this lab needs. This lab uses us-west-2 by default, so choose that if you'd like. 
+* For the output format, just leave that default by pressing enter on your keyboard.
 
 You are done setting up the prerequisites needed for this lab.
 
@@ -170,10 +155,6 @@ You have created your S3 data lake! Now, it is time to create a sample project i
 10. **Download** the Unity package in this GitHub repository called _ServerlessAnalytics.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package.
 
 	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
-	
-	* Make sure you set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** if you are on Mac or **Edit > Preferences > External Tools** if you are on Windows and set **External Script Editor** to Code as shown below.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/VSCode1.png" /></p> 
 	
 11. Click on the **Scenes** folder under Assets. Open the scene titled **SampleScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
 
