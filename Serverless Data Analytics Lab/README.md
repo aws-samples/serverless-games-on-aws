@@ -105,7 +105,7 @@ Here, you are adding full access policies to the services needed to complete thi
 
 Now that you have created a user, you can follow the instructions to download the **AWS Toolkit for Visual Studio Code** at this link here: https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/getting-started.html
 
-Visual Studio Code is an open-source extension for the Visual Studio Code editor. This extension makes it easier for developers to develop, debug locally, and deploy serverless applications that use Amazon Web Services (AWS). Follow the instructions you see at every step here, including:
+AWS Toolkit for Visual Studio Code is an open-source extension for the Visual Studio Code editor. This extension makes it easier for developers to develop, debug locally, and deploy serverless applications that use Amazon Web Services (AWS). Follow the instructions you see at every step here, including:
 
 1. Installing the AWS Toolkit for Visual Studio Code - https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-toolkit.html
 
