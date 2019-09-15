@@ -85,9 +85,15 @@ First, you will need to create an IAM user with the appropriate permissions need
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM1.png" /></p> 
 
-4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the **AdministratorAccess** policy to add to your IAM user.
+4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the following policies to add to your user:
 
-*   DISCLAIMER: Here, you are giving your user full access to all AWS services and resources. You are doing this for ease and simplicity of this lab. This is **NOT BEST PRACTICES** in a production environment. Ideally, you want to make sure you are only giving IAM users permissions to only what they need and nothing more. It is best practices to be as fine-grained as possible when assigning permissions within your AWS account. For lab purposes, you can continue with Admin permissions. 
+* AWSQuicksightAthenaAccess
+* AmazonS3FullAccess
+* AmazonAthenaFullAccess
+* AmazonKinesisFirehoseFullAccess
+* AWSGlueConsoleFullAccess
+
+Here, you are adding full access policies to the services needed to complete this lab for simplicity. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
 
