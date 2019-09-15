@@ -123,7 +123,7 @@ AWS Toolkit for Visual Studio Code is an open-source extension for the Visual St
 
 You can do the last two steps if you'd like (Changing AWS Regions & Configuring Your Toolchain) but these are not necessary for the lab. 
 
-5. Finally, set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** and set **External Script Editor** to Code as shown below.
+5. Finally, set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** if you are on Mac or **Edit > Preferences > External Tools** if you are on Windows and set **External Script Editor** to Code as shown below.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/VSCode1.png" /></p> 
 
@@ -171,7 +171,7 @@ You have created your S3 data lake! Now, it is time to create a sample project i
 
 	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
 	
-	* Make sure you set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** and set **External Script Editor** to Code as shown below.
+	* Make sure you set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** if you are on Mac or **Edit > Preferences > External Tools** if you are on Windows and set **External Script Editor** to Code as shown below.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/VSCode1.png" /></p> 
 	
