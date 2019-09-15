@@ -171,6 +171,10 @@ You have created your S3 data lake! Now, it is time to create a sample project i
 
 	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
 	
+	* Make sure you set VS Code as the default editor of Unity. Open Unity and select **Unity > Preferences > External Tools** and set **External Script Editor** to Code as shown below.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/VSCode1.png" /></p> 
+	
 11. Click on the **Scenes** folder under Assets. Open the scene titled **SampleScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
 
 12. You need to fix the build settings for this project before getting started. Under File > Build Settings, click **Add Open Scenes**. It should add the SampleScene under index 0. Your final configurations should look like this:
