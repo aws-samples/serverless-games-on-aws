@@ -448,7 +448,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 3. In the top right, next to where you just changed the region, select your user and then choose **Manage QuickSight** from the drop down. 
 
-4. On the left-hand panel, select **Security & permissions**. You need to allow QuickSight access to certain AWS services. Click **Add or remove** to edit the services QuickSight has permissions to access. Make sure both S3 and Athena are enabled.
+4. On the left-hand panel, select **Security & permissions**. You need to allow QuickSight access to certain AWS services. Click **Add or remove** to edit the services QuickSight has permissions to access. Make sure both S3 and Athena are enabled. It is important to **uncheck** and then **recheck** the box for S3 to ensure your newly created bucket is included. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/22.png" /></p> 
 
@@ -465,6 +465,8 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/21.png" /></p> 
 
 10. Hit **Select**. Next, you can choose to **Import to SPICE for quicker analytics** if you want to do so. SPICE is QuickSights in-memory calculation engine that improves the performance of importing data and creating visualizations. Select **Visualize**.
+
+* If you are running into a permissions error, similar to something like "An error has been thrown from the AWS Athena client. Access Denied (Service: Amazon S3)", then go back to step 4 and make sure you are including your newest S3 bucket by **unchecking** and then **rechecking** the box for S3.
 
 11. Once your data has been imported, you can start messing around with QuickSight to see what visualizations you can create. Select the **+ ADD** button on the top left to add a visualization. 
 
