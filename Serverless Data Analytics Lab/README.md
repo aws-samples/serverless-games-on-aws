@@ -530,13 +530,13 @@ https://aws.amazon.com/blogs/gametech/
 How to integrate the AWS .NET SDK for games using C#  
 https://aws.amazon.com/blogs/gametech/how-to-integrate-the-aws-net-sdk-for-games-using-csharp/
 
-Data Lakes and Analytics on AWS
+Data Lakes and Analytics on AWS  
 https://aws.amazon.com/big-data/datalakes-and-analytics/
 
-Gaming Analytics Pipeline Solution
+Gaming Analytics Pipeline Solution  
 https://aws.amazon.com/solutions/gaming-analytics-pipeline/
 
-AWS Big Data Blog
+AWS Big Data Blog  
 https://aws.amazon.com/blogs/big-data/category/analytics/
 
 
