@@ -25,6 +25,11 @@ This lab will guide you through creating a serverless analytics pipeline and int
 
 ## Overview
 
+### Why use analytics in my game?
+
+Using analytics is very important to improve your game and keep players around. Incorporating an analytics pipeline to your game can help you create more engaging games by doing data driven game development. You can learn how to optimize the game play experience so you can attract more players and increase player engagement. It can help with anomaly detection by identifying abusers, cheaters, and player churn. It can also help you improve your game infrastructure by better understanding peak usage times so you know when to scale. Finally, data analytics an help with revenue generation by encouraging purchases, targeted ads, and content recommendations. 
+
+
 ### Serverless Analytics Pipeline on AWS
 
 Serverless applications don’t require you to provision, scale, or manage any servers. You can build them for nearly any type of application or backend service, and everything required to run and scale your application with high availability is handled for you. A lot of companies are making the move towards serverless, even for their analytics workloads. AWS has an expansive ecosystem of services that can be used to build out a robust anlaytics pipeline for your game so that you can discover useful insights on player and game data. These services include:
