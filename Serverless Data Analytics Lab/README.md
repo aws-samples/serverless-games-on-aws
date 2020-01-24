@@ -4,13 +4,13 @@
 ## Serverless Data Analytics Lab
 This lab will guide you through creating a serverless analytics pipeline and integrating it into a Unity game using the AWS SDK for .NET. This lab will focus on using serverless services like Amazon S3, Amazon Kinesis, AWS Glue, Amazon Athena, and Amazon QuickSight. In this lab, you will build out the following architecture:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/analytics.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/analytics2.png" /></p> 
 
 ## Agenda 
 
 * [Overview](#Overview)
 * [Task 1: Setting up Prerequisites and Permissions](#Task1)
-* [Task 2: Creating an Amazon S3 Data Lake and Ingesting Player Data from Unity](#Task2)
+* [Task 2: Creating an Amazon S3 Data Lake](#Task2)
 * [Task 3: Populating Data Lake with Amazon Kinesis Data Firehose](#Task3)
 * [Task 4: Using AWS Glue to Discover Data](#Task4)
 * [Task 5: Querying Data with Amazon Athena](#Task5)
@@ -70,7 +70,7 @@ For the purposes of this lab, you will be using the AWS Management Console as we
 * **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
 * AWS Command Line Interface (CLI) - https://aws.amazon.com/cli/
 
-If you already have these prerequisites installed and credentials configured, you can skip to [[Task2](#Task2)]
+This lab works for both Mac and Windows. If you already have these prerequisites installed and credentials configured, you can skip to [[Task2](#Task2)]
 
 
 ### Setting up Permissions
@@ -118,12 +118,11 @@ You are done setting up the prerequisites needed for this lab.
 <a id="Task2"></a>
 [[Top](#Top)]
 
-## Task 2: Creating an Amazon S3 Data Lake and Ingesting Player Data from Unity
+## Task 2: Creating an Amazon S3 Data Lake and Kinesis Firehose Stream for Data Ingestion 
 
-The first step is to create an Amazon S3 bucket, which will act as your centralized data lake for all your game data. 
+The first step is to set up your data storage and your ingestion mechanism. For your data storage, you are going to use Amazon S3, which will act as your centralized data lake for all your game data. 
 
-
-1. Sign into the AWS Management Console and on the Services menu, click **S3**. 
+1. Sign into the **AWS Management Console** and on the Services menu, click **S3**. 
 2. Click **+ Create bucket**.
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
 4. Choose the region for this bucket. Take note of both the bucket name and region for later.
@@ -132,9 +131,40 @@ The first step is to create an Amazon S3 bucket, which will act as your centrali
 
 5. Click **Create**.
 
-You have created your S3 data lake! Now, it is time to create a sample project in Unity that you will begin adding authentication functionality to. 
+You have created your S3 data lake! Now you need to set up an ingestion mechanism so you can stream data from your game to your S3 data lake. You can do this using an Amazon Kinesis Data Firehose stream. Kinesis Firehose is scalable so it allows you to ingest records from many clients simultaneously. It can stream data to multiple destinations besides just S3 and it integrates easily with other AWS services like Kinesis Data Analytics to process your streaming data using standard SQL. 
 
-6.	**Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
+6. In the AWS Management Console, go to Services and click **Kinesis**.
+
+7. In the top right corner, you will see a section for Kinesis Firehose delivery streams. Click **Create delivery stream**.
+
+8. Give your stream a name. This lab will use the name _serverless-games-stream_. 
+
+9. Under Choose source, keep it the default as _Direct PUT or other sources_. For now, you will use a different data source that we will configure shortly, but in practice you can make direct API calls to Kinesis Firehose from your game client or server to send near real time streaming data.
+
+10. Hit **Next**.
+
+11. Leave these configurations as default and hit **Next** again.
+
+12. Under Select destination, make sure **Amazon S3** is selected.
+
+13. On the same page under S3 destination, choose the S3 bucket you created previously. 
+
+14. You can take a look at all the other configuration options and explore them if you want but for now leave them all default and hit **Next**.
+
+15. Scroll down to IAM role. This is the Identity and Access Manamgenent role that you need to specify to give Kinesis the appropriate permissions it needs to access your S3 bucket and any other resources it may need. Click **Create new or choose**.
+
+16. This will open up a new tab like the one below where you can create a new IAM role. Select **Allow**.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/10.png" /></p> 
+
+17. You should be redirected back to the tab where you are configuring your Kinesis Firehose stream. Review your configuration settings and finally select **Create delivery stream**. You should now see your newly created stream on the Kinesis Firehose dashboard. It will take a minute or two to create, but once it says the status is active you can click into it to find details. 
+
+
+## Task 3: Integrating AWS with Unity
+
+Now that you have your data storage and ingestion mechanism, it is time to create a sample project in Unity that you will begin integrating your analytics pipeline with. 
+
+6. **Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity1.png" /></p> 
 
@@ -166,7 +196,7 @@ You have created your S3 data lake! Now, it is time to create a sample project i
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/3.png" /></p> 
    
-14.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to S3.  
+14.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to Kinesis to store it in S3.  
 
    * **Note:** There are other ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. It is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you will use the AWS SDK for .NET which supports C#.
 
@@ -179,134 +209,44 @@ You have created your S3 data lake! Now, it is time to create a sample project i
 
      * These steps are not necessary now to be able to do this lab since the Unity game has been provided for you, but are necessary when developing your own game that uses the .NET SDK. 
 
-Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to send data to your S3 bucket. 
+Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to send data to your Kinesis Data Firehose stream so that you can store all data in your S3 bucket. 
 
-15. Navigate to the **Scripts** folder in Assets and open up the **S3** script to be edited in Visual Studio or whatever editor you prefer. 
+15. Navigate to the **Scripts** folder in Assets and open up the **KinesisFirehose** script to be edited in Visual Studio or whatever editor you prefer. 
 
-* This is the script that has been created to send game data to S3. You will need to write some code to make your script function correctly. Let’s walk through this together.
+* This is the script that has been created to send game data to your Kinesis Firehose stream. You will need to write some code to make your script function correctly. Let’s walk through this together.
 
-* The first part of this script (lines 1-8) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder. 
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/4.png" /></p> 
-
-* For example, you can see **using Amazon.S3** (line 6) which allows you to use the Amazon S3 API. This will allow you to do things like upload an object to a bucket or get an object from a bucket, for example. 
-
-* Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.  
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/5.png" /></p> 
-
-* The first two variables define the key name and Amazon S3 Client. The key name is the object key which uniquely identifies the object in a bucket. The IAmazonS3 client is the interface that needs to be declared to access S3. This interface has many methods that can be used to do things in S3 - like uploading objects to a bucket, listing objects in a bucket, deleting a bucket, and more. 
-
-16. On line 17, define the **Region** you created your S3 bucket in. This lab has been done in US West 2 for reference. 
-
-17. On line 19, add your **S3 bucket name** between the quotation marks. Your variables should look similar to this:
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/6.png" /></p> 
-
-* Lets take a closer look at the other variables that are defined. On line 21, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab. 
-
-* On line 23, a boolean variable _sent_ is declared to know if the logs have been sent to S3 once or not to avoid sending multiple copies. This variable essentially checks to make sure the asychronous function you will create to send data to S3 is finished running before firing it off again. 
-
-* On line 24, a _data_ variable is declared that will contain the information to be sent to S3.
-
-* Lines 26-29 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won. 
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/7.png" /></p> 
-
-* The start method runs the game on start of the scene. Here, the S3 client is initialized, _sent_ is set to false, and _data_ is initialized as a new hash table.
-
-* Lets take a look at the update method now. This method checks to see if the player loses or wins. If the player has lost, increment the _losses_ variable by 1. If the player has won, increment the _wins_ variable by 1. The _sent_ variable is set to true since you are firing off an asynchronous method to sent data to S3 and want to wait for that task to finish before triggering it again. Finally, on line 48 the _WritingAnObjectAsync()_ method is called. Time to begin writing code!
-
-18. Look for the _WritingAnObjectAsync()_ method. Right now, it consists of a try-catch block, where you will try to send an object to S3 and catch any exceptions that may occur. Find the comment where it says to _Fill in code here_ which is in the try block. First, define the **keyName** which is the name of the object to be uploaded. You will just set this as the current date and time.
-
-```
-keyName = DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + DateTime.Now.Second;
-```    
-19. Define **timeplayed** to be the current time.
-
-```
-timeplayed = Time.time;
-```
-
-20. Add the current value of _playerid_, _timeplayed_, _losses_, and _wins_ to the **data** hash table. 
-
-```
-data.Add("PlayerID", playerid);
-data.Add("Time Played", timeplayed);
-data.Add("Losses", losses);
-data.Add("Wins", wins);
-```
-
-21. Next, you need to create a **PutObjectRequest** to send a new object to your S3 bucket.
-
-```
-var putRequest1 = new PutObjectRequest
-{
-  BucketName = bucketName,
-  Key = keyName,
-  ContentBody = JsonConvert.SerializeObject(data),
-  ContentType = "application/json"
-};
-```
-
-* Here, you are creating a new _PutObjectRequest_. You need to specify the bucket name of your S3 bucket that you want to upload data to. You specify the key name and the content of the object. The content of the object is the _data_ hash table variable converted to JSON format. The content type of the object is defined to be JSON. 
-
-22. Finally, you need to actually call the **PutObjectAsync()** method on the S3 client. This is an asynchronous operation that adds the object to your S3 bucket.
-
-```
-PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
-```
+**INSTRUCTIONS ON WRITING CODE HERE AND EXPLAINING WHAT THE CODE MEANS**
 
 23. **Save** your file - you are done! 
 
 24. In Assets, find the Scenes folder. Look for **SampleScene** and open it. It is time to begin playing the game to test it out.
 
-25. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+25. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 buckett. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
 
-26. Stop playing the game and check out the contents of your S3 bucket. You should see data in there that looks similar to this:
+26. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/8.png" /></p> 
+27. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
+
+**INSERT PHOTO OF MONITORING TAB HERE**
+
+28. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. You should see data in there that looks similar to this:
+
+**INSERT PHOTO OF CONTENTS OF S3 BUCKET**
 
 27. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/9.png" /></p> 
+**INSERT PHOTO OF FILE HERE**
 
-Congratulations! You finished the first task. You successfully created an S3 data lake and integrated it with a Unity game using the AWS SDK .NET.
+Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game using the AWS SDK .NET.
 
 <a id="Task3"></a>
 [[Top](#Top)]
 
-## Task 3: Populating Data Lake with Amazon Kinesis Data Firehose
+## Task 3: Populating Data Lake with Amazon Kinesis Data Generator
 
-Now it's time to ingest a ton of sample data into your S3 data lake using Amazon Kinesis Data Firehose. This section of the lab is to give you practice getting hands-on with Amazon Kinesis as well as ingest a ton of sample data so that you have more to work with and analyze. 
+Now you are able to successfully send your own player data to S3 as you play the game. Right now, this is a small amount of data since you are only one player. You want to simulate this on a larger scale with more data so you can see useful visualizatitons. For the purpose of this lab, you will use the Kinesis Data Generator to simulate data. 
 
-1. The first step is to create a Kinesis Data Firehose stream. In the AWS Management Console, go to Services and click **Kinesis**.
-
-2. In the top right corner, you will see a section for Kinesis Firehose delivery streams. Click **Create delivery stream**.
-
-3. Give your stream a name. This lab will use the name _serverless-games-stream_. 
-
-4. Under Choose source, keep it the default as _Direct PUT or other sources_. For now, you will use a different data source that we will configure shortly, but in practice you can make direct API calls to Kinesis Firehose from your game client or server to send near real time streaming data.
-
-5. Hit **Next**.
-
-6. Leave these configurations as default and hit **Next** again.
-
-7. Under Select destination, make sure **Amazon S3** is selected.
-
-8. On the same page under S3 destination, choose the S3 bucket you created in the first task. 
-
-9. You can take a look at all the other configuration options and explore them if you want but for now leave them all default and hit **Next**.
-
-10. Scroll down to IAM role. This is the Identity and Access Manamgenent role that you need to specify to give Kinesis the appropriate permissions it needs to access your S3 bucket and any other resources it may need. Click **Create new or choose**.
-
-11. This will open up a new tab like the one below where you can create a new IAM role. Select **Allow**.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/10.png" /></p> 
-
-12. You should be redirected back to the tab where you are configuring your Kinesis Firehose stream. Review your configuration settings and finally select **Create delivery stream**. You should now see your newly created stream on the Kinesis Firehose dashboard. It will take a minute or two to create, but once it says the status is active you can click into it to find details. 
-
-13. Now we need to have a data source. For this, you will use the **Amazon Kinesis Data Generator** found at this link: https://awslabs.github.io/amazon-kinesis-data-generator/web/producer.html. Open this link - you should see a webpage similar to the one below. 
+1. The **Amazon Kinesis Data Generator** is found at this link: https://awslabs.github.io/amazon-kinesis-data-generator/web/producer.html. Open this link - you should see a webpage similar to the one below. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/11.png" /></p> 
 
@@ -327,7 +267,7 @@ Now it's time to ingest a ton of sample data into your S3 data lake using Amazon
 20. When the log-in is successful, you will see some fields that you can start configuring to send sample data to populate your S3 data lake. 
 
       * Set the **Region** as the same one you created your Kinesis Firehose stream in.
-      * Set the **Stream** as the one you just created.
+      * Set the **Stream** as the one you created in Task 2.
       * On the **Record template** under Schema Discovery Payload, put the following:
  
 ```
@@ -347,13 +287,13 @@ This data represents random players playing your game. Your final configurations
 
 22. Go back to the AWS Management Console tab with your Kinesis Firehose delivery stream open. Click into the stream to view the stream details if you are not viewing them already.
 
-23. Select the **Monitoring** tab. It takes about 1 minute for your stream to start recieving data. Wait a little bit and then refresh a couple times to see metrics start populating, like below:
+23. Select the **Monitoring** tab to view metrics like you did in Task 2. You should see something similar to what is shown below to verify the Kinesis Data Generator is working:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/14.png" /></p> 
 
 24. Go back to your S3 bucket to look at the contents and **verify** the data has been delivered. 
 
-Congratulations! You have successfully created a Kinesis Data Firehose stream and used it to ingest sample records into your S3 data lake!
+Now you have a lot of sample player data to work with for the rest of the lab. 
 
 
 <a id="Task4"></a>
