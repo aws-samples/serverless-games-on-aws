@@ -234,7 +234,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * The first variable defines the Amazon Kinesis Firehose Client. It is the client that you need to include and intialize so that you can access the Kinesis Firehose service to make API calls. 
 
-11. On line 36, define the **Region** you created your Amazon Kinesis Firehose stream in. This lab is done in US West 2 for example. If you used a different region, make sure to change it here.
+11. On line 36, define the **Region** you created your Amazon Kinesis Firehose stream in. This lab is done in US West 2 for example. If you used a different region, make sure to change it here. To find the region code for the region you are using, click here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 
 12. On line 38, define the **name** of your Kinesis Firehose stream. This lab uses _serverless-games-stream_. If your stream has the same name, keep this line as is. If you used a differrent name, make sure to update it here. 
 
