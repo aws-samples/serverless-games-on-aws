@@ -31,8 +31,6 @@ using Newtonsoft.Json;
 public class KinesisFirehose : MonoBehaviour
 {
 
-
-    private static string keyName;
     private static AmazonKinesisFirehoseClient client;
     //Define region DeliveryStream is in if it is different than us-west-2
     private static readonly RegionEndpoint streamRegion = RegionEndpoint.USWest2;
