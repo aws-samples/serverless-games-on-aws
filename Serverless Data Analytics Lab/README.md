@@ -264,23 +264,23 @@ Lets take a look at the update method now. This method checks to see if the play
 
 14. Find where it says to _//Fill in code here!_ on line 90. First, create a **PutRecordRequest** which contains the Kinesis Firehose stream name and the data you want to send to the stream. 
 
-            //Create a PutRecordRequest
-            PutRecordRequest putRecordRequest = new PutRecordRequest
-            {
-                DeliveryStreamName = streamName,
-                Record = new Record
-                {
-                    Data = new MemoryStream(dataAsBytes)
-                }
-            };
+        //Create a PutRecordRequest
+        PutRecordRequest putRecordRequest = new PutRecordRequest
+        {
+           DeliveryStreamName = streamName,
+           Record = new Record
+           {
+               Data = new MemoryStream(dataAsBytes)
+            }
+         };
 	  
 	  
 * Here, you are defining the delivery stream name to be the name of your Kinesis stream. You are also defining the record you want to send, which is a memory stream of the player data.
 
 15. Then, you want to put that record into your Kinesis stream using a **PutRecordAsync** request. 
 
- 		// Put record into the DeliveryStream
-           		 PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
+ 	   // Put record into the DeliveryStream
+           PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
 
 
 * This will actually send your data blob to Kinesis and return a response if its successful or not. 
