@@ -171,39 +171,39 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 Now that you have your data storage and ingestion mechanism, it is time to create a sample project in Unity that you will begin integrating your analytics pipeline with. 
 
-6. **Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
+1. **Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity1.png" /></p> 
 
- * You will use a sample game that has been built already for you in Unity. You will take this core game and add functionality to it using AWS as you progress through this lab. The baseline of this game is built using the free John Lemon’s Haunted Jaunt assets from the Unity Asset store at the link in the previos step. You can run through the tutorial yourself if you wish, which takes around 5 and a half hours, or you can simply download the completed sample project. For this tutorial, it is assumed that you download the completed sample project. 
+ * You will use a sample game that has been built already for you in Unity. You will take this core game and add functionality to it using AWS as you progress through this lab. The baseline of this game is built using the free John Lemon’s Haunted Jaunt assets from the Unity Asset store at the link in the previous step. You can run through the tutorial yourself if you wish, which takes around 5 and a half hours, or you can simply download the completed sample project. For this tutorial, it is assumed that you download the completed sample project. 
  
-7. When you click the link above, it should open up the Unity Asset Store. Click **Add to My Assets** and sign into your Unity account if necessary. 
+2. When you click the link above, it should open up the Unity Asset Store. Click **Add to My Assets** and sign into your Unity account if necessary. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity2.png" /></p> 
 
-8. You should see a drop down at the top of the screen that says _"Added to My Assets"_. On this same drop down, click **Open in Unity**. This will open Unity Hub. 
+3. You should see a drop down at the top of the screen that says _"Added to My Assets"_. On this same drop down, click **Open in Unity**. This will open Unity Hub. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity3.png" /></p> 
 
-9. On the left navigation panel in the Unity Hub, click **Learn**. This will open up a page where you can find sample projects to download. You should see the John Lemon's Haunted Jaunt: 3D Beginner project downloaded. **Click** this to open the project in Unity.
+4. On the left navigation panel in the Unity Hub, click **Learn**. This will open up a page where you can find sample projects to download. You should see the John Lemon's Haunted Jaunt: 3D Beginner project downloaded. **Click** this to open the project in Unity.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity4.png" /></p> 
 
-10. **Download** the Unity package in this GitHub repository called _ServerlessAnalytics.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package.
+5. **Download** the Unity package in this GitHub repository called _ServerlessAnalytics.unitypackage_. **Import** this package into your Unity game by choosing Assets > Import Package > Custom Package.
 
 	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
 	
-11. Click on the **Scenes** folder under Assets. Open the scene titled **SampleScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
+6. Click on the **Scenes** folder under Assets. Open the scene titled **SampleScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
 
-12. You need to fix the build settings for this project before getting started. Under File > Build Settings, click **Add Open Scenes**. It should add the SampleScene under index 0. Your final configurations should look like this:
+7. You need to fix the build settings for this project before getting started. Under File > Build Settings, click **Add Open Scenes**. It should add the SampleScene under index 0. Your final configurations should look like this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/buildsettings.png" /></p> 
 
-13. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
+8. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/3.png" /></p> 
    
-14.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to Kinesis to store it in S3.  
+9.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to Kinesis to store it in S3.  
 
    * **Note:** There are other ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. It is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you will use the AWS SDK for .NET which supports C#.
 
@@ -218,31 +218,92 @@ Now that you have your data storage and ingestion mechanism, it is time to creat
 
 Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to send data to your Kinesis Data Firehose stream so that you can store all data in your S3 bucket. 
 
-15. Navigate to the **Scripts** folder in Assets and open up the **KinesisFirehose** script to be edited in Visual Studio or whatever editor you prefer. 
+10. Navigate to the **Scripts** folder in Assets and open up the **KinesisFirehose.cs** script to be edited in Visual Studio or whatever editor you prefer. 
 
 * This is the script that has been created to send game data to your Kinesis Firehose stream. You will need to write some code to make your script function correctly. Let’s walk through this together.
 
-**INSTRUCTIONS ON WRITING CODE HERE AND EXPLAINING WHAT THE CODE MEANS**
+* The first part of this script (lines 19-28) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder.
 
-23. **Save** your file - you are done! 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis1.png" /></p> 
 
-24. In Assets, find the Scenes folder. Look for **SampleScene** and open it. It is time to begin playing the game to test it out.
+* For example, you can see **using Amazon.KinesisFirehose** (line 25) which allows you to use the Amazon Kinesis API. This will allow you to do things like upload a record to a Kinesis stream. 
 
-25. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 buckett. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+* Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.
 
-26. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis2.png" /></p> 
 
-27. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
+* The first variable defines the Amazon Kinesis Firehose Client. It is the client that you need to include and intialize so that you can access the Kinesis Firehose service to make API calls. 
 
-**INSERT PHOTO OF MONITORING TAB HERE**
+11. On line 36, define the **Region** you created your Amazon Kinesis Firehose stream in. This lab is done in US West 2 for example. If you used a different region, make sure to change it here.
+
+12. On line 38, define the **name** of your Kinesis Firehose stream. This lab uses _serverless-games-stream_. If your stream has the same name, keep this line as is. If you used a differrent name, make sure to update it here. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis3.png" /></p> 
+
+* Lets take a closer look at the other variables that are defined. On line 40, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab.
+
+* On line 42, a boolean variable _sent_ is declared to know if the records have been sent to Kinesis once or not to avoid sending multiple copies. This variable essentially checks to make sure the asychronous function you will create to send data to Kinesis is finished running before firing it off again.
+
+* On line 43, a _recordData_ variable is declared that will contain the information to be sent to Kinesis.
+
+* Lines 45-48 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis4.png" /></p>
+
+* The start method runs the game on start of the scene. Here, the Kinesis client is initialized, sent is set to false, and data is initialized as a new hash table.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis5.png" /></p>
+
+Lets take a look at the update method now. This method checks to see if the player loses or wins. If the player has lost, increment the losses variable by 1. If the player has won, increment the wins variable by 1. The sent variable is set to true since you are firing off an asynchronous method to sent data to Kinesis and want to wait for that task to finish before triggering it again. Finally, on line 70 the _WriteRecord()_ method is called. Time to begin writing code!
+
+13. Look for the _WriteRecord()_ method. Right now, it consists of a try-catch block, where you will try to send a record to Kinesis and catch any exceptions that may occur.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis6.png" /></p>
+
+* At the beginning of this method, we have some variables that we define. On line 79, _timeplayed_ is set to be the current time. On lines 81-84, we add the current value of _playerid, timeplayed, losses_, and _wins_ to the _recordData_ hash table/ on line 87, _recordData_ is converted to a byte array because Kinesis Firehose expects a memory stream when you provide it records. 
+
+14. Find where it says to _//Fill in code here!_ on line 90. First, create a **PutRecordRequest** which contains the Kinesis Firehose stream name and the data you want to send to the stream. 
+
+            //Create a PutRecordRequest
+            PutRecordRequest putRecordRequest = new PutRecordRequest
+            {
+                DeliveryStreamName = streamName,
+                Record = new Record
+                {
+                    Data = new MemoryStream(dataAsBytes)
+                }
+            };
+	  
+	  
+* Here, you are defining the delivery stream name to be the name of your Kinesis stream. You are also defining the record you want to send, which is a memory stream of the player data.
+
+15. Then, you want to put that record into your Kinesis stream using a **PutRecordAsync** request. 
+
+ 		// Put record into the DeliveryStream
+           		 PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
+
+
+* This will actually send your data blob to Kinesis and return a response if its successful or not. 
+
+16. **Save** your file - you are done! 
+
+17. In Assets, find the Scenes folder. Look for **SampleScene** and open it. It is time to begin playing the game to test it out.
+
+18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 buckett. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+
+19. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
+
+20. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis7.png" /></p>
 
 28. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. You should see data in there that looks similar to this:
 
-**INSERT PHOTO OF CONTENTS OF S3 BUCKET**
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis8.png" /></p>
 
 27. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
-**INSERT PHOTO OF FILE HERE**
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis9.png" /></p>
 
 Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game using the AWS SDK .NET.
 
