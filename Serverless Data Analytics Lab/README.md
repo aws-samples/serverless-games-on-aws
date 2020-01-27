@@ -201,7 +201,7 @@ Now that you have your data storage and ingestion mechanism, it is time to creat
 
 8. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/3.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesissdk.png" /></p> 
    
 9.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to Kinesis to store it in S3.  
 
