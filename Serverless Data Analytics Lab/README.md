@@ -287,7 +287,7 @@ Lets take a look at the _update_ method now. This method checks to see if the pl
 
 17. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
 
-18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 buckett. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
 
 19. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
 
