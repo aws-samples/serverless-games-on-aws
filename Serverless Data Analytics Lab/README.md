@@ -433,9 +433,12 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time pl
 
 * You might need to change where it says _serverless-catalog_ to the name of your own Glue Data Catalog. You also might need to change the table name to match the name of yours, which you can find in the left-hand Database pane. For reference, the table name here is "23" so change this to match your table name. Here we are querying all the data where the players had spent more than 3600 seconds, or 1 hour, playing the game. 
 
+
 * Your final result should look like this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/20.png" /></p> 
+
+* If you are recieving zero results returned from your queries, make sure each file in your S3 bucket is in its own individual folder. Otherwise, if there are multiple files in the same folder when using Glue, Athena will return zero records. Re-structure your S3 bucket and re-run the Glue crawler to fix this issue. 
 
 4. After you run the query and the results display on the dashboard, click **Create** and then **Create view from query**. Give it a name. This lab uses _data-view_ as the name. Click **Create**. 
 
