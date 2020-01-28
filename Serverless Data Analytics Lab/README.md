@@ -130,7 +130,7 @@ The first step is to set up your data storage and your ingestion mechanism. For 
 1. Sign into the **AWS Management Console** and on the Services menu, click **S3**. 
 2. Click **+ Create bucket**.
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
-4. Choose the region for this bucket. Take note of both the bucket name and region for later.
+4. Choose the region for this bucket. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/1.png" /></p> 
 
