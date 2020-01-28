@@ -275,7 +275,7 @@ Lets take a look at the _update_ method now. This method checks to see if the pl
 	  
 * Here, you are defining the delivery stream name to be the name of your Kinesis stream. You are also defining the record you want to send, which is a memory stream of the player data.
 
-15. Then, you want to put that record into your Kinesis stream using a **PutRecordAsync** request. 
+15. Then, you want to put that record into your Kinesis stream using a **PutRecordAsync** request. Make sure this goes after the PutRecordRequest code from above.
 
  	      // Put record into the DeliveryStream
               PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
