@@ -238,7 +238,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis3.png" /></p> 
 
-* Lets take a closer look at the other variables that are defined. On line 40, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab.
+* Lets take a closer look at the other variables that are defined. On line 41, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab.
 
 * On line 43, a boolean variable _sent_ is declared to know if the records have been sent to Kinesis once or not to avoid sending multiple copies. This variable essentially checks to make sure the asychronous function you will create to send data to Kinesis is finished running before firing it off again.
 
