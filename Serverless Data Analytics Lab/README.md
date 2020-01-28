@@ -248,19 +248,19 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis4.png" /></p>
 
-* The start method runs the game on start of the scene. Here, the Kinesis _client_ is initialized, _sent_ is set to false, and _recordData_ is initialized as a new hash table.
+* The _start_ method runs the game on start of the scene. Here, the Kinesis _client_ is initialized, _sent_ is set to false, and _recordData_ is initialized as a new hash table.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis5.png" /></p>
 
-Lets take a look at the update method now. This method checks to see if the player loses or wins. If the player has lost, increment the losses variable by 1. If the player has won, increment the wins variable by 1. The sent variable is set to true since you are firing off an asynchronous method to sent data to Kinesis and want to wait for that task to finish before triggering it again. Finally, on line 70 the _WriteRecord()_ method is called. Time to begin writing code!
+Lets take a look at the _update_ method now. This method checks to see if the player loses or wins. If the player has lost, increment the _losses_ variable by 1. If the player has won, increment the _wins_ variable by 1. The _sent_ variable is set to true since you are firing off an asynchronous method to send data to Kinesis and want to wait for that task to finish before triggering it again. Finally, on line 71 the _WriteRecord()_ method is called. Time to begin writing code!
 
 13. Look for the _WriteRecord()_ method. Right now, it consists of a try-catch block, where you will try to send a record to Kinesis and catch any exceptions that may occur.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis6.png" /></p>
 
-* At the beginning of this method, we have some variables that we define. On line 79, _timeplayed_ is set to be the current time. On lines 81-84, we add the current value of _playerid, timeplayed, losses_, and _wins_ to the _recordData_ hash table/ on line 87, _recordData_ is converted to a byte array because Kinesis Firehose expects a memory stream when you provide it records. 
+* At the beginning of this method, we have some variables that we define. On line 80, _timeplayed_ is set to be the current time. On lines 82-85, we add the current value of _playerid, timeplayed, losses_, and _wins_ to the _recordData_ hash table/ on line 88, _recordData_ is converted to a byte array because Kinesis Firehose expects a memory stream when you provide it records. 
 
-14. Find where it says to _//Fill in code here!_ on line 90. First, create a **PutRecordRequest** which contains the Kinesis Firehose stream name and the data you want to send to the stream. 
+14. Find where it says to _//Fill in code here!_ on line 91. First, create a **PutRecordRequest** which contains the Kinesis Firehose stream name and the data you want to send to the stream. You can put this code right after the comments, creating a new line on 93. If you need help with writing the code, the final KinesisFirehose.cs script with all the code is in this GitHub repository for you to download and use as a reference. 
 
         //Create a PutRecordRequest
         PutRecordRequest putRecordRequest = new PutRecordRequest
