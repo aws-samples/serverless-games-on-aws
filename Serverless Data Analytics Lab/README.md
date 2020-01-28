@@ -222,13 +222,13 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * The first part of this script (lines 19-28) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis1.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis1.png" /></p> 
 
 * For example, you can see **using Amazon.KinesisFirehose** (line 25) which allows you to use the Amazon Kinesis API. This will allow you to do things like upload a record to a Kinesis stream. 
 
 * Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis2.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis2.png" /></p> 
 
 * The first variable defines the Amazon Kinesis Firehose Client. It is the client that you need to include and intialize so that you can access the Kinesis Firehose service to make API calls. 
 
@@ -236,7 +236,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 12. On line 38, define the **name** of your Kinesis Firehose stream. This lab uses _serverless-games-stream_. If your stream has the same name, keep this line as is. If you used a differrent name, make sure to update it here. 
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis3.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis3.png" /></p> 
 
 * Lets take a closer look at the other variables that are defined. On line 40, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab.
 
@@ -246,17 +246,17 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * Lines 45-48 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis4.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis4.png" /></p>
 
 * The start method runs the game on start of the scene. Here, the Kinesis client is initialized, sent is set to false, and data is initialized as a new hash table.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis5.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis5.png" /></p>
 
 Lets take a look at the update method now. This method checks to see if the player loses or wins. If the player has lost, increment the losses variable by 1. If the player has won, increment the wins variable by 1. The sent variable is set to true since you are firing off an asynchronous method to sent data to Kinesis and want to wait for that task to finish before triggering it again. Finally, on line 70 the _WriteRecord()_ method is called. Time to begin writing code!
 
 13. Look for the _WriteRecord()_ method. Right now, it consists of a try-catch block, where you will try to send a record to Kinesis and catch any exceptions that may occur.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis6.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis6.png" /></p>
 
 * At the beginning of this method, we have some variables that we define. On line 79, _timeplayed_ is set to be the current time. On lines 81-84, we add the current value of _playerid, timeplayed, losses_, and _wins_ to the _recordData_ hash table/ on line 87, _recordData_ is converted to a byte array because Kinesis Firehose expects a memory stream when you provide it records. 
 
@@ -293,15 +293,15 @@ Lets take a look at the update method now. This method checks to see if the play
 
 20. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis7.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis7.png" /></p>
 
 28. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. You should see data in there that looks similar to this:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis8.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis8.png" /></p>
 
 27. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/kinesis9.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis9.png" /></p>
 
 Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game using the AWS SDK .NET.
 
