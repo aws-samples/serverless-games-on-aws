@@ -277,8 +277,8 @@ Lets take a look at the _update_ method now. This method checks to see if the pl
 
 15. Then, you want to put that record into your Kinesis stream using a **PutRecordAsync** request. 
 
- 	   // Put record into the DeliveryStream
-           PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
+ 	      // Put record into the DeliveryStream
+              PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
 
 
 * This will actually send your data blob to Kinesis and return a response if its successful or not. 
