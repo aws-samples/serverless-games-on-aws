@@ -310,7 +310,7 @@ Congratulations! You successfully created an S3 data lake, a Kinesis Firehose st
 
 ## Task 4: Populating Data Lake with Amazon Kinesis Data Generator
 
-Now you are able to successfully send your own player data to S3 as you play the game. Right now, this is a small amount of data since you are only one player. You want to simulate this on a larger scale with more data so you can see useful visualizatitons. For the purpose of this lab, you will use the Kinesis Data Generator to simulate data. 
+Now you are able to successfully send your own player data to S3 as you play the game. Right now, this is a small amount of data since you are only one player. You want to simulate this on a larger scale with more data so you can see useful visualizations. For the purpose of this lab, you will use the Kinesis Data Generator to simulate data. 
 
 1. The **Amazon Kinesis Data Generator** is found at this link: https://awslabs.github.io/amazon-kinesis-data-generator/web/producer.html. Open this link - you should see a webpage similar to the one below. 
 
