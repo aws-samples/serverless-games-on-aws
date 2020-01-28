@@ -232,19 +232,19 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * The first variable defines the Amazon Kinesis Firehose Client. It is the client that you need to include and intialize so that you can access the Kinesis Firehose service to make API calls. 
 
-11. On line 36, define the **Region** you created your Amazon Kinesis Firehose stream in. This lab is done in US West 2 for example. If you used a different region, make sure to change it here. To find the region code for the region you are using, click here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+11. On line 37, define the **Region** you created your Amazon Kinesis Firehose stream in. This lab is done in US West 2 for example. If you used a different region, make sure to change it here. To find the region code for the region you are using, click here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 
-12. On line 38, define the **name** of your Kinesis Firehose stream. This lab uses _serverless-games-stream_. If your stream has the same name, keep this line as is. If you used a differrent name, make sure to update it here. 
+12. On line 39, define the **name** of your Kinesis Firehose stream. This lab uses _serverless-games-stream_. If your stream has the same name, keep this line as is. If you used a differrent name, make sure to update it here. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis3.png" /></p> 
 
 * Lets take a closer look at the other variables that are defined. On line 40, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab.
 
-* On line 42, a boolean variable _sent_ is declared to know if the records have been sent to Kinesis once or not to avoid sending multiple copies. This variable essentially checks to make sure the asychronous function you will create to send data to Kinesis is finished running before firing it off again.
+* On line 43, a boolean variable _sent_ is declared to know if the records have been sent to Kinesis once or not to avoid sending multiple copies. This variable essentially checks to make sure the asychronous function you will create to send data to Kinesis is finished running before firing it off again.
 
-* On line 43, a _recordData_ variable is declared that will contain the information to be sent to Kinesis.
+* On line 44, a _recordData_ variable is declared that will contain the information to be sent to Kinesis.
 
-* Lines 45-48 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won.
+* Lines 46-49 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis4.png" /></p>
 
