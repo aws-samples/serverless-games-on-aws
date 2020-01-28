@@ -181,9 +181,7 @@ Now that you have your data storage and ingestion mechanism, it is time to creat
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity2.png" /></p> 
 
-3. You should see a drop down at the top of the screen that says _"Added to My Assets"_. On this same drop down, click **Open in Unity**. This will open Unity Hub. 
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity3.png" /></p> 
+3. Once you do this, you should see an option to open these assets in Unity. Click **Open in Unity**. This will open Unity Hub. 
 
 4. On the left navigation panel in the Unity Hub, click **Learn**. This will open up a page where you can find sample projects to download. You should see the John Lemon's Haunted Jaunt: 3D Beginner project downloaded. **Click** this to open the project in Unity.
 
