@@ -303,6 +303,8 @@ Lets take a look at the _update_ method now. This method checks to see if the pl
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis9.png" /></p>
 
+28. **Delete** this file in S3. For lab purposes, we want a lot more data to work with, so we will use a file generated in an automated way.
+
 Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game using the AWS SDK .NET.
 
 <a id="Task4"></a>
@@ -316,21 +318,21 @@ Now you are able to successfully send your own player data to S3 as you play the
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/11.png" /></p> 
 
-14. Click the **Help** button. This page will walk you through how to configure Kinesis Data Generator with your AWS account. Follow the steps to **Create a Cognito User with CloudFormation**.
+2. Click the **Help** button. This page will walk you through how to configure Kinesis Data Generator with your AWS account. Follow the steps to **Create a Cognito User with CloudFormation**.
 
-15. This will bring you to the AWS Management Console CloudFormation dashboard. You should see the followng:
+3. This will bring you to the AWS Management Console CloudFormation dashboard. You should see the followng:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/12.png" /></p> 
 
-16. Hit **Next**. Create a username and password that will be used to sign into the Kinesis Data Generator. Hit **Next** again.
+4. Hit **Next**. Create a username and password that will be used to sign into the Kinesis Data Generator. Hit **Next** again.
 
-17. Leave all other configuration default and hit **Next** twice more. 
+5. Leave all other configuration default and hit **Next** twice more. 
 
-18. Review your configurations and check the box at the bottom that acknowledges that this CloudFormation template might create IAM sources. Finally click **Create stack**. It will take a few minutes for the CloudFormation stack to finish creating.
+6. Review your configurations and check the box at the bottom that acknowledges that this CloudFormation template might create IAM sources. Finally click **Create stack**. It will take a few minutes for the CloudFormation stack to finish creating.
 
-19. When it is finished, on the _Outputs_ page of the stack you will see a **KinesisDataGeneratorUrl**. Open this link. You will use this link to sign in to a page that looked the same before. Sign in using the username and password you just configured in the CloudFormation template. 
+7. When it is finished, on the _Outputs_ page of the stack you will see a **KinesisDataGeneratorUrl**. Open this link. You will use this link to sign in to a page that looked the same before. Sign in using the username and password you just configured in the CloudFormation template. 
 
-20. When the log-in is successful, you will see some fields that you can start configuring to send sample data to populate your S3 data lake. 
+8. When the log-in is successful, you will see some fields that you can start configuring to send sample data to populate your S3 data lake. 
 
       * Set the **Region** as the same one you created your Kinesis Firehose stream in.
       * Set the **Stream** as the one you created in Task 2.
@@ -349,15 +351,15 @@ This data represents random players playing your game. Your final configurations
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/13.png" /></p> 
 
-21. Hit **Send data**. You should see data starting to send. Let the data generator send a couple thousand records (3000 records for example would be a good stopping point) and then finally hit **Stop sending data to Kinesis**. 
+9. Hit **Send data**. You should see data starting to send. Let the data generator send a couple thousand records (3000 records for example would be a good stopping point) and then finally hit **Stop sending data to Kinesis**. 
 
-22. Go back to the AWS Management Console tab with your Kinesis Firehose delivery stream open. Click into the stream to view the stream details if you are not viewing them already.
+10. Go back to the AWS Management Console tab with your Kinesis Firehose delivery stream open. Click into the stream to view the stream details if you are not viewing them already.
 
-23. Select the **Monitoring** tab to view metrics like you did in Task 2. You should see something similar to what is shown below to verify the Kinesis Data Generator is working:
+11. Select the **Monitoring** tab to view metrics like you did in Task 2. You should see something similar to what is shown below to verify the Kinesis Data Generator is working:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/14.png" /></p> 
 
-24. Go back to your S3 bucket to look at the contents and **verify** the data has been delivered. 
+12. Go back to your S3 bucket to look at the contents and **verify** the data has been delivered. 
 
 Now you have a lot of sample player data to work with for the rest of the lab. 
 
@@ -438,7 +440,7 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time pl
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/20.png" /></p> 
 
-* If you are recieving zero results returned from your queries, make sure each file in your S3 bucket is in its own individual folder. Otherwise, if there are multiple files in the same folder when using Glue, Athena will return zero records. Re-structure your S3 bucket and re-run the Glue crawler to fix this issue. 
+* If you are recieving zero results returned from your queries, make sure each file in your S3 bucket is in its own individual folder. Otherwise, if there are multiple files in the same folder when using Glue, Athena will return zero records. Re-structure your S3 bucket and re-run the Glue crawler to fix this issue. This error might occur if you did not delete the file in Task 3, step 28. 
 
 4. After you run the query and the results display on the dashboard, click **Create** and then **Create view from query**. Give it a name. This lab uses _data-view_ as the name. Click **Create**. 
 
