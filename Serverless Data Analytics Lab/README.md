@@ -171,7 +171,7 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 Now that you have your data storage and ingestion mechanism, it is time to create a sample project in Unity that you will begin integrating your analytics pipeline with. 
 
-1. **Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner
+1. **Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner and find the **Project Materials**, as shown in the screenshot below. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/cognito/unity1.png" /></p> 
 
