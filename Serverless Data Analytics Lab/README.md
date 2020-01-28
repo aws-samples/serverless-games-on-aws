@@ -144,7 +144,7 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 8. Give your stream a name. This lab will use the name _serverless-games-stream_. 
 
-9. Under Choose source, keep it the default as _Direct PUT or other sources_. For now, you will use a different data source that we will configure shortly, but in practice you can make direct API calls to Kinesis Firehose from your game client or server to send near real time streaming data.
+9. Under Choose source, keep it the default as _Direct PUT or other sources_.
 
 10. Hit **Next**.
 
