@@ -248,7 +248,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis4.png" /></p>
 
-* The start method runs the game on start of the scene. Here, the Kinesis client is initialized, sent is set to false, and data is initialized as a new hash table.
+* The start method runs the game on start of the scene. Here, the Kinesis _client_ is initialized, _sent_ is set to false, and _recordData_ is initialized as a new hash table.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis5.png" /></p>
 
