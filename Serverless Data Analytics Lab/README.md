@@ -191,9 +191,9 @@ Now that you have your data storage and ingestion mechanism, it is time to creat
 
 	* This game has already been built for you. Browse the different assets folders – take a look at the Scripts, Prefabs, Animation folders and more to see what gives the game its functionality. 
 	
-6. Click on the **Scenes** folder under Assets. Open the scene titled **SampleScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
+6. Click on the **Scenes** folder under Assets. Open the scene titled **MainScene**. This is the scene where you can play the actual game - try playing it if you want! The goal is to escape from the haunted house while avoiding enemies. 
 
-7. You need to fix the build settings for this project before getting started. Under File > Build Settings, click **Add Open Scenes**. It should add the SampleScene under index 0. Your final configurations should look like this:
+7. You need to fix the build settings for this project before getting started. Under File > Build Settings, click **Add Open Scenes**. It should add the MainScene under index 0. Your final configurations should look like this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/buildsettings.png" /></p> 
 
@@ -285,7 +285,7 @@ Lets take a look at the update method now. This method checks to see if the play
 
 16. **Save** your file - you are done! 
 
-17. In Assets, find the Scenes folder. Look for **SampleScene** and open it. It is time to begin playing the game to test it out.
+17. In Assets, find the Scenes folder. Look for **MainScene** and open it. It is time to begin playing the game to test it out.
 
 18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 buckett. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
 
