@@ -19,27 +19,28 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using System.IO;
 using Amazon;
 using UnityEngine;
-using Amazon.S3;
-using Amazon.S3.Model;
+using Amazon.KinesisFirehose;
+using Amazon.KinesisFirehose.Model;
+using System.Text;
 using Newtonsoft.Json;
 
-public class S3 : MonoBehaviour
+
+public class KinesisFirehose : MonoBehaviour
 {
 
-  
-    private static string keyName;
-    private static IAmazonS3 client;
-    //define region bucket is in if it is different than us-west-2
-    private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USWest2;
-    //define S3 bucket name here
-    private const string bucketName = "";
+    private static AmazonKinesisFirehoseClient client;
+    //Define region DeliveryStream is in if it is different than us-west-2
+    private static readonly RegionEndpoint streamRegion = RegionEndpoint.USWest2;
+    //Define KinesisFirehose delivery stream name here
+    private const string streamName = "serverless-games-stream";
 
     public GameEnding gameEnding;
-    
+
     private bool sent;
-    static Hashtable data;
+    static Hashtable recordData;
 
     static int playerid = 1;
     static float timeplayed;
@@ -49,10 +50,10 @@ public class S3 : MonoBehaviour
 
     void Start()
     {
-        client = new AmazonS3Client(bucketRegion);
+        //Create the client to interact with Kinesis
+        client = new AmazonKinesisFirehoseClient(streamRegion);
         sent = false;
-        data = new Hashtable();
-        
+        recordData = new Hashtable();
     }
 
     void Update()
@@ -65,37 +66,40 @@ public class S3 : MonoBehaviour
                 wins += 1;
 
             sent = true;
-            _ = WritingAnObjectAsync();
-    
+
+            _ = WriteRecord();
+
         }
     }
 
-    static async Task WritingAnObjectAsync()
+    static async Task WriteRecord()
     {
         try
         {
-            keyName = DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year +
-                "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + DateTime.Now.Second;
-
             timeplayed = Time.time;
 
-            data.Add("PlayerID", playerid);
-            data.Add("Time Played", timeplayed);
-            data.Add("Losses", losses);
-            data.Add("Wins", wins);
+            recordData.Add("PlayerID", playerid);
+            recordData.Add("Time Played", timeplayed);
+            recordData.Add("Losses", losses);
+            recordData.Add("Wins", wins);
 
-            // 1. Put object-specify only key name for the new object.
-            var putRequest1 = new PutObjectRequest
+            //Convert Hashtable into Json and subsequent byte array in preparation for record
+            byte[] dataAsBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(recordData));
+
+            //Create a PutRecordRequest
+            PutRecordRequest putRecordRequest = new PutRecordRequest
             {
-                BucketName = bucketName,
-                Key = keyName,
-                ContentBody = JsonConvert.SerializeObject(data),
-                ContentType = "application/json"
+                DeliveryStreamName = streamName,
+                Record = new Record
+                {
+                    Data = new MemoryStream(dataAsBytes)
+                }
             };
-   
-            PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
+
+            // Put record into the DeliveryStream
+            PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
         }
-        catch (AmazonS3Exception e)
+        catch (AmazonKinesisFirehoseException e)
         {
             Debug.Log(
                     "Error encountered ***. Message:'{0}' when writing an object" + e);
@@ -107,4 +111,5 @@ public class S3 : MonoBehaviour
         }
     }
 }
+
 
