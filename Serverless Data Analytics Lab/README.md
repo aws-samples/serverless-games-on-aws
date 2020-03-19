@@ -2,21 +2,22 @@
 
 <a id="Top"></a>
 ## Serverless Data Analytics Lab
-This lab will guide you through creating a serverless analytics pipeline and integrating it into a Unity game using the AWS SDK for .NET. This lab will focus on using serverless services like Amazon S3, Amazon Kinesis, AWS Glue, Amazon Athena, and Amazon QuickSight. In this lab, you will build out the following architecture:
+This lab will guide you through creating a serverless analytics pipeline and integrating it into a Unity game. This lab will focus on using serverless services to build an analytics pipeline for both batch and near real-time analytics. This way, you can get batch insights over a period of time and also see data populating on a graph in near real-time. Services used in this lab include: Amazon API Gateway, AWS Lambda, Amazon Kinesis, Amazon S3, AWS Glue, Amazon Athena, Amazon QuickSight, and Amazon CloudWatch. In this lab, you will build out the following architecture:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/analytics2.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/analytics3.png" /></p> 
 
 ## Agenda 
 
 * [Overview](#Overview)
-* [Task 1: Setting up Prerequisites and Permissions](#TaskPre)
-* [Task 2: Setting up Amazon API Gateway and an AWS Lambda Backend](#TaskAPI)
-* [Task 3: Creating an Amazon S3 Data Lake and Kinesis Firehose Stream for Data Ingestion](#TaskS3)
+* [Task 1: Setting up prerequisites and permissions](#TaskPre)
+* [Task 2: Setting up Amazon API Gateway and an AWS Lambda backend](#TaskAPI)
+* [Task 3: Creating an Amazon S3 data lake and Amazon Kinesis Firehose stream for data ingestion](#TaskS3)
 * [Task 4: Integrating AWS with Unity](#TaskUnity)
-* [Task 5: Populating Data Lake with Amazon Kinesis Data Generator](#TaskKinesis)
-* [Task 6: Using AWS Glue to Discover Data](#TaskGlue)
-* [Task 7: Querying Data with Amazon Athena](#TaskAthena)
-* [Task 8: Discovering Insights with Amazon QuickSight](#TaskQuicksight)
+* [Task 5: Populating data lake with Amazon Kinesis Data Generator](#TaskKinesis)
+* [Task 6: Using AWS Glue to discover data](#TaskGlue)
+* [Task 7: Querying data with Amazon Athena](#TaskAthena)
+* [Task 8: Discovering batch insights with Amazon QuickSight](#TaskQuicksight)
+* [Task 9: Setting up a near real-time pipeline with Amazon Kinesis Analytics, AWS Lambda, and Amazon CloudWatch](#TaskRealTime)
 * [Clean Up](#cleanup)
 * [Appendix - Additional Reading](#additionalreading)
 
@@ -508,6 +509,11 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 * Instead of showing all the win/loss data for all your players, adding a filter can help you take a look at the data for a subset of players or one individual player. 
 
 Congratulations! You created a sample visualization in QuickSight to start analyzing your data. You can explore QuickSight more if you'd like to see what other insightful visualizations you can make. 
+
+
+<a id="TaskRealTime"></a>
+[[Top](#Top)]
+## Task 9: Setting up a near real-time pipeline with Amazon Kinesis Analytics, AWS Lambda, and Amazon CloudWatch
 
 
 <a id="cleanup"></a>
