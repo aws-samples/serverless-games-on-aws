@@ -297,7 +297,7 @@ Now you are able to successfully send your own player data to S3 as you play the
 }
 ```
 
-This data represents random players playing your game. Your final configurations should look similar to this:
+This data represents random players playing your game. For the _CaughtAt_ variable, the options are [1,2,3,4,5,6] which correspond to different parts of the haunted mansion. For example, let's say that 1 is the living room, 2 is the hallway, 3 is the bathroom, 4 is the kitchen, 5 is the basement, and 6 is the final room before the escape. For the _CaughtBy_ variable, the options are also [1,2,3,4,5,6]. Let's say that numbers 1-3 represent different ghosts in the house, while 4-6 represent different gargoyles. Your final configurations should look similar to this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/KDG.png" /></p> 
 
@@ -431,29 +431,61 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 * If you are running into a permissions error, similar to something like "An error has been thrown from the AWS Athena client. Access Denied (Service: Amazon S3)", then go back to step 4 and make sure you are including your newest S3 bucket by **unchecking** and then **rechecking** the box for S3.
 
-11. Once your data has been imported, you can start messing around with QuickSight to see what visualizations you can create. Select the **+ ADD** button on the top left to add a visualization. 
+11. Once your data has been imported, you can start playing around with QuickSight to see what visualizations you can create. Select the **+ ADD** button on the top left to add a visualization. 
 
-12. Under Visual types, select a **Line chart** visualization. 
+12. Under Visual types, select a **Vertical bar chart** visualization. 
 
-13. Drag the **time played** variable to be the value for the X axis.
+13. Drag the **caughtby** variable to be the value for the X axis.
 
-14. Drag the wins and losses variables to be the green values. Click the drop down arrow next to both of these variables to sort them 
+14. Your graph should look similar to this: 
 
-15. After adding all three variables, click the drop down arrow next to the time played variable to sort it to be **ascending** by time played. You should end up with something that looks similar to this:
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/caughtby.png" /></p> 
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/23.png" /></p> 
+* You can change the colors to represent the different enemies. Remember that numbers 1-3 correspond to ghosts while 4-6 correspond to Gargoyles. In this picture, blue is gargoyles while purple is ghosts. This graph shows the number of players caught by each individual enemy. We can see that players die by ghost #2 the most. This can indicate that either the other enemies are catching the player enough and the game is too easy, or on the opposite end of the spectrum that players are having a hard time getting past ghost #2 and barely winning the game. 
 
-* This graph shows the average losses and average wins over time. In this case, the data is randomized, but in practice a graph like this could indicate that if your players are winning too much, the game might be too easy and they might get bored and stop playing. On the other hand, it could indicate that if your players are losing too often, the game might be too hard, and as a result the players could get frustrated and stop playing. 
+15. Next, let's create a heat map thats where players are dying the most. Select the **+ ADD** button on the top left to add a new visualization.
 
-16. You can also add filters to you graph. On the left-hand panel, select **Filter** and create one for **playerid**. Click on **playerid** to expand it.
+16. Under Visual types, select a **Heat map** visualization. 
 
-17. Hit **Apply**. Your final result should look something like this:
+17. Drag the **caughtat** variable to be the value for Rows and the **caughtby** variable to be the value for Columns.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/24.png" /></p> 
+18. Your graph should look similar to this: 
 
-* Instead of showing all the win/loss data for all your players, adding a filter can help you take a look at the data for a subset of players or one individual player. 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/heatmap.png" /></p> 
 
-Congratulations! You created a sample visualization in QuickSight to start analyzing your data. You can explore QuickSight more if you'd like to see what other insightful visualizations you can make. 
+* This heat map shows where players are caught at verses what enemy players are caught by. This heat map shows a pattern that most players are caught by ghost #2 and most players die in the hallway. If we look at the way our game is structured, ghost #2 is in the hallway. This graph further indicates that our level design may be too difficult and most players are not able to get by ghost #2 in the hallway. Maybe the hallway is too small, or the way the ghost patrols the hallway needs to be changed, but this indicates that players may get frustrated playing our game since it's too difficult. 
+
+19. Next, let's create a graph that shows the sum of losses per player. Select the **+ ADD** button on the top left to add a new visualization.
+
+20. Under Visual types, select a **Horizontal bar chart** visualization. 
+
+21. Drag the **playerid** variable to be the value for the Y axis and the **losses** variable for the Value variable.
+
+22. Your graph should look similar to this: 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/loss.png" /></p> 
+
+* This visualizatoin shows the sum of losses per individual player. It shows that there are some players who are losing significantly more than other players. This graph may indicate certain players who are more likely to churn and stop playing your game because they are having a hard time winning. With this information, you can try to prevent player churn. for example, you can target these players with special items to help them get through the level to keep playing.
+
+23. Let's create one more graph that shows our win/loss percentage. To do this, we need to add a new field that will be called WinLoss. Select the **+ ADD** button on the top left to add a **Add calculated field**.
+
+24. Under **Function list** choose **avg**. For the **Calculated field name** put WinLoss. 
+
+25. For **Formula** put `avg({wins} / {losses})`
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/calculated.png" /></p> 
+
+26. Click **Create** to add your new calculated field.  
+
+27. Now, let's visualize this. Select the **+ ADD** button on the top left to add a new visualization.
+
+25. Leave the visual type as **AutoGraph** and simply select the new **WinLoss** variable. Click the drop down next to the **WinLoss** variable and show the number as a **Percent**.
+
+26. Your graph should look similar to this: 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/WLP.png" /></p> 
+
+Congratulations! You created batch visualizations in QuickSight. You can explore QuickSight more if you'd like to see what other visualizations you can make. 
 
 
 <a id="TaskRealTime"></a>
