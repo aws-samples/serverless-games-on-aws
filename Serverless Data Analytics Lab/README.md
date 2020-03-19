@@ -32,9 +32,19 @@ This lab will guide you through creating a serverless analytics pipeline and int
 Using analytics is very important to improve your game and keep players around. Incorporating an analytics pipeline to your game can help you create more engaging games by doing data driven game development. You can learn how to optimize the game play experience so you can attract more players and increase player engagement. It can help with anomaly detection by identifying abusers, cheaters, and player churn. It can also help you improve your game infrastructure by better understanding peak usage times so you know when to scale. Finally, data analytics can help with revenue generation by encouraging purchases, targeted ads, and content recommendations. 
 
 
-### Serverless Analytics Pipeline on AWS
+### Serverless analytics pipeline on AWS
 
-Serverless applications don’t require you to provision, scale, or manage any servers. You can build them for nearly any type of application or backend service, and everything required to run and scale your application with high availability is handled for you. A lot of companies are making the move towards serverless, even for their analytics workloads. AWS has an expansive ecosystem of services that can be used to build out a robust anlaytics pipeline for your game so that you can discover useful insights on player and game data. Some services that you can use for batch analytics include:
+Serverless applications don’t require you to provision, scale, or manage any servers. You can build them for nearly any type of application or backend service, and everything required to run and scale your application with high availability is handled for you. A lot of companies are making the move towards serverless, even for their analytics workloads. AWS has an expansive ecosystem of services that can be used to build out a robust anlaytics pipeline for your game so that you can discover useful insights on player and game data. Serverless is a great option for a lot of games companies because many of them do not have dedicated resources or a data analytics expert on hand to configure infrastructure and manage a data analytics pipeline. 
+
+##### Batch and near real-time analytics 
+
+Depending on the questions you have and the answers you are looking to get, you might be required to analyze data at different speeds. It is important to understand that data has a shelf-life. The older data becomes, the less useful it is in helping you with timely reactions. To derive accurate insights, consider the type of answers you want. Align your questions to the speed with which you gather and analyze data.
+
+For example, consider if you made recent enhancements to your game like a new weapon or downloadable content (DLC), such as a new game level. You want to quickly assess if players react positively. On the other hand, metrics such as daily active users (DAU) or monthly active users (MAU) must draw from data that is compiled over a day or calendar month.
+
+This is why there are primarily two types of analytics pipelines you want to focus on: batch and near real-time. Batch analytics is analyzing data collected over a period of time, where near real-time analytics is analyzing data as it comes in. 
+
+This lab covers building out a robust pipeline that includes both batch and near real-time analytics. Some services that you can use on AWS for analytics include:
 
 ##### Amazon S3
 
@@ -42,7 +52,7 @@ Amazon S3 provides durable object storage in the AWS cloud. It makes for a great
 
 ##### Amazon Kinesis 
 
-Amazon Kinesis makes it easy to collect, process, and analyze real-time streaming data so you can get timely insights and react quickly to new information. You can use Kinesis for real-time delivery of in-game data collected from game servers and clients to be stored in your S3 data lake. 
+Amazon Kinesis makes it easy to collect, process, and analyze real-time streaming data so you can get timely insights and react quickly to new information. You can use Kinesis for real-time delivery of in-game data collected from game servers and clients to be stored in your S3 data lake. There are multiple different flavors of Amazon Kinesis, but two will be covered in detail in this lab: Kinesis Firehose, which allows you to easily deliver streaming data to 4 built-in destinations on AWS including Amazon S3, and Kinesis Analytics, which allows you to run SQL queries on your streaming data in real-time. 
 
 ##### AWS Glue
 
@@ -54,33 +64,39 @@ Once your data has been discovered using AWS Glue, you can use Amazon Athena to 
 
 ##### Amazon QuickSight
 
-Once you query the data you are interested in analyzing, you can use Amazon Quicksight as a business intelligence service to discover insights about your game data. You can create and publish interactive dashboards and visualizations. You can even discover hidden trends and do forecasting using machine learning. With Quicksight, you can answer questions about your game - is it too hard? Is it too easy? Are your players engaged and going to stick around? 
+Once you query the data you are interested in analyzing, you can use Amazon Quicksight as a business intelligence service to discover insights about your game data. QuickSight works really well for batch analytics with data that has been collected over a time frame of a couple hours, to days, months, even years. You can create and publish interactive dashboards and visualizations. You can even discover hidden trends and do forecasting using machine learning. With Quicksight, you can answer questions about your game - is it too hard? Is it too easy? Are your players engaged and going to stick around? 
+
+##### AWS Lambda 
+
+AWS Lambda is serverless compute capacity in the cloud, which lets you run code without provisioning or managing servers. Lambda will be used as an orchestration tool in this pipeline to execute code that can send data from your game to your AWS analytics pipeline. 
+
+##### Amazon CloudWatch
+
+Amazon CloudWatch is a monitoring and observability service that provides you with data and actionable insights to monitor your applications, respond to system-wide performance changes, optimize resource utilization, and more. You can instrument your pipeline to send custom metrics to CloudWatch and view these metrics on an automatic dashboard that CloudWatch provides. This service works well for visualizing data in real-time. 
 
 ### Unity
 
-Unity is a cross-platform game engine developed by Unity Technologies that is used to create the core game that will be the basis of this lab. Unity uses a C++ runtime and C# for scripting, so to be able to add AWS functionality to the game the AWS SDK for .NET is included as a package in Unity.
+Unity is a cross-platform game engine developed by Unity Technologies that is used to create the core game that will be the basis of this lab. 
 
 ### Getting Started
 
-This lab will focus specifically on building out a serverless analytics pipeline and integrating it into a Unity game. You will first create an S3 data lake and integrate that into a Unity game using the AWS SDK .NET. You will populate the data lake with Kinesis, discover the data using Glue, practice querying the data with Athena, and then create visualizations from the data with QuickSight. 
+This lab will focus specifically on building out a serverless analytics pipeline and integrating it into a Unity game. You will first set up an API Gateway and a Lambda function to send data from your game to your analytics pipeline. Then, you will create an S3 data lake and populate it with Kinesis, discover the data using Glue, practice querying the data with Athena, and then create batch visualizations from the data with QuickSight. After that, you will use Kinesis Analytics to run SQL queries on your streaming data in near real-time, and view that data as it comes in on a CloudWatch dashboard. 
  
  <a id="TaskPre"></a>
 [[Top](#Top)]
 
-## Task 1: Setting up Prerequisites and Permissions
+## Task 1: Setting up prerequisites and permissions
  
  ### Prerequisites
 
 For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
 
-* An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Kinesis, Glue, Athena, QuickSight). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+* An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Lambda, Kinesis, Glue, Athena, QuickSight, CloudWatch). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
 * **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
-* AWS Command Line Interface (CLI) - https://aws.amazon.com/cli/
 
-This lab works for both Mac and Windows. If you already have these prerequisites installed and credentials configured, you can skip to [[Task2](#Task2)]
+This lab works for both Mac and Windows. If you already have these prerequisites, you can skip to [[Task2](#Task2)]
 
-
-### Setting up Permissions
+### Setting up permissions
 
 First, you will need to create an IAM user with the appropriate permissions needed to do the lab if you do not have one already. AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage AWS users and groups, and use permissions to allow and deny their access to AWS resources. It is highly recommended that you do not use the default root user of your AWS account and instead provision your own IAM user for security purposes.
 
@@ -88,36 +104,21 @@ First, you will need to create an IAM user with the appropriate permissions need
 
 2. Click **Users** on the left-hand navigation pane and then select **Add user**.
 
-3. Give your user a user name and make sure to enable **Programmatic access** so that you can download an access key and secret access key. Also enable **AWS Management Console access** so that you can give your user the ability to sign-in to the AWS Management console.
+3. Give your user a user name and enable **AWS Management Console access** so that you can give your user the ability to sign-in to the AWS Management console. You can optionally choose to enable **Programmatic access** so that you can download an access key and secret access key to use the AWS Command Line Interface (CLI). It is not needed for this lab, but a good tool to use.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM1.png" /></p> 
 
 4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the AdministratorAccess policy to add to your user.
 
-**SECURITY DISCLAIMER:** Here, you are adding full administrator access for simplicity of lab purposes. However, it is best practices that with IAM you assign fine-grained permissions to AWS services and to your resources. If you want to make your permissions more fine-grained and not use admin permissions, you can add permissions for only the services that will be used in this lab, including S3, Kinesis, Glue, Athena, and QuickSight. 
+**SECURITY DISCLAIMER:** Here, you are adding full administrator access for simplicity of lab purposes. However, it is best practices that with IAM you assign fine-grained permissions to AWS services and to your resources. If you want to make your permissions more fine-grained and not use admin permissions, you can add permissions for only the services that will be used in this lab, including Lambda, S3, Kinesis, Glue, Athena, QuickSight, and CloudWatch. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
 
 5. Select **Next: Tags**, **Next: Review** and finally **Create user**.
 
-6. Make sure you **Download .csv** to download and save your access key ID and secret access key for use later.
+6. You can **Download .csv** to download and save your access key ID and secret access key for use later when setting up the CLI optionally - again, this is not needed for this lab but a good tool to use in the future when working with AWS.
 
 7. Sign into the AWS Management Console with the IAM credentials you just created. 
-
-### Installing the AWS CLI
-
-Now that you have created a user, you can install the AWS CLI. You are doing this to configure AWS credentials easily to your local machine to be able to complete the lab. 
-
-1. Installing the AWS CLI - https://aws.amazon.com/cli/
-
-2. Configure AWS credentials by opening a terminal and running:
-
-`aws configure`
-
-* It will prompt you for your access key ID, your secret access key ID, a region name, and an output format.
-* Enter the access key and secret access key that you downloaded in the last step.
-* Choose a region name. You can choose whatever region you want to work in, as long as that region supports all the services that this lab needs. This lab uses us-west-2 by default, so choose that if you'd like. 
-* For the output format, just leave that default by pressing enter on your keyboard.
 
 You are done setting up the prerequisites needed for this lab.
 
@@ -125,16 +126,22 @@ You are done setting up the prerequisites needed for this lab.
 <a id="TaskAPI"></a>
 [[Top](#Top)]
 
-## Task 2: Setting up Amazon API Gateway and an AWS Lambda Backend
+## Task 2: Setting up Amazon API Gateway and an AWS Lambda backend
+
+The first step is to configure an Amazon API Gateway and an AWS Lambda function. API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. It will act as the "front door" for your analytics pipeline and provide an extra layer of security for your backend resources so you do not have to bake AWS credentials into a game client, which poses a security risk. Lambda lets you run code in a serverless fashion, so it will act as a backend orchestration service for sending data from your game to your analytics pipeline. 
+
+1. Sign into the **AWS Management Console** and on the Services menu, click **API Gateway**.
+
+2. 
 
 <a id="TaskS3"></a>
 [[Top](#Top)]
 
-## Task 3: Creating an Amazon S3 Data Lake and Kinesis Firehose Stream for Data Ingestion 
+## Task 3: Creating an Amazon S3 data lake and Kinesis Firehose stream for data ingestion 
 
-The first step is to set up your data storage and your ingestion mechanism. For your data storage, you are going to use Amazon S3, which will act as your centralized data lake for all your game data. 
+The next step is to set up your data storage and your ingestion mechanism. For your data storage, you are going to use Amazon S3, which will act as your centralized data lake for all your game data. 
 
-1. Sign into the **AWS Management Console** and on the Services menu, click **S3**. 
+1. In the **AWS Management Console** on the Services menu, click **S3**. 
 2. Click **+ Create bucket**.
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
 4. Choose the region for this bucket. 
@@ -143,7 +150,7 @@ The first step is to set up your data storage and your ingestion mechanism. For 
 
 5. Click **Create**.
 
-You have created your S3 data lake! Now you need to set up an ingestion mechanism so you can stream data from your game to your S3 data lake. You can do this using an Amazon Kinesis Data Firehose stream. Kinesis Firehose is scalable so it allows you to ingest records from many clients simultaneously. It can stream data to multiple destinations besides just S3 and it integrates easily with other AWS services like Kinesis Data Analytics to process your streaming data using standard SQL. 
+You have created your S3 data lake! Now you need to set up an ingestion mechanism so you can stream data from your game to your S3 data lake. You can do this using an Amazon Kinesis Data Firehose stream. Kinesis Firehose is scalable so it allows you to ingest records from many clients simultaneously. It can stream data to multiple destinations besides just S3 and it integrates easily with other AWS services like Kinesis Data Analytics to process your streaming data using standard SQL, which will be set up later in this lab. 
 
 6. In the AWS Management Console, go to Services and click **Kinesis**.
 
@@ -163,20 +170,22 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 14. You can take a look at all the other configuration options and explore them if you want but for now leave them all default and hit **Next**.
 
-15. Scroll down to IAM role. This is the Identity and Access Manamgenent role that you need to specify to give Kinesis the appropriate permissions it needs to access your S3 bucket and any other resources it may need. Click **Create new or choose**.
+16. Kinesis Firehose buffers incoming records before delivering them to your S3 bucket. Set **Buffer size*** to 1 MB and **Buffer interval** to 60 seconds. This is to make sure data is delivered to S3 as quick as possible.  
 
-16. This will open up a new tab like the one below where you can create a new IAM role. Select **Allow**.
+17. Scroll down to IAM role. This is the Identity and Access Manamgenent role that you need to specify to give Kinesis the appropriate permissions it needs to access your S3 bucket and any other resources it may need. Click **Create new or choose**.
+
+18. This will open up a new tab like the one below where you can create a new IAM role. Select **Allow**.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/10.png" /></p> 
 
-17. You should be redirected back to the tab where you are configuring your Kinesis Firehose stream. Review your configuration settings and finally select **Create delivery stream**. You should now see your newly created stream on the Kinesis Firehose dashboard. It will take a minute or two to create, but once it says the status is active you can click into it to find details. 
+19. You should be redirected back to the tab where you are configuring your Kinesis Firehose stream. Review your configuration settings and finally select **Create delivery stream**. You should now see your newly created stream on the Kinesis Firehose dashboard. It will take a minute or two to create, but once it says the status is active you can click into it to find details. 
 
 <a id="TaskUnity"></a>
 [[Top](#Top)]
 
 ## Task 4: Integrating AWS with Unity
 
-Now that you have your data storage and ingestion mechanism, it is time to create a sample project in Unity that you will begin integrating your analytics pipeline with. 
+Now that you have your API Gateway set up, your data storage in place, and your ingestion mechanism, it is time to create a sample project in Unity that you will begin integrating your analytics pipeline with. 
 
 1. **Click** the 3D Beginner Complete Project from the following link: https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner and find the **Project Materials**, as shown in the screenshot below. 
 
@@ -207,94 +216,18 @@ Now that you have your data storage and ingestion mechanism, it is time to creat
 8. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesissdk.png" /></p> 
-   
-9.	Browse to the **Plugins** folder in Assets. In this example, you will use the **AWS SDK for .NET** to be able to use AWS services in your game. Here, you can see the different plugins that have been included in this Unity project that are necessary to be able to send game data to Kinesis to store it in S3.  
+    
+Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to post data to API Gateway, which will trigger the Lambda function to send the data to your Kinesis stream to store it in your S3 data lake. 
 
-   * **Note:** There are other ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. It is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you will use the AWS SDK for .NET which supports C#.
+   * **Note:** There are multiple ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. If you go this route, it is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you can use the AWS SDK for .NET which supports C#. However, making SDK calls in a game client itself requires credentials in the game client which is a security risk. This is why API Gateway and Lambda are used to make SDK calls to send data to Kinesis instead of making the SDK calls directly from the game client. It adds an additional layer of security, but also adds an additional cost. It is recommended to use API Gateway as a security best practice. 
 
-     * Also, when creating your own Unity game, you must make sure to follow these steps to change settings to be able to add .NET SDK assemblies to Unity as plugins.
-
-       * Navigate to Edit -> Project Settings -> Player -> Other Settings
-       * Change Scripting Runtime Version to .NET 4.x Equivalent
-       * Change the Scripting Backend to Mono
-       * Change the API Compatibility Level to .NET Standard 2.0
-
-     * These steps are not necessary now to be able to do this lab since the Unity game has been provided for you, but are necessary when developing your own game that uses the .NET SDK. 
-
-Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to send data to your Kinesis Data Firehose stream so that you can store all data in your S3 bucket. 
-
-10. Navigate to the **Scripts** folder in Assets and open up the **KinesisFirehose.cs** script to be edited in Visual Studio or whatever editor you prefer. 
-
-* This is the script that has been created to send game data to your Kinesis Firehose stream. You will need to write some code to make your script function correctly. Let’s walk through this together.
-
-* The first part of this script (lines 19-28) references different namespaces that are needed to help create the functionality that you want to include in your game. This references the plugins from the AWS SDK for .NET that you looked at earlier in the Plugins directory in the Assets folder.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis1.png" /></p> 
-
-* For example, you can see **using Amazon.KinesisFirehose** (line 25) which allows you to use the Amazon Kinesis API. This will allow you to do things like upload a record to a Kinesis stream. 
-
-* Next, you need to declare variables that are necessary to be used in the script. Most of the variables are already defined for you.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis2.png" /></p> 
-
-* The first variable defines the Amazon Kinesis Firehose Client. It is the client that you need to include and intialize so that you can access the Kinesis Firehose service to make API calls. 
-
-11. On line 37, define the **Region** you created your Amazon Kinesis Firehose stream in. This lab is done in US West 2 for example. If you used a different region, make sure to change it here. To find the region code for the region you are using, click here: https://docs.aws.amazon.com/general/latest/gr/rande.html
-
-12. On line 39, define the **name** of your Kinesis Firehose stream. This lab uses _serverless-games-stream_. If your stream has the same name, keep this line as is. If you used a differrent name, make sure to update it here. 
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis3.png" /></p> 
-
-* Lets take a closer look at the other variables that are defined. On line 41, a representation of the game ending script is defined as _gameEnding_ - this script determines if the player wins or loses and resets the game. This is necessary because you want to collect this data to be analyzed and also send logs every time the game resets for the purpose of this lab.
-
-* On line 43, a boolean variable _sent_ is declared to know if the records have been sent to Kinesis once or not to avoid sending multiple copies. This variable essentially checks to make sure the asychronous function you will create to send data to Kinesis is finished running before firing it off again.
-
-* On line 44, a _recordData_ variable is declared that will contain the information to be sent to Kinesis.
-
-* Lines 46-49 define sample data that is collected to be analyzed. The _playerid_ is hardcoded to be 1 for the purpose of this lab. The _timeplayed_ is the time the player has spent playing the game. Then, _losses_ is the amount of times the player has lost while _wins_ is the amount of time the player has won.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis4.png" /></p>
-
-* The _start_ method runs the game on start of the scene. Here, the Kinesis _client_ is initialized, _sent_ is set to false, and _recordData_ is initialized as a new hash table.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis5.png" /></p>
-
-Lets take a look at the _update_ method now. This method checks to see if the player loses or wins. If the player has lost, increment the _losses_ variable by 1. If the player has won, increment the _wins_ variable by 1. The _sent_ variable is set to true since you are firing off an asynchronous method to send data to Kinesis and want to wait for that task to finish before triggering it again. Finally, on line 71 the _WriteRecord()_ method is called. Time to begin writing code!
-
-13. Look for the _WriteRecord()_ method. Right now, it consists of a try-catch block, where you will try to send a record to Kinesis and catch any exceptions that may occur.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis6.png" /></p>
-
-* At the beginning of this method, we have some variables that we define. On line 80, _timeplayed_ is set to be the current time. On lines 82-85, we add the current value of _playerid, timeplayed, losses_, and _wins_ to the _recordData_ hash table/ on line 88, _recordData_ is converted to a byte array because Kinesis Firehose expects a memory stream when you provide it records. 
-
-14. Find where it says to _//Fill in code here!_ on line 91. First, create a **PutRecordRequest** which contains the Kinesis Firehose stream name and the data you want to send to the stream. You can put this code right after the comments, creating a new line on 93. If you need help with writing the code, the final KinesisFirehose.cs script with all the code is in this GitHub repository for you to download and use as a reference. 
-
-        //Create a PutRecordRequest
-        PutRecordRequest putRecordRequest = new PutRecordRequest
-        {
-           DeliveryStreamName = streamName,
-           Record = new Record
-           {
-               Data = new MemoryStream(dataAsBytes)
-            }
-         };
-	  
-	  
-* Here, you are defining the delivery stream name to be the name of your Kinesis stream. You are also defining the record you want to send, which is a memory stream of the player data.
-
-15. Then, you want to put that record into your Kinesis stream using a **PutRecordAsync** request. Make sure this goes after the PutRecordRequest code from above.
-
- 	      // Put record into the DeliveryStream
-              PutRecordResponse response = await client.PutRecordAsync(putRecordRequest);
-
-
-* This will actually send your data blob to Kinesis and return a response if its successful or not. 
+9. Navigate to the **Scripts** folder in Assets and open up the 
 
 16. **Save** your file - you are done! 
 
 17. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
 
-18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your Kinesis stream which will end up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your API Gateway which will trigger the Lambda function to send it to your Kinesis stream so that the data ends up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
 
 19. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
 
@@ -310,14 +243,12 @@ Lets take a look at the _update_ method now. This method checks to see if the pl
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis9.png" /></p>
 
-28. **Delete** this file in S3. For lab purposes, we want a lot more data to work with, so we will use a file generated in an automated way.
-
-Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game using the AWS SDK .NET.
+Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game.
 
 <a id="TaskKinesis"></a>
 [[Top](#Top)]
 
-## Task 5: Populating Data Lake with Amazon Kinesis Data Generator
+## Task 5: Populating data lake with Amazon Kinesis Data Generator
 
 Now you are able to successfully send your own player data to S3 as you play the game. Right now, this is a small amount of data since you are only one player. You want to simulate this on a larger scale with more data so you can see useful visualizations. For the purpose of this lab, you will use the Kinesis Data Generator to simulate data. 
 
@@ -347,16 +278,28 @@ Now you are able to successfully send your own player data to S3 as you play the
  
 ```
 {
-"Time Played":{{random.number(10000)}},
-"Wins":{{random.number(50)}},
-"PlayerID":{{random.number(50)}},
-"Losses":{{random.number(50)}}
+"PlayerID":{{random.number(10000)}},
+"Time Played":{{random.number(100000)}},
+"Wins":{{random.number(5)}},
+"Losses":{{random.number(50)}},
+"CaughtAt":{{random.weightedArrayElement(
+{
+    "weights": [0.2,0.5,0.1,0.05,0.1,0.05],
+    "data": [1,2,3,4,5,6]
+  }
+)}},
+"CaughtBy":{{random.weightedArrayElement(
+{
+    "weights": [0.2,0.45,0.15,0.05,0.1,0.05],
+    "data": [1,2,3,4,5,6]
+  }
+)}}
 }
 ```
 
 This data represents random players playing your game. Your final configurations should look similar to this:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/13.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/KDG.png" /></p> 
 
 9. Hit **Send data**. You should see data starting to send. Let the data generator send a couple thousand records (3000 records for example would be a good stopping point) and then finally hit **Stop sending data to Kinesis**. 
 
@@ -374,7 +317,7 @@ Now you have a lot of sample player data to work with for the rest of the lab.
 <a id="TaskGlue"></a>
 [[Top](#Top)]
 
-## Task 6: Using AWS Glue to Discover Data
+## Task 6: Using AWS Glue to discover data
 
 Now that you have all of the data you want to analyze in your S3 data lake, it is time to discover that data and make it available to be queried. 
 
@@ -418,7 +361,7 @@ Now that you have all of the data you want to analyze in your S3 data lake, it i
 
 * You should see a table if you click into it you will see information about the table and the schema of it like below:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/19.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/glue.png" /></p> 
 
 Congratulations! You have successfully used AWS Glue to create a crawler and populate a Glue Data Catalog to discover the data in your S3 data lake.
 
@@ -426,7 +369,7 @@ Congratulations! You have successfully used AWS Glue to create a crawler and pop
 <a id="TaskAthena"></a>
 [[Top](#Top)]
 
-## Task 7: Querying Data with Amazon Athena
+## Task 7: Querying data with Amazon Athena
 
 Now that you have made your data discoverable, you can query your data for exactly what you want to analyze. 
 
@@ -440,14 +383,16 @@ Now that you have made your data discoverable, you can query your data for exact
 SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time played" > 3600
 ```
 
-* You might need to change where it says _serverless-catalog_ to the name of your own Glue Data Catalog. You also might need to change the table name to match the name of yours, which you can find in the left-hand Database pane. For reference, the table name here is "23" so change this to match your table name. Here we are querying all the data where the players had spent more than 3600 seconds, or 1 hour, playing the game. 
+* You might need to change where it says _serverless-catalog_ to the name of your own Glue Data Catalog. You also might need to change the table name to match the name of yours, which you can find in the left-hand "Database" pane. For reference, the table name here is "23" so change this to match your table name. Here we are querying all the data where the players had spent more than 3600 seconds, or 1 hour, playing the game. 
+
+* You also might need to set up an S3 bucket destination where the output of your queries get saved. If "Run Query" is greyed out, there will be a link at the top of the screen prompting you to specify an S3 destination. You can also edit your S3 destination by clicking "Settings". 
 
 
 * Your final result should look like this:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/20.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/athena.png" /></p> 
 
-* If you are recieving zero results returned from your queries, make sure each file in your S3 bucket is in its own individual folder. Otherwise, if there are multiple files in the same folder when using Glue, Athena will return zero records. Re-structure your S3 bucket and re-run the Glue crawler to fix this issue. This error might occur if you did not delete the file in Task 3, step 28. 
+* If you are recieving zero results returned from your queries, make sure each file in your S3 bucket is in its own individual folder. Otherwise, if there are multiple files in the same folder when using Glue, Athena will return zero records. Re-structure your S3 bucket and re-run the Glue crawler to fix this issue. 
 
 4. After you run the query and the results display on the dashboard, click **Create** and then **Create view from query**. Give it a name. This lab uses _data-view_ as the name. Click **Create**. 
 
@@ -456,7 +401,7 @@ Congratulations! You have finished querying your data using Amazon Athena.
 <a id="TaskQuicksight"></a>
 [[Top](#Top)]
 
-## Task 8: Discovering Insights with Amazon QuickSight
+## Task 8: Discovering insights with Amazon QuickSight
 
 Now that you have queried for a subset of your data, it is time to analyze it using Amazon QuickSight.
 
