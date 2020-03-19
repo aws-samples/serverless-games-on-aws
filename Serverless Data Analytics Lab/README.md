@@ -130,9 +130,45 @@ You are done setting up the prerequisites needed for this lab.
 
 The first step is to configure an Amazon API Gateway and an AWS Lambda function. API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. It will act as the "front door" for your analytics pipeline and provide an extra layer of security for your backend resources so you do not have to bake AWS credentials into a game client, which poses a security risk. Lambda lets you run code in a serverless fashion, so it will act as a backend orchestration service for sending data from your game to your analytics pipeline. 
 
-1. Sign into the **AWS Management Console** and on the Services menu, click **API Gateway**.
+1. Sign into the **AWS Management Console** and on the Services menu, click **Lambda**. Let's configure the Lambda backend first.
 
-2. 
+2. Click **Create function** and select **Author from scratch** which should be chosen by default.
+
+3. Name your function **KinesisProducer** and choose **Python 3.8** as the runtime. Then click **Create function**. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdakinesis.png" /></p> 
+
+4. Create an **environment variable** that will contain your Kinesis Firehose stream name that you will create in the next step. Set the name as **serverless-games-stream**. It is important that you stay consistent with the naming convention. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/environmentvariable.png" /></p> 
+
+Now it is time to set up the API Gateway. In the AWS Management Console, under Services, select **API Gateway**.
+
+In the upper right hand corner, click **Create API**
+
+Choose the **HTTP API** type and click **Build**. This is a more cost effective option to use if you just want to support simple HTTP operations. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/apitype.png" /></p> 
+
+For **Integration type**, add an integration and choose **Lambda**. Select the region you are working in and choose your lambda function. 
+
+Give your API Gateway a name, for example _serverless-games-analytics_.
+
+Your configurations should look like the following:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/apiname.png" /></p> 
+
+Click **Next**.
+
+You need to create a route that will target this Lambda function. You can use _ANY_ as a catch-all. In this example we are just supporting _POST_. Set the **Method** as _POST_ and then click **Next**. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/postt.png" /></p>
+
+On the Define stages page, accept all default configurations and click **Next**. 
+
+Click **Create** and your API Gateway will automatically deploy. 
+
+Congratulations! You set up your API Gateway and your Lambda backend! Now to move onto creating the analytics pipeline.
 
 <a id="TaskS3"></a>
 [[Top](#Top)]
@@ -156,7 +192,7 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 7. In the top right corner, you will see a section for Kinesis Firehose delivery streams. Click **Create delivery stream**.
 
-8. Give your stream a name. This lab will use the name _serverless-games-stream_. 
+8. Give your stream the name _serverless-games-stream_. It is important you use this name because it is what you set as the envirornment variable when you configured the Lambda in the last step. 
 
 9. Under Choose source, keep it the default as _Direct PUT or other sources_.
 
