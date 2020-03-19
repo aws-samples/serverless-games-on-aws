@@ -9,13 +9,14 @@ This lab will guide you through creating a serverless analytics pipeline and int
 ## Agenda 
 
 * [Overview](#Overview)
-* [Task 1: Setting up Prerequisites and Permissions](#Task1)
-* [Task 2: Creating an Amazon S3 Data Lake and Kinesis Firrehose Stream for Data Ingestion](#Task2)
-* [Task 3: Integrating AWS with Unity](#Task3)
-* [Task 4: Populating Data Lake with Amazon Kinesis Data Generator](#Task4)
-* [Task 5: Using AWS Glue to Discover Data](#Task5)
-* [Task 6: Querying Data with Amazon Athena](#Task6)
-* [Task 7: Discovering Insights with Amazon QuickSight](#Task7)
+* [Task 1: Setting up Prerequisites and Permissions](#TaskPre)
+* [Task 2: Setting up Amazon API Gateway and an AWS Lambda Backend](#TaskAPI)
+* [Task 3: Creating an Amazon S3 Data Lake and Kinesis Firehose Stream for Data Ingestion](#TaskS3)
+* [Task 4: Integrating AWS with Unity](#TaskUnity)
+* [Task 5: Populating Data Lake with Amazon Kinesis Data Generator](#TaskKinesis)
+* [Task 6: Using AWS Glue to Discover Data](#TaskGlue)
+* [Task 7: Querying Data with Amazon Athena](#TaskAthena)
+* [Task 8: Discovering Insights with Amazon QuickSight](#TaskQuicksight)
 * [Clean Up](#cleanup)
 * [Appendix - Additional Reading](#additionalreading)
 
@@ -62,7 +63,7 @@ Unity is a cross-platform game engine developed by Unity Technologies that is us
 
 This lab will focus specifically on building out a serverless analytics pipeline and integrating it into a Unity game. You will first create an S3 data lake and integrate that into a Unity game using the AWS SDK .NET. You will populate the data lake with Kinesis, discover the data using Glue, practice querying the data with Athena, and then create visualizations from the data with QuickSight. 
  
- <a id="Task1"></a>
+ <a id="TaskPre"></a>
 [[Top](#Top)]
 
 ## Task 1: Setting up Prerequisites and Permissions
@@ -120,10 +121,15 @@ Now that you have created a user, you can install the AWS CLI. You are doing thi
 You are done setting up the prerequisites needed for this lab.
 
  
-<a id="Task2"></a>
+<a id="TaskAPI"></a>
 [[Top](#Top)]
 
-## Task 2: Creating an Amazon S3 Data Lake and Kinesis Firehose Stream for Data Ingestion 
+## Task 2: Setting up Amazon API Gateway and an AWS Lambda Backend
+
+<a id="TaskS3"></a>
+[[Top](#Top)]
+
+## Task 3: Creating an Amazon S3 Data Lake and Kinesis Firehose Stream for Data Ingestion 
 
 The first step is to set up your data storage and your ingestion mechanism. For your data storage, you are going to use Amazon S3, which will act as your centralized data lake for all your game data. 
 
@@ -164,10 +170,10 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 17. You should be redirected back to the tab where you are configuring your Kinesis Firehose stream. Review your configuration settings and finally select **Create delivery stream**. You should now see your newly created stream on the Kinesis Firehose dashboard. It will take a minute or two to create, but once it says the status is active you can click into it to find details. 
 
-<a id="Task3"></a>
+<a id="TaskUnity"></a>
 [[Top](#Top)]
 
-## Task 3: Integrating AWS with Unity
+## Task 4: Integrating AWS with Unity
 
 Now that you have your data storage and ingestion mechanism, it is time to create a sample project in Unity that you will begin integrating your analytics pipeline with. 
 
@@ -307,10 +313,10 @@ Lets take a look at the _update_ method now. This method checks to see if the pl
 
 Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game using the AWS SDK .NET.
 
-<a id="Task4"></a>
+<a id="TaskKinesis"></a>
 [[Top](#Top)]
 
-## Task 4: Populating Data Lake with Amazon Kinesis Data Generator
+## Task 5: Populating Data Lake with Amazon Kinesis Data Generator
 
 Now you are able to successfully send your own player data to S3 as you play the game. Right now, this is a small amount of data since you are only one player. You want to simulate this on a larger scale with more data so you can see useful visualizations. For the purpose of this lab, you will use the Kinesis Data Generator to simulate data. 
 
@@ -364,10 +370,10 @@ This data represents random players playing your game. Your final configurations
 Now you have a lot of sample player data to work with for the rest of the lab. 
 
 
-<a id="Task5"></a>
+<a id="TaskGlue"></a>
 [[Top](#Top)]
 
-## Task 5: Using AWS Glue to Discover Data
+## Task 6: Using AWS Glue to Discover Data
 
 Now that you have all of the data you want to analyze in your S3 data lake, it is time to discover that data and make it available to be queried. 
 
@@ -416,10 +422,10 @@ Now that you have all of the data you want to analyze in your S3 data lake, it i
 Congratulations! You have successfully used AWS Glue to create a crawler and populate a Glue Data Catalog to discover the data in your S3 data lake.
 
 
-<a id="Task6"></a>
+<a id="TaskAthena"></a>
 [[Top](#Top)]
 
-## Task 6: Querying Data with Amazon Athena
+## Task 7: Querying Data with Amazon Athena
 
 Now that you have made your data discoverable, you can query your data for exactly what you want to analyze. 
 
@@ -446,10 +452,10 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time pl
 
 Congratulations! You have finished querying your data using Amazon Athena. 
 
-<a id="Task7"></a>
+<a id="TaskQuicksight"></a>
 [[Top](#Top)]
 
-## Task 7: Discovering Insights with Amazon QuickSight
+## Task 8: Discovering Insights with Amazon QuickSight
 
 Now that you have queried for a subset of your data, it is time to analyze it using Amazon QuickSight.
 
