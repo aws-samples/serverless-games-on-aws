@@ -301,7 +301,7 @@ This data represents random players playing your game. For the _CaughtAt_ variab
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/KDG.png" /></p> 
 
-9. Hit **Send data**. You should see data starting to send. Let the data generator send a couple thousand records (3000 records for example would be a good stopping point) and then finally hit **Stop sending data to Kinesis**. 
+9. Hit **Send data**. You should see data starting to send. Let the data generator send a couple thousand records (3000 records for example would be a good stopping point) and then finally hit **Stop sending data to Kinesis**. **Leave this tab open because you will need to send more data later.**
 
 10. Go back to the AWS Management Console tab with your Kinesis Firehose delivery stream open. Click into the stream to view the stream details if you are not viewing them already.
 
@@ -479,9 +479,9 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 27. Now, let's visualize this. Select the **+ ADD** button on the top left to add a new visualization.
 
-25. Leave the visual type as **AutoGraph** and simply select the new **WinLoss** variable. Click the drop down next to the **WinLoss** variable and show the number as a **Percent**.
+28. Leave the visual type as **AutoGraph** and simply select the new **WinLoss** variable. Click the drop down next to the **WinLoss** variable and show the number as a **Percent**.
 
-26. Your graph should look similar to this: 
+29. Your graph should look similar to this: 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/WLP.png" /></p> 
 
@@ -492,17 +492,142 @@ Congratulations! You created batch visualizations in QuickSight. You can explore
 [[Top](#Top)]
 ## Task 9: Setting up a near real-time pipeline with Amazon Kinesis Analytics, AWS Lambda, and Amazon CloudWatch
 
+Now that the batch analytics portion is set up, let's move onto configuring the real-time portion of our pipeline so we can see data populating on a graph as it comes in. First, let's configure a Kinesis Analytics stream.
+
+1. First, we need to start sending streaming data again. Go back to the **Kinesis Data Generator** and hit **Send data**. Keep data sending this time since we want to look at data as it comes in, do not stop the Kinesis Data Generator. 
+
+2. Go to the AWS Management Console, select Services, and then choose **Kinesis**.
+
+2. Under _Kinesis analytics applications_, choose **Create analytics application**.
+
+3. Choose an **application name**, for example _serverless-analytics-stream_, and leave the **runtime** as SQL which should be selected by default.
+
+4. Click **Create**.
+
+5. We need to connect streaming data as a source. The source will be our Kinesis Data Firehose stream we configured in Task 3. We are sending data from the Kinesis Firehose stream directly to S3 to save our data for historical purposes and now we are also going to send it to a Kinesis Analytics application to run SQL queries on that data in real time. 
+
+6. Click **Connect streaming data** and choose **Kinesis Firehose delivery stream** to add Kinesis Firehose as our streaming source. Choose the delivery stream you created in Task 3. 
+
+7. Scroll down and click **Discover schema** to discover the schema of your data in your stream. It should look similar to below:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/schema.png" /></p> 
+
+* If you are unable to discover the schema, it is probably because you are not sending data with the Kinesis Data Generator. 
+
+8. Click **Save and continue**
+
+9. Now, configure your real time analytics by clicking **Go to SQL editor**. If you are asked if you would like to start running your application, choose **Yes, start application**.
+
+10. In the SQL editor, paste the following SQL query:
+
+```
+-- ** Continuous Filter ** 
+CREATE OR REPLACE STREAM "data_stream" ("PlayerID" INTEGER, "Wins" INTEGER, "Losses" INTEGER, "COL_TimePlayed" INTEGER, "CaughtAt" INTEGER, "CaughtBy" INTEGER);
+CREATE OR REPLACE PUMP "STREAM_PUMP" AS INSERT INTO "data_stream"
+SELECT STREAM "PlayerID", "Wins", "Losses", "COL_TimePlayed", "CaughtAt", "CaughtBy"
+FROM "SOURCE_SQL_STREAM_001"
+WHERE "Losses" > 10;
+```
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/stream.png" /></p> 
+
+* This is a continous filter query that will filter the data in the stream. This query creates an output stream, which can be used to send to a destination. It creates a pump to insert data into the output stream, it selects all columns from the source stream that we want to filter through, and then it filters based on a _WHERE_ clause. In this case, the SQL query filters data where losses are greater than 10.
+
+* For more information on how to create SQL queries for Kinesis Data Analytics, check out the SQL reference guide here:
+https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/analytics-sql-reference.html
+
+* You should be able to see results coming in real-time as shown below. If you look at tthe _Losses_ column, none of the losses are less than 10 due to the continuous filter SQL query. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/results.png" /></p> 
+
+11. The last step for setting up the Kinesis Data Analytics stream is configuring a destination for the stream. The destination will be a Lambda function that will be configured next. 
+
+12. Open a new AWS tab. It is time to configure a Lambda function that will consume data from the Kinesis Data Analytics stream and execute code to turn the data into a custom metric that will be published to a CloudWatch dashboard. In the AWS Management Console, select **Lambda**.
+
+13. Click **Create function**.
+
+14. Choose **Author from scratch**, which should be selected by default.
+
+15. Give your function a name, for example _custom-cloudwatch-metrics_ and set the Runtime as **Python 3.8** 
+
+16. Click **Create function** 
+
+17. In this GitHub repository, you will see a file called _lambda_function.py_. Copy and paste the code in that file to the body of your Lambda function, which should look similar to below:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambda.png" /></p> 
+
+* This code will take the filtered data sent from the Kinesis Data Analytics stream and send it to a CloudWatch dashboard as custom metrics. It does this using the CloudWatch Boto 3 SDK for Python. 
+
+18. The last step to configure Lambda is making sure it has the appropriate permissions to publish metrics to CloudWatch. Scroll down to **Execution role** and click **View the custom-cloudwatch-metrics-role** as highlighted below. This will take you to the IAM management console where you can edit role permissions. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdaiam2.png" /></p> 
+
+19. In the IAM management console, select **Attach permissions**. Select the **CloudWatchFullAccess** policy and select **Attach policy**
+
+20. Go back to your Lambda function and **Edit basic settings** to increase the timeout to 3 minutes.  
+
+21. Finally, **Save** the Lambda function. 
+
+22. Now go back to the open tab with your Kinesis Data Analytics stream to connect to a destination. Choose **Connect to a destination** and choose the destination to be an **AWS Lambda function**. 
+
+23. Select the Lambda function you just created
+
+24. For **In-application stream**, select **Choose an existing in-application stream** and choose data_stream, which is a stream that is created in the continous filter SQL query.
+
+25. Leave the rest of the configurations as default and click **Save and continue**. It might take a couple minutes to save and connect your Lambda function as the destination to the stream. Your final Kinesis Data Analytics stream configurations should look like this:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesisanalytics.png" /></p> 
+
+* Check to make sure data is still being generated by the Kinesis Data Generator and is still being filtered with the Kinesis Data Analytics application.
+
+26. Now it is time to configure a real-time CloudWatch dashboard! In the AWS Management Console, under Services choose **CloudWatch**. 
+
+27. On the left-hand navigation pane, select **Dashboards** and click **Create dashboard**. 
+
+28. Give your dashboard a name, for example _serverless-analytics_ and click **Create dashboard**.
+
+29. Add a **Stacked area** widget and click **Configure**. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/widget.png" /></p> 
+
+30. You should see a **Custom Namespace** called **serverless-analytics-demo**. Click that custom namespace, and you should see **6 Metrics with no dimensions**. Click into that and you should see familiar metrics, like _caughtAt_, _caughtBy_, and more. 
+
+31. Select both the **wins** and **losses** metrics to be plotted on this graph. At the top right, select the time interval to be a **Custom 1 minute** interval and on the refresh button drop down choose **Auto refresh every 10 Seconds**. 
+
+Your configurations should look like the following:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/widgetconfig.png" /></p> 
+
+32. You can also edit the widget to change the time period of each data point for Wins and Losses to be 1 second if you want. 
+
+33. Save your dashboard. 
+
+34. Turn on live data by clicking **Actions**, then **Live data**, and turn it **On** like below:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/livedata.png" /></p> 
+
+Finally, you should be able to see a graph similar to below that populates data in real time!
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/dashboard.png" /></p> 
+
+* This graph shows live data coming in of your players wins and losses while they play your game! Try seeing what other dashboard widgets you can create. You can come up with a live dashboard similar to the one below:
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/gdc.png" /></p> 
+
+* This is a sample dashboard that shows live data for wins and losses over time, the amount of time played, and p90 wins and losses. 
+
+Congratulations! You created real-time visualizations in CloudWatch using Kinesis Data Analytics and Lambda. 
 
 <a id="cleanup"></a>
 [[Top](#Top)]
 
 ## Clean Up 
 
-Now that you have successfully created a serverless analytics pipeline and integrated it with a Unity game, you can clean up your environment by spinning down AWS resources. This helps to ensure you are not charged for any resources that you may accidentally leave running.
+Now that you have successfully created a batch and near real-time serverless analytics pipeline and integrated it with a Unity game, you can clean up your environment by spinning down AWS resources. This helps to ensure you are not charged for any resources that you may accidentally leave running.
 
 * Go to the AWS Management Console, select Services, and click **S3**. Find the S3 bucket that is your data lake, click on it, and you should see a **Delete** button.
 
-* Go to the AWS Management Console, select Services, and click **Kinesis**. Find the Kinesis Firehose Delivery Stream you created and click it to view details about it. On the top right, you should see a button to **Delete delivery stream**.
+* Go to the AWS Management Console, select Services, and click **Kinesis**. Find the Kinesis Firehose Delivery Stream you created and click it to view details about it. On the top right, you should see a button to **Delete delivery stream**. Do this for your Kinesis Data Analytics stream too. 
 
 * Go to the AWS Management Console, select Services, and click **CloudFormation**. Find the stack you spun up to configure the Kinesis Data Generator, click it and there is a **Delete** button at the top. This will delete the CloudFormation stack and any resources it has spun up.
 
@@ -514,6 +639,11 @@ Now that you have successfully created a serverless analytics pipeline and integ
 
 * In the AWS Management Console, go to **QuickSight** dashboard. On your analysis that you created, click the three little dots to the right and delete your analysis. 
 
+* Go to your **CloudWatch** dashboard. On the widget you created, click settings and choose **Delete**. 
+
+* Go to the **Lambda** management console. Click the Lambda functions you created. Click the **Actions** drop down and then **Delete** the functions. 
+
+* Go to the **API Gateway** management console. Click the API Gateway you created. Click the **Actions** drop down and then **Delete** the API Gateway. 
 
 <a id="additionalreading"></a>
 [[Top](#Top)]
