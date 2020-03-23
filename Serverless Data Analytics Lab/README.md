@@ -130,43 +130,102 @@ You are done setting up the prerequisites needed for this lab.
 
 The first step is to configure an Amazon API Gateway and an AWS Lambda function. API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. It will act as the "front door" for your analytics pipeline and provide an extra layer of security for your backend resources so you do not have to bake AWS credentials into a game client, which poses a security risk. Lambda lets you run code in a serverless fashion, so it will act as a backend orchestration service for sending data from your game to your analytics pipeline. 
 
-1. Sign into the **AWS Management Console** and on the Services menu, click **Lambda**. Let's configure the Lambda backend first.
+1. Sign into the **AWS Management Console** and on the Services menu, click **IAM**. We need to configure an Identity and Access Management role first to define appropriate permissions. 
 
-2. Click **Create function** and select **Author from scratch** which should be chosen by default.
+2. On the left-hand navigation pane, click **Roles**. 
 
-3. Name your function **KinesisProducer** and choose **Python 3.8** as the runtime. Then click **Create function**. 
+3. Click **Create role**.
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdakinesis.png" /></p> 
+4. For _Select type of trusted identitty_, under AWS Service, choose **Lambda**.
 
-4. Create an **environment variable** that will contain your Kinesis Firehose stream name that you will create in the next step. Set the name as **serverless-games-stream**. It is important that you stay consistent with the naming convention. 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/trusted.png" /></p> 
+
+5. Click **Next: Permissions**.
+
+6. In the box where you can filter permissions policies, type in **KinesisFirehose** and select the box next to **AmazonKinesisFirehoseFullAccess**.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/iamkinesis.png" /></p> 
+
+7. Then click **Next: Tags** and **Next: Review**. 
+
+8. Give the role a recognizable name, this lab uses **KinesisProducerLambdaRole** for example. You can also optionally provide a description.
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/iamcreaterole.png" /></p> 
+
+9. Finally, click **Create role**. 
+
+10. Now, let's create the Lambda backend. In the Management Console, select **Lambda**.
+
+11. Click **Create function** and select **Author from scratch** which should be chosen by default.
+
+12. Name your function **KinesisProducer** and choose **Python 3.8** as the runtime. Then click **Create function**. 
+
+13. Under permissions, select **Choose or create an execution role** 
+
+14. Select **Use an existing role** and pick the one you just created. 
+
+15. Finally, click **Create Function**. 
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdaconfig.png" /></p> 
+
+16. Create an **environment variable** that will contain your Kinesis Firehose stream name that you will create in the next step. Set the key as **deliveryStreamName** and the value as **serverless-games-stream**. It is important that you stay consistent with the naming convention. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/environmentvariable.png" /></p> 
 
-Now it is time to set up the API Gateway. In the AWS Management Console, under Services, select **API Gateway**.
+17. Copy and paste the following code into the body of the Lambda function (can also be found in the GitHub repository named **Kinesis_Lambda.py**):
 
-In the upper right hand corner, click **Create API**
+```
+import json, os, boto3
 
-Choose the **HTTP API** type and click **Build**. This is a more cost effective option to use if you just want to support simple HTTP operations. 
+def lambda_handler(event, context):
+    
+    #get delivery stream name from environment variable
+    deliveryStreamName = os.environ['deliveryStreamName']
+    
+    #create delivery stream client
+    client = boto3.client('firehose')
+    
+    #encode the json string as Kinesis expects bytes
+    data = event['body'].encode()
+    
+    #put record to delivery stream
+    response = client.put_record(
+        DeliveryStreamName = deliveryStreamName,
+        Record={
+        'Data': data
+        }
+    )
+    
+    return response
+```
+
+* This code imports Boto 3 which is the AWS SDK for Python. Using the SDK for Kinesis, it initializes a Kinesis Firehose delivery stream client. It then uses a function to encode the JSON payload that is emitted from the game as bytes, which is the data type that Kinesis expects. Finally, it creates a _put_record_ request that specifies the Kinesis delivery stream name and the data to be sent to that Kinesis delivery stream.
+
+18. Click **Save** to save your Lambda function. 
+
+19. Now it is time to set up the API Gateway. In the AWS Management Console, under Services, select **API Gateway**.
+
+20. In the upper right hand corner, click **Create API**
+
+21. Choose the **HTTP API** type and click **Build**. This is a more cost effective option to use if you just want to support simple HTTP operations. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/apitype.png" /></p> 
 
-For **Integration type**, add an integration and choose **Lambda**. Select the region you are working in and choose your lambda function. 
+22. For **Integration type**, add an integration and choose **Lambda**. Select the region you are working in and choose your lambda function. 
 
-Give your API Gateway a name, for example _serverless-games-analytics_.
-
-Your configurations should look like the following:
+23. Give your API Gateway a name, for example _serverless-games-analytics_. Your configurations should look like the following:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/apiname.png" /></p> 
 
-Click **Next**.
+24. Click **Next**.
 
-You need to create a route that will target this Lambda function. You can use _ANY_ as a catch-all. In this example we are just supporting _POST_. Set the **Method** as _POST_ and then click **Next**. 
+25. You need to create a route that will target this Lambda function. You can use _ANY_ as a catch-all. In this example we are just supporting _POST_. Set the **Method** as _POST_ and then click **Next**. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/postt.png" /></p>
 
-On the Define stages page, accept all default configurations and click **Next**. 
+26. On the Define stages page, accept all default configurations and click **Next**. 
 
-Click **Create** and your API Gateway will automatically deploy. 
+27. Click **Create** and your API Gateway will automatically deploy. 
 
 Congratulations! You set up your API Gateway and your Lambda backend! Now to move onto creating the analytics pipeline.
 
