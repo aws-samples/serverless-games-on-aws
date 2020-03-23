@@ -314,27 +314,60 @@ Now that you have your API Gateway set up, your data storage in place, and your 
     
 Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to post data to API Gateway, which will trigger the Lambda function to send the data to your Kinesis stream to store it in your S3 data lake. 
 
-   * **Note:** There are multiple ways that you can incorporate the use of AWS into your game depending on your use case. The AWS SDK for .NET is a valid option for doing so. If you go this route, it is recommended that you use this SDK instead of using the AWS Mobile SDKs for iOS, Android, and Unity because these are currently outdated. Instead, use the main AWS SDK for the language that you are programming your game in. Since Unity uses C#, you can use the AWS SDK for .NET which supports C#. However, making SDK calls in a game client itself requires credentials in the game client which is a security risk. This is why API Gateway and Lambda are used to make SDK calls to send data to Kinesis instead of making the SDK calls directly from the game client. It adds an additional layer of security, but also adds an additional cost. It is recommended to use API Gateway as a security best practice. 
+   * **Note:** There are a couple different ways to integrate AWS into your game depending on your use case. When doing this, we recommend minimizing the number of AWS resources accessed directly from your game client. It introduces a security risk when you expose a lot of API calls from your client and it also makes your implementation brittle, forcing you to create client updates every time you need to make a change. 
+   
+   * It is recommended to use a “front door” to your AWS resources, like Amazon API Gateway for example. You can making authenticated calls to send and retrieve data from API Gateway. You can authenticate calls using Lambda authorizers or Cognito authorizers and make SDK calls from a backend, which could be a server, a Lambda function, or even containers. For example, you can emit game events with a POST to your API Gateway from a game client. This provides an extra layer of security, but also is an additional cost. 
+   
+   * To read more integrating AWS into a game, check out this blog post: https://aws.amazon.com/blogs/gametech/game-developers-guide-to-the-aws-sdk/
+   
+9. In the object heirarchy, you will see an Analytics parent object which has a PutData child object. 
 
-9. Navigate to the **Scripts** folder in Assets and open up the 
+10. Navigate to the **Scripts** folder in Assets and open up the **PutData.cs** script. This script is attached to the PutDatta child object. Explore this script. 
 
-16. **Save** your file - you are done! 
+* This is the file that gathers game data when a player successfully escapes or dies from the haunted mansion, and makes a POST to API Gateway to send that data to the analytics pipeline. This is the code in the script that makes the POST request to API Gateway using Unity's built-in _UnityWebRequest_ which handles the flow of HTTP communication. There are no external modules required! 
 
-17. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
+* **Note:** The WWWForm api is eventually planned for deprecation, those looking to future proof will want to use List<IMultipartFormSection>. 
 
-18. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your API Gateway which will trigger the Lambda function to send it to your Kinesis stream so that the data ends up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+```
+    IEnumerator Post(string url, string jsonData)
+    {
+        UnityWebRequest uwr = UnityWebRequest.Post(url, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+        yield return uwr.SendWebRequest();
 
-19. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
+        if (uwr.isNetworkError)
+        {
+            Debug.Log("Error While Sending: " + uwr.error);
+        }
+        else
+        {
+            Debug.Log("Received: " + uwr.downloadHandler.text);
+        }
+    }
+```
 
-20. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
+* The data that is being emitted from the game is a JSON payload that contains the player ID, time played, wins, and losses. This is gathered in the **DataPoint** class. 
+
+11. Close the script. 
+
+12. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
+
+13. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your API Gateway with a POST which will trigger the Lambda function to send it to your Kinesis stream so that the data ends up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+
+14. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
+
+15. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis7.png" /></p>
 
-28. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. If you drill down into the folders, you should see data in there that looks similar to this:
+16. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. If you drill down into the folders, you should see data in there that looks similar to this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis8.png" /></p>
 
-27. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
+17. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis9.png" /></p>
 
