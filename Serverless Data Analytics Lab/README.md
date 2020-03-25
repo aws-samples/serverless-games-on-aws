@@ -656,7 +656,7 @@ Now that the batch analytics portion is set up, let's move onto configuring the 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/schema.png" /></p> 
 
-* If you are unable to discover the schema, it is probably because you are not sending data with the Kinesis Data Generator. 
+* If you are unable to discover the schema, it is probably because you are not sending data with the Kinesis Data Generator. If you are sending data with the Kinesis Data Generator, you might need to log out and log back in because the session might have timed out.
 
 8. Click **Save and continue**
 
