@@ -527,7 +527,7 @@ Now that you have made your data discoverable, you can query your data for exact
 3. Create a new **query** in the middle pane of the Athena Dashboard. Here you can write standard SQL to run queries against your Glue Data Catalog. Run the following query:
 
 ```
-SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."time played" > 3600
+SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."timeplayed" > 3600
 ```
 
 * You might need to change where it says _serverless-catalog_ to the name of your own Glue Data Catalog. You also might need to change the table name to match the name of yours, which you can find in the left-hand "Database" pane. For reference, the table name here is "23" so change this to match your table name. Here we are querying all the data where the players had spent more than 3600 seconds, or 1 hour, playing the game. 
