@@ -335,7 +335,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 10. Navigate to the **Scripts** folder in Assets and open up the **PutData.cs** script. This script is attached to the PutData child object. Explore this script. 
 
-11. There is one edit you need to make in the code. On line 50, you should see a variable called **API**. Paste the API Gateway endpoint you noted down earlier between the quotes here. Make sure it has the **/KinesisProducer** path at the end. 
+11. There is one edit you need to make in the code. On line 56, you should see a variable called **API**. Paste the API Gateway endpoint you noted down earlier between the quotes here. Make sure it has the **/KinesisProducer** path at the end. 
 
 ``
 private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint here 
