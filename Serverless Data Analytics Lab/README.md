@@ -335,7 +335,7 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 10. Navigate to the **Scripts** folder in Assets and open up the **PutData.cs** script. This script is attached to the PutData child object. Explore this script. 
 
-11. There is one edit you need to make in the code. On line 50, you should see a variable called **API**. Paste the API Gateway endpoint you noted down earlier between the quotes here.
+11. There is one edit you need to make in the code. On line 50, you should see a variable called **API**. Paste the API Gateway endpoint you noted down earlier between the quotes here. Make sure it has the **/KinesisProducer** path at the end. 
 
 ``
 private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint here 
@@ -373,6 +373,8 @@ private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint her
 13. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
 
 14. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your API Gateway with a POST which will trigger the Lambda function to send it to your Kinesis stream so that the data ends up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+
+* If you are getting an error, or a **Not Found** message, double check your API URL is correct and has the /KinesisProducer path at the end. (or the corresponding name of the Lambda function you created). 
 
 15. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
 
