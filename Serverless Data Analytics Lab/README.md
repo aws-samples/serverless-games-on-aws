@@ -18,8 +18,8 @@ This lab will guide you through creating a serverless analytics pipeline and int
 * [Task 7: Querying data with Amazon Athena](#TaskAthena)
 * [Task 8: Discovering batch insights with Amazon QuickSight](#TaskQuicksight)
 * [Task 9: Setting up a near real-time pipeline with Amazon Kinesis Analytics, AWS Lambda, and Amazon CloudWatch](#TaskRealTime)
-* [Clean Up](#cleanup)
-* [Appendix - Additional Reading](#additionalreading)
+* [Clean up](#cleanup)
+* [Appendix - additional reading](#additionalreading)
 
 
 <a id="Overview"></a>
@@ -29,7 +29,7 @@ This lab will guide you through creating a serverless analytics pipeline and int
 
 ### Why use analytics in my game?
 
-Using analytics is very important to improve your game and keep players around. Incorporating an analytics pipeline to your game can help you create more engaging games by doing data driven game development. You can learn how to optimize the game play experience so you can attract more players and increase player engagement. It can help with anomaly detection by identifying abusers, cheaters, and player churn. It can also help you improve your game infrastructure by better understanding peak usage times so you know when to scale. Finally, data analytics can help with revenue generation by encouraging purchases, targeted ads, and content recommendations. 
+Using analytics is very important to improve your game and keep players around. Incorporating an analytics pipeline to your game can help you create more engaging games by doing data driven game development. You can learn how to optimize the game play experience so you can attract more players and increase player engagement. It can help with anomaly detection by identifying abusers, cheaters, and player churn. It can also help you improve your game infrastructure by better understanding peak usage times so you know when to scale. Finally, data analytics can help with revenue generation by encouraging purchases, targeted ads, and content recommendations. There are many use cases for analytics in games, and if you would like to learn more check out the [Why Analytics For Games AWS Training Course](https://www.aws.training/Details/eLearning?id=42751)
 
 
 ### Serverless analytics pipeline on AWS
@@ -529,7 +529,7 @@ Congratulations! You have finished querying your data using Amazon Athena.
 <a id="TaskQuicksight"></a>
 [[Top](#Top)]
 
-## Task 8: Discovering insights with Amazon QuickSight
+## Task 8: Discovering batch insights with Amazon QuickSight
 
 Now that you have queried for a subset of your data, it is time to analyze it using Amazon QuickSight.
 
@@ -749,7 +749,7 @@ Congratulations! You created real-time visualizations in CloudWatch using Kinesi
 <a id="cleanup"></a>
 [[Top](#Top)]
 
-## Clean Up 
+## Clean up 
 
 Now that you have successfully created a batch and near real-time serverless analytics pipeline and integrated it with a Unity game, you can clean up your environment by spinning down AWS resources. This helps to ensure you are not charged for any resources that you may accidentally leave running.
 
@@ -776,7 +776,7 @@ Now that you have successfully created a batch and near real-time serverless ana
 <a id="additionalreading"></a>
 [[Top](#Top)]
 
-## Appendix - Additional Reading
+## Appendix - additional reading
 
 Building Big Data Storage Solutions (Data Lakes) for Maximum Flexibility
 https://docs.aws.amazon.com/whitepapers/latest/building-data-lakes/building-data-lake-aws.html
