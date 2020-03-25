@@ -325,9 +325,15 @@ Now that you have your Unity sample game open and you have explored around a bit
    
 9. In the object heirarchy, you will see an Analytics parent object which has a PutData child object. 
 
-10. Navigate to the **Scripts** folder in Assets and open up the **PutData.cs** script. This script is attached to the PutDatta child object. Explore this script. 
+10. Navigate to the **Scripts** folder in Assets and open up the **PutData.cs** script. This script is attached to the PutData child object. Explore this script. 
 
-* This is the file that gathers game data when a player successfully escapes or dies from the haunted mansion, and makes a POST to API Gateway to send that data to the analytics pipeline. This is the code in the script that makes the POST request to API Gateway using Unity's built-in _UnityWebRequest_ which handles the flow of HTTP communication. There are no external modules required! 
+11. There is one edit you need to make in the code. On line 50, you should see a variable called **API**. Paste the API Gateway endpoint you noted down earlier between the quotes here.
+
+``
+private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint here 
+``
+
+* Take a look at the other code in this file. This file gathers game data when a player successfully escapes or dies from the haunted mansion, and makes a POST to API Gateway to send that data to the analytics pipeline. This is the code in the script that makes the POST request to API Gateway using Unity's built-in _UnityWebRequest_ which handles the flow of HTTP communication. There are no external modules required! 
 
 * **Note:** The WWWForm api is eventually planned for deprecation, those looking to future proof will want to use List<IMultipartFormSection>. 
 
@@ -354,23 +360,23 @@ Now that you have your Unity sample game open and you have explored around a bit
 
 * The data that is being emitted from the game is a JSON payload that contains the player ID, time played, wins, and losses. This is gathered in the **DataPoint** class. 
 
-11. Close the script. 
+12. Save and close the script. 
 
-12. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
+13. **MainScene** should already be open, but if it's not, go to Assets > Scenes > and open MainScene. It is time to begin playing the game to test it out.
 
-13. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your API Gateway with a POST which will trigger the Lambda function to send it to your Kinesis stream so that the data ends up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
+14. Hit **play**. The goal is to avoid enemies and escape from the haunted house. Play around a bit - lose a couple times and try to win if you want. This will send some sample data to your API Gateway with a POST which will trigger the Lambda function to send it to your Kinesis stream so that the data ends up in your S3 bucket. Don't worry about trying to send a lot of data now, you will ingest a lot of sample data to your bucket in the next step. 
 
-14. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
+15. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
 
-15. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
+16. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis7.png" /></p>
 
-16. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. If you drill down into the folders, you should see data in there that looks similar to this:
+17. In the **AWS Management Console**, go to **S3** and find the S3 bucket you created earlier in this lab. Look at the contents of this S3 bucket. If you drill down into the folders, you should see data in there that looks similar to this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis8.png" /></p>
 
-17. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
+18. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis9.png" /></p>
 
