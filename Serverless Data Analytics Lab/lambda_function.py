@@ -7,27 +7,20 @@ cloudwatch = boto3.client('cloudwatch')
 
 def lambda_handler(event, context):
     
-    output = []
-    success = 0
-    failure = 0
-    
     for record in event['records']:
 
-        print(record)
         bytesArray = base64.b64decode(record['data'])
         my_json = bytesArray.decode('utf8').replace("'", '"')
         data = json.loads(my_json)
         payload = json.dumps(data)
-        print(payload)
-        playerID = data["PlayerID"]
+
+        playerID = data["playerID"]
         wins = data["Wins"]
         losses = data["Losses"]
-        timeplayed = data["COL_TimePlayed"]
+        timeplayed = data["TimePlayed"]
         caughtat = data["CaughtAt"]
-        
         caughtby = data["CaughtBy"]
-        print(playerID)
-        print(wins)
+
         response = cloudwatch.put_metric_data(
         MetricData = [
             {
@@ -70,11 +63,5 @@ def lambda_handler(event, context):
         ],
         Namespace='serverless-analytics-demo'
         )
-        print(response)
-        output.append({'recordId': record['recordId'], 'result': 'Ok'})
-        success += 1
-
-    print('Successfully delivered {0} records, failed to deliver {1} records'.format(success, failure))
-    return {'records': output}
-
-
+        
+      
