@@ -203,7 +203,7 @@ def lambda_handler(event, context):
 
 18. Click **Save** to save your Lambda function. 
 
-19. Now it is time to set up the API Gateway. In the AWS Management Console, under Services, select **API Gateway**.
+19. Now it is time to set up the API Gateway. In the AWS Management Console, under Services, select **API Gateway** or use this [quick link](https://console.aws.amazon.com/apigateway/).
 
 20. In the upper right hand corner, click **Create API**
 
