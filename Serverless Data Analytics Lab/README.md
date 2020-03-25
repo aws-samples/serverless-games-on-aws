@@ -225,7 +225,9 @@ def lambda_handler(event, context):
 
 26. On the Define stages page, accept all default configurations and click **Next**. 
 
-27. Click **Create** and your API Gateway will automatically deploy. 
+27. Click **Create** and your API Gateway should automatically deploy.
+
+28. There is one last thing you need to do - note down the **Invoke URL**. You can find this URL in the details by clicking on the name of your newly deployed API Gateway. You will need this endpoint to POST data from your Unity game so copy and paste it in a notepad or editor for later. 
 
 Congratulations! You set up your API Gateway and your Lambda backend! Now to move onto creating the analytics pipeline.
 
