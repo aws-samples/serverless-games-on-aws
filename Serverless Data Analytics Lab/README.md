@@ -232,7 +232,7 @@ def lambda_handler(event, context):
 29. The final API endpoint URL you should take note of looks similar to below:
 
 ```
-https://XXXXXXXXXX.execute-api.us-west-2.amazonaws.com/KinesisProducer
+https://XXXXXXXXXX.execute-api.REGION.amazonaws.com/KinesisProducer
 ```
 
 Congratulations! You set up your API Gateway and your Lambda backend! Now to move onto creating the analytics pipeline.
