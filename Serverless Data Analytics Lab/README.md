@@ -254,7 +254,9 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 7. In the top right corner, you will see a section for Kinesis Firehose delivery streams. Click **Create delivery stream**.
 
-8. Give your stream the name _serverless-games-stream_. It is important you use this name because it is what you set as the envirornment variable when you configured the Lambda in the last step. 
+8. Give your stream the name _serverless-games-stream_. It is important you use this name because it is what you set as the environment variable when you configured the Lambda in the last step. 
+
+* In a production environment, you can optionally choose to enable **Server-side encryption for source records in the delivery stream** which is a security best practice, however for the simplicity of this lab we will **NOT** enable encryption. 
 
 9. Under Choose source, keep it the default as _Direct PUT or other sources_.
 
