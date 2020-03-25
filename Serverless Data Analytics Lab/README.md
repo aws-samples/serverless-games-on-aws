@@ -550,7 +550,7 @@ Congratulations! You have finished querying your data using Amazon Athena.
 
 Now that you have queried for a subset of your data, it is time to analyze it using Amazon QuickSight.
 
-1. Go to the AWS Management Console, select Services, and then choose **QuickSight**.
+1. Go to the AWS Management Console, select Services, and then choose **QuickSight** or click this [quick link](https://console.aws.amazon.com/quicksight/).
 
 2. Before importing your data and creating visualizations, you need to make sure that certain permissions are in order. Change the **region** in the top right corner to US East (N. Virginia) as this is the only region that you can currently edit QuickSight settings in. 
 
