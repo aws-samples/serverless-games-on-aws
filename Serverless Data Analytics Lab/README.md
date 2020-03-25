@@ -227,7 +227,13 @@ def lambda_handler(event, context):
 
 27. Click **Create** and your API Gateway should automatically deploy.
 
-28. There is one last thing you need to do - note down the **Invoke URL**. You can find this URL in the details by clicking on the name of your newly deployed API Gateway. You will need this endpoint to POST data from your Unity game so copy and paste it in a notepad or editor for later. 
+28. There is one last thing you need to do - note down the **Invoke URL**. You can find this URL in the details by clicking on the name of your newly deployed API Gateway. You will need this endpoint to POST data from your Unity game so copy and paste it in a notepad or editor for later. You also need to add the **/KinesisProducer** path at the end of your invoke URL, since this is the path that your Lambda function exists at.
+
+29. The final API endpoint URL you should take note of looks similar to below:
+
+```
+https://XXXXXXXXXX.execute-api.us-west-2.amazonaws.com/KinesisProducer
+```
 
 Congratulations! You set up your API Gateway and your Lambda backend! Now to move onto creating the analytics pipeline.
 
