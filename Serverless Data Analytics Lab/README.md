@@ -136,7 +136,7 @@ The first step is to configure an Amazon API Gateway and an AWS Lambda function.
 
 3. Click **Create role**.
 
-4. For _Select type of trusted identitty_, under AWS Service, choose **Lambda**.
+4. For _Select type of trusted identity_, under AWS Service, choose **Lambda**.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/trusted.png" /></p> 
 
@@ -154,7 +154,7 @@ The first step is to configure an Amazon API Gateway and an AWS Lambda function.
 
 9. Finally, click **Create role**. 
 
-10. Now, let's create the Lambda backend. In the Management Console, select **Lambda**.
+10. Now, let's create the Lambda backend. In the Management Console, select **Lambda** or use this [quick link](https://console.aws.amazon.com/lambda/).
 
 11. Click **Create function** and select **Author from scratch** which should be chosen by default.
 
