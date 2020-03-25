@@ -378,7 +378,7 @@ private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint her
 
 15. Stop playing the game and monitor how your Kinesis Firehose stream is performing. Go to the **AWS Management Console**, click **Kinesis** and find your **Kinesis Firehose delivery stream**. 
 
-16. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graph due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
+16. Click into your stream to see details about it and select the **Monitoring** tab. You can see Amazon CloudWatch metrics, similar to the ones shown below. These metrics show the amount of incoming records, the amount of records successfully delivered to S3, and more. Data might not be immediately visible on these graphs due to the buffer interval of your stream. If you do not see data immediately, wait a few minutes and refresh. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesis7.png" /></p>
 
@@ -420,7 +420,7 @@ Now you are able to successfully send your own player data to S3 as you play the
 8. When the log-in is successful, you will see some fields that you can start configuring to send sample data to populate your S3 data lake. 
 
       * Set the **Region** as the same one you created your Kinesis Firehose stream in.
-      * Set the **Stream** as the one you created in Task 2.
+      * Set the **Stream** as the one you created in Task 3.
       * On the **Record template** under Schema Discovery Payload, put the following:
  
 ```
@@ -452,7 +452,7 @@ This data represents random players playing your game. For the _CaughtAt_ variab
 
 10. Go back to the AWS Management Console tab with your Kinesis Firehose delivery stream open. Click into the stream to view the stream details if you are not viewing them already.
 
-11. Select the **Monitoring** tab to view metrics like you did in Task 2. You should see something similar to what is shown below to verify the Kinesis Data Generator is working:
+11. Select the **Monitoring** tab to view metrics. You should see something similar to what is shown below to verify the Kinesis Data Generator is working:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/14.png" /></p> 
 
