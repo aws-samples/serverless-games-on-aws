@@ -270,9 +270,9 @@ You have created your S3 data lake! Now you need to set up an ingestion mechanis
 
 14. You can take a look at all the other configuration options and explore them if you want but for now leave them all default and hit **Next**.
 
-16. Kinesis Firehose buffers incoming records before delivering them to your S3 bucket. Set **Buffer size*** to 1 MB and **Buffer interval** to 60 seconds. This is to make sure data is delivered to S3 as quick as possible.  
+16. Kinesis Firehose buffers incoming records before delivering them to your S3 bucket. Set **Buffer size** to 1 MB and **Buffer interval** to 60 seconds. This is to make sure data is delivered to S3 as quick as possible.  
 
-17. Scroll down to IAM role. This is the Identity and Access Manamgenent role that you need to specify to give Kinesis the appropriate permissions it needs to access your S3 bucket and any other resources it may need. Click **Create new or choose**.
+17. Scroll down to IAM role. This is the Identity and Access Management role that you need to specify to give Kinesis the appropriate permissions it needs to access your S3 bucket and any other resources it may need. Click **Create new or choose**.
 
 18. This will open up a new tab like the one below where you can create a new IAM role. Select **Allow**.
 
@@ -314,10 +314,8 @@ Now that you have your API Gateway set up, your data storage in place, and your 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/buildsettings.png" /></p> 
 
 8. **Do not click** Build or Build and Run, simply exit out of the Build Settings window.
-
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/kinesissdk.png" /></p> 
     
-Now that you have your Unity sample game open and you have explored around a bit, it is time to begin coding some AWS functionality into the game. You will add code that will be able to post data to API Gateway, which will trigger the Lambda function to send the data to your Kinesis stream to store it in your S3 data lake. 
+Now that you have your Unity sample game open and you have explored around a bit, it is time to understand how to integrate AWS in the game. You will add code that will be able to post data to API Gateway, which will trigger the Lambda function to send the data to your Kinesis stream to store it in your S3 data lake. 
 
    * **Note:** There are a couple different ways to integrate AWS into your game depending on your use case. When doing this, we recommend minimizing the number of AWS resources accessed directly from your game client. It introduces a security risk when you expose a lot of API calls from your client and it also makes your implementation brittle, forcing you to create client updates every time you need to make a change. 
    
