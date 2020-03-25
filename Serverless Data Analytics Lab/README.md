@@ -539,8 +539,6 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."timepla
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/athena.png" /></p> 
 
-* If you are recieving zero results returned from your queries, make sure each file in your S3 bucket is in its own individual folder. Otherwise, if there are multiple files in the same folder when using Glue, Athena will return zero records. Re-structure your S3 bucket and re-run the Glue crawler to fix this issue. 
-
 4. After you run the query and the results display on the dashboard, click **Create** and then **Create view from query**. Give it a name. This lab uses _data-view_ as the name. Click **Create**. 
 
 Congratulations! You have finished querying your data using Amazon Athena. 
