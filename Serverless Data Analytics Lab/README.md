@@ -237,8 +237,11 @@ Congratulations! You set up your API Gateway and your Lambda backend! Now to mov
 The next step is to set up your data storage and your ingestion mechanism. For your data storage, you are going to use Amazon S3, which will act as your centralized data lake for all your game data. 
 
 1. In the **AWS Management Console** on the Services menu, click **S3** or use this [quick link](https://console.aws.amazon.com/s3/).
+
 2. Click **+ Create bucket**.
+
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
+
 4. Choose the region for this bucket. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/1.png" /></p> 
@@ -247,7 +250,7 @@ The next step is to set up your data storage and your ingestion mechanism. For y
 
 You have created your S3 data lake! Now you need to set up an ingestion mechanism so you can stream data from your game to your S3 data lake. You can do this using an Amazon Kinesis Data Firehose stream. Kinesis Firehose is scalable so it allows you to ingest records from many clients simultaneously. It can stream data to multiple destinations besides just S3 and it integrates easily with other AWS services like Kinesis Data Analytics to process your streaming data using standard SQL, which will be set up later in this lab. 
 
-6. In the AWS Management Console, go to Services and click **Kinesis**.
+6. In the AWS Management Console, go to Services and click **Kinesis** or use this [quick link](https://console.aws.amazon.com/kinesis/).
 
 7. In the top right corner, you will see a section for Kinesis Firehose delivery streams. Click **Create delivery stream**.
 
