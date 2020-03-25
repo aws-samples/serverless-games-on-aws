@@ -520,7 +520,7 @@ Congratulations! You have successfully used AWS Glue to create a crawler and pop
 
 Now that you have made your data discoverable, you can query your data for exactly what you want to analyze. 
 
-1. Go to AWS Management Console, click Services, then select **Athena**.
+1. Go to AWS Management Console, click Services, then select **Athena** or click this [quick link](https://console.aws.amazon.com/athena/).
 
 2. On the left hand side under Database, select the **Glue Data Catalog** you just created. In the case of the lab, it is the _serverless-catalog_.
 
