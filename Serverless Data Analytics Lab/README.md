@@ -587,7 +587,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 * You can change the colors to represent the different enemies. Remember that numbers 1-3 correspond to ghosts while 4-6 correspond to Gargoyles. In this picture, blue is gargoyles while purple is ghosts. This graph shows the number of players caught by each individual enemy. We can see that players die by ghost #2 the most. This can indicate that either the other enemies are not catching the player enough and the game is too easy, or on the opposite end of the spectrum that players are having a hard time getting past ghost #2 and barely winning the game. 
 
-15. Next, let's create a heat map thats where players are dying the most. Select the **+ ADD** button on the top left to add a new visualization.
+15. Next, let's create a heat map that shows where players are dying the most. Select the **+ ADD** button on the top left to add a new visualization.
 
 16. Under Visual types, select a **Heat map** visualization. 
 
@@ -609,9 +609,9 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/loss.png" /></p> 
 
-* This visualizatoin shows the sum of losses per individual player. It shows that there are some players who are losing significantly more than other players. This graph may indicate certain players who are more likely to churn and stop playing your game because they are having a hard time winning. With this information, you can try to prevent player churn. for example, you can target these players with special items to help them get through the level to keep playing.
+* This visualization shows the sum of losses per individual player. It shows that there are some players who are losing significantly more than other players. This graph may indicate certain players who are more likely to churn and stop playing your game because they are having a hard time winning. With this information, you can try to prevent player churn. for example, you can target these players with special items to help them get through the level to keep playing.
 
-23. Let's create one more graph that shows our win/loss percentage. To do this, we need to add a new field that will be called WinLoss. Select the **+ ADD** button on the top left to add a **Add calculated field**.
+23. Let's create one more graph that shows our win/loss percentage. To do this, we need to add a new field that will be called WinLoss. Select the **+ ADD** button on the top left to **Add calculated field**.
 
 24. Under **Function list** choose **avg**. For the **Calculated field name** put WinLoss. 
 
