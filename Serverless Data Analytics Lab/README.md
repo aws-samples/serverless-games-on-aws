@@ -702,9 +702,9 @@ https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/analytics-sql-referen
 
 * This code will take the filtered data sent from the Kinesis Data Analytics stream and send it to a CloudWatch dashboard as custom metrics. It does this using the CloudWatch Boto 3 SDK for Python. 
 
-18. The last step to configure Lambda is making sure it has the appropriate permissions to publish metrics to CloudWatch. Scroll down to **Execution role** and click **View the custom-cloudwatch-metrics-role** as highlighted below. This will take you to the IAM management console where you can edit role permissions. 
+18. The last step to configure Lambda is making sure it has the appropriate permissions to publish metrics to CloudWatch. At the top, choose **Permissions** and click the **custom-cloudwatch-metrics-role** name as highlighted below. This will take you to the IAM management console where you can edit role permissions. 
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdaiam2.png" /></p> 
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdaiamperm2.png" /></p> 
 
 19. In the IAM management console, select **Attach permissions**. Select the **CloudWatchFullAccess** policy and select **Attach policy**
 
