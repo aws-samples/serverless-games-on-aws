@@ -104,19 +104,19 @@ First, you will need to create an IAM user with the appropriate permissions need
 
 2. Click **Users** on the left-hand navigation pane and then select **Add user**.
 
-3. Give your user a user name and enable **AWS Management Console access** so that you can give your user the ability to sign-in to the AWS Management console. You can optionally choose to enable **Programmatic access** so that you can download an access key and secret access key to use the AWS Command Line Interface (CLI). It is not needed for this lab, but a good tool to use.
+3. Give your user a user name and enable **AWS Management Console access** so that you can give your user the ability to sign-in to the AWS Management console. You can optionally choose to enable **Programmatic access** so that you can download an access key and secret access key to use the AWS Command Line Interface (CLI). It is not needed for this lab, but it is a good tool to use.
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM1.png" /></p> 
 
 4. Select **Next: Permissions** and choose **Attach existing policies directly**. Choose the AdministratorAccess policy to add to your user.
 
-**SECURITY DISCLAIMER:** Here, you are adding full administrator access for simplicity of lab purposes. However, it is best practices that with IAM you assign fine-grained permissions to AWS services and to your resources. If you want to make your permissions more fine-grained and not use admin permissions, you can add permissions for only the services that will be used in this lab, including Lambda, S3, Kinesis, Glue, Athena, QuickSight, and CloudWatch. 
+**SECURITY DISCLAIMER:** Here, you are adding full administrator access for simplicity of lab purposes. However, it is best practices that with IAM you assign fine-grained permissions to AWS services and to your resources. If you want to make your permissions more fine-grained and not use admin permissions, you can add permissions for only the services that will be used in this lab, including API Gateway, Lambda, S3, Kinesis, Glue, Athena, QuickSight, and CloudWatch. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/IAM2.png" /></p> 
 
 5. Select **Next: Tags**, **Next: Review** and finally **Create user**.
 
-6. You can **Download .csv** to download and save your access key ID and secret access key for use later when setting up the CLI optionally - again, this is not needed for this lab but a good tool to use in the future when working with AWS.
+6. You can **Download .csv** to download and save your access key ID and secret access key for use later when setting up the CLI optionally - again, this is not needed for this lab but it is a good tool to use in the future when working with AWS if you prefer to work from the command line.
 
 7. Sign into the AWS Management Console with the IAM credentials you just created. 
 
@@ -128,9 +128,9 @@ You are done setting up the prerequisites needed for this lab.
 
 ## Task 2: Setting up Amazon API Gateway and an AWS Lambda backend
 
-The first step is to configure an Amazon API Gateway and an AWS Lambda function. API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. It will act as the "front door" for your analytics pipeline and provide an extra layer of security for your backend resources so you do not have to bake AWS credentials into a game client, which poses a security risk. Lambda lets you run code in a serverless fashion, so it will act as a backend orchestration service for sending data from your game to your analytics pipeline. 
+The first step is to configure an Amazon API Gateway and an AWS Lambda function. API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. It will act as the "front door" for your analytics pipeline and provide an extra layer of security for your backend resources so you do not have to bake AWS credentials into a game client, which poses a security risk. Lambda lets you run code in a serverless fashion, so it will act as a backend orchestration service for sending data from your game to your analytics pipeline. This pattern provides an additional layer of security by abstracting all API calls away from the player and instead making them in a backend. It also makes your implementation less brittle, because if API calls are made in the client instead of a backend you would have to push updates to your players each time you want to change something. 
 
-1. Sign into the **AWS Management Console** and on the Services menu, click **IAM**. We need to configure an Identity and Access Management role first to define appropriate permissions. 
+1. Sign into the **AWS Management Console** and on the Services menu, click **IAM** or use this [quick link](https://console.aws.amazon.com/iam/). We need to configure an Identity and Access Management role first to define appropriate permissions for your Lambda function. 
 
 2. On the left-hand navigation pane, click **Roles**. 
 
