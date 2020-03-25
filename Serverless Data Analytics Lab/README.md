@@ -34,7 +34,7 @@ Using analytics is very important to improve your game and keep players around. 
 
 ### Serverless analytics pipeline on AWS
 
-Serverless applications don’t require you to provision, scale, or manage any servers. You can build them for nearly any type of application or backend service, and everything required to run and scale your application with high availability is handled for you. A lot of companies are making the move towards serverless, even for their analytics workloads. AWS has an expansive ecosystem of services that can be used to build out a robust anlaytics pipeline for your game so that you can discover useful insights on player and game data. Serverless is a great option for a lot of games companies because many of them do not have dedicated resources or a data analytics expert on hand to configure infrastructure and manage a data analytics pipeline. 
+Serverless applications don’t require you to provision, scale, or manage any servers. You can build them for nearly any type of application or backend service, and everything required to run and scale your application with high availability is handled for you. A lot of companies are making the move towards serverless, even for their analytics workloads. AWS has an expansive ecosystem of services that can be used to build out a robust analytics pipeline for your game so that you can discover useful insights on player and game data. Serverless is a great option for a lot of games companies because many of them do not have dedicated resources or a data analytics expert on hand to configure infrastructure and manage a data analytics pipeline. 
 
 ##### Batch and near real-time analytics 
 
@@ -64,7 +64,7 @@ Once your data has been discovered using AWS Glue, you can use Amazon Athena to 
 
 ##### Amazon QuickSight
 
-Once you query the data you are interested in analyzing, you can use Amazon Quicksight as a business intelligence service to discover insights about your game data. QuickSight works really well for batch analytics with data that has been collected over a time frame of a couple hours, to days, months, even years. You can create and publish interactive dashboards and visualizations. You can even discover hidden trends and do forecasting using machine learning. With Quicksight, you can answer questions about your game - is it too hard? Is it too easy? Are your players engaged and going to stick around? 
+Once you query the data you are interested in analyzing, you can use Amazon QuickSight as a business intelligence service to discover insights about your game data. QuickSight works really well for batch analytics with data that has been collected over a time frame of a couple hours, to days, months, even years. You can create and publish interactive dashboards and visualizations. You can even discover hidden trends and do forecasting using machine learning. With QuickSight, you can answer questions about your game - is it too hard? Is it too easy? Are your players engaged and going to stick around? 
 
 ##### AWS Lambda 
 
@@ -91,7 +91,7 @@ This lab will focus specifically on building out a serverless analytics pipeline
 
 For the purposes of this lab, you will be using the AWS Management Console as well as Unity. You will need to have:
 
-* An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Lambda, Kinesis, Glue, Athena, QuickSight, CloudWatch). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+* An **AWS account** with an appropriate level of permissions to use the services needed for this lab (S3, Lambda, Kinesis, Glue, Athena, QuickSight, CloudWatch, API Gateway). Follow the link to create and activate a new AWS account if you do not have one already: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
 * **Unity 2019.1.0** - Download Unity and Unity Hub from this link: https://unity3d.com/get-unity/download/archive
 
 This lab works for both Mac and Windows. If you already have these prerequisites, you can skip to [[Task2](#Task2)]
@@ -100,7 +100,7 @@ This lab works for both Mac and Windows. If you already have these prerequisites
 
 First, you will need to create an IAM user with the appropriate permissions needed to do the lab if you do not have one already. AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage AWS users and groups, and use permissions to allow and deny their access to AWS resources. It is highly recommended that you do not use the default root user of your AWS account and instead provision your own IAM user for security purposes.
 
-1. Sign into your AWS account and go to the IAM landing page by clicking **Services > IAM**.
+1. Sign into your AWS account and go to the IAM landing page by clicking **Services > IAM** or by clicking this [quick link](https://console.aws.amazon.com/iam/).
 
 2. Click **Users** on the left-hand navigation pane and then select **Add user**.
 
