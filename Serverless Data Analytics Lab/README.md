@@ -558,6 +558,8 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 4. On the left-hand panel, select **Security & permissions**. You need to allow QuickSight access to certain AWS services. Click **Add or remove** to edit the services QuickSight has permissions to access. Make sure both S3 and Athena are enabled. It is important to **uncheck** and then **recheck** the box for S3 to ensure your newly created bucket is included. 
 
+**IMPORTANT:** Also make sure to enable **Write permission for Athena workgroup** by checking the box next to your S3 bucket. 
+
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/22.png" /></p> 
 
 5. After ensuring the correct permissions, go back to the region you were working in before if it is not US East 1, since this is the region you have been working in the entire lab and will be where your Glue Data Catalog and your Athena table view are. 
