@@ -686,7 +686,7 @@ https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/analytics-sql-referen
 
 11. The last step for setting up the Kinesis Data Analytics stream is configuring a destination for the stream. The destination will be a Lambda function that will be configured next. 
 
-12. Open a new AWS tab. It is time to configure a Lambda function that will consume data from the Kinesis Data Analytics stream and execute code to turn the data into a custom metric that will be published to a CloudWatch dashboard. In the AWS Management Console, select **Lambda**.
+12. Open a new AWS tab. It is time to configure a Lambda function that will consume data from the Kinesis Data Analytics stream and execute code to turn the data into a custom metric that will be published to a CloudWatch dashboard. In the AWS Management Console, select **Lambda** or use this [quick link](https://console.aws.amazon.com/lambda/).
 
 13. Click **Create function**.
 
