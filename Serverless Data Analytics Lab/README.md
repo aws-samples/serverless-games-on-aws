@@ -706,9 +706,11 @@ https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/analytics-sql-referen
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambdaiamperm2.png" /></p> 
 
-19. In the IAM management console, select **Attach permissions**. Select the **CloudWatchFullAccess** policy and select **Attach policy**
+19. In the IAM management console, select **Attach policies**. Select the **CloudWatchFullAccess** policy and select **Attach policy**
 
-20. Go back to your Lambda function and **Edit basic settings** to increase the timeout to 3 minutes.  
+20. Go back to your Lambda function and on the Configuration tab, **Edit basic settings** to increase the timeout to 3 minutes.  
+
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/timeout.png" /></p> 
 
 21. Finally, **Save** the Lambda function. 
 
