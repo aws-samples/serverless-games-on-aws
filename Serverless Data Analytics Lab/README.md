@@ -468,7 +468,7 @@ Now you have a lot of sample player data to work with for the rest of the lab.
 
 Now that you have all of the data you want to analyze in your S3 data lake, it is time to discover that data and make it available to be queried. 
 
-1. In the AWS Management Console, go to Services, and click **AWS Glue**. 
+1. In the AWS Management Console, go to Services, and click **AWS Glue** or click this [quick link](https://console.aws.amazon.com/glue/). 
 
 2. On the left-side navigation bar, select **Crawlers**. You are creating a Glue Crawler, which will _crawl_ through the data in your S3 bucket. It is going to connect to your S3 data store and classify it to determine the schema and metadata. 
 
