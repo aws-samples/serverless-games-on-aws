@@ -640,7 +640,7 @@ Now that the batch analytics portion is set up, let's move onto configuring the 
 
 1. First, we need to start sending streaming data again. Go back to the **Kinesis Data Generator** and hit **Send data**. Keep data sending this time since we want to look at data as it comes in, do not stop the Kinesis Data Generator. 
 
-2. Go to the AWS Management Console, select Services, and then choose **Kinesis**.
+2. Go to the AWS Management Console, select Services, and then choose **Kinesis** or use this [quick link](https://console.aws.amazon.com/kinesis/).
 
 2. Under _Kinesis analytics applications_, choose **Create analytics application**.
 
