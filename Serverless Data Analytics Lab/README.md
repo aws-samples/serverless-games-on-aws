@@ -752,7 +752,7 @@ Your configurations should look like the following:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/livedata.png" /></p> 
 
-Finally, you should be able to see a graph similar to below that populates data in real time!
+Finally, you should be able to see a graph similar to below that populates data in real time! If you are not seeing data, try changing the period of wins and losses by editing the widget, going to the Graphed Metrics tab, and changing the period for wins and losses to 1 second instead of 5 minutes. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/dashboard.png" /></p> 
 
