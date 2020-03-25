@@ -662,13 +662,13 @@ Now that the batch analytics portion is set up, let's move onto configuring the 
 
 9. Now, configure your real time analytics by clicking **Go to SQL editor**. If you are asked if you would like to start running your application, choose **Yes, start application**.
 
-10. In the SQL editor, paste the following SQL query:
+10. In the SQL editor, paste the following SQL query and then **Save and run SQL**:
 
 ```
 -- ** Continuous Filter ** 
-CREATE OR REPLACE STREAM "data_stream" ("PlayerID" INTEGER, "Wins" INTEGER, "Losses" INTEGER, "COL_TimePlayed" INTEGER, "CaughtAt" INTEGER, "CaughtBy" INTEGER);
+CREATE OR REPLACE STREAM "data_stream" ("playerID" INTEGER, "Wins" INTEGER, "Losses" INTEGER, "TimePlayed" INTEGER, "CaughtAt" INTEGER, "CaughtBy" INTEGER);
 CREATE OR REPLACE PUMP "STREAM_PUMP" AS INSERT INTO "data_stream"
-SELECT STREAM "PlayerID", "Wins", "Losses", "COL_TimePlayed", "CaughtAt", "CaughtBy"
+SELECT STREAM "playerID", "Wins", "Losses", "TimePlayed", "CaughtAt", "CaughtBy"
 FROM "SOURCE_SQL_STREAM_001"
 WHERE "Losses" > 10;
 ```
