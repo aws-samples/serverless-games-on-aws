@@ -236,7 +236,7 @@ Congratulations! You set up your API Gateway and your Lambda backend! Now to mov
 
 The next step is to set up your data storage and your ingestion mechanism. For your data storage, you are going to use Amazon S3, which will act as your centralized data lake for all your game data. 
 
-1. In the **AWS Management Console** on the Services menu, click **S3**. 
+1. In the **AWS Management Console** on the Services menu, click **S3** or use this [quick link](https://console.aws.amazon.com/s3/).
 2. Click **+ Create bucket**.
 3. Enter a bucket name. It has to be globally unique across all existing buckets in S3. This lab will use a bucket named _serverless-games_.
 4. Choose the region for this bucket. 
