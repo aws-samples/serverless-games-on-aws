@@ -158,7 +158,7 @@ The first step is to configure an Amazon API Gateway and an AWS Lambda function.
 
 11. Click **Create function** and select **Author from scratch** which should be chosen by default.
 
-12. Name your function **KinesisProducer** and choose **Python 3.8** as the runtime. Then click **Create function**. 
+12. Name your function **KinesisProducer** and choose **Python 3.8** as the runtime.
 
 13. Under permissions, select **Choose or create an execution role** 
 
