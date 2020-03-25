@@ -534,7 +534,6 @@ SELECT * FROM "serverless-catalog"."23" WHERE "serverless-catalog"."23"."timepla
 
 * You also might need to set up an S3 bucket destination where the output of your queries get saved. If "Run Query" is greyed out, there will be a link at the top of the screen prompting you to specify an S3 destination. You can also edit your S3 destination by clicking "Settings". 
 
-
 * Your final result should look like this:
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/athena.png" /></p> 
@@ -556,9 +555,7 @@ Now that you have queried for a subset of your data, it is time to analyze it us
 
 3. In the top right, next to where you just changed the region, select your user and then choose **Manage QuickSight** from the drop down. 
 
-4. On the left-hand panel, select **Security & permissions**. You need to allow QuickSight access to certain AWS services. Click **Add or remove** to edit the services QuickSight has permissions to access. Make sure both S3 and Athena are enabled. It is important to **uncheck** and then **recheck** the box for S3 to ensure your newly created bucket is included. 
-
-**IMPORTANT:** Also make sure to enable **Write permission for Athena workgroup** by checking the box next to your S3 bucket. 
+4. On the left-hand panel, select **Security & permissions**. You need to allow QuickSight access to certain AWS services. Click **Add or remove** to edit the services QuickSight has permissions to access. Make sure to **uncheck** and then **recheck** the box for Athena, which will then prompt you to allow permissions for S3. Make sure the box for your S3 bucket is checked. 
 
 <p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/22.png" /></p> 
 
