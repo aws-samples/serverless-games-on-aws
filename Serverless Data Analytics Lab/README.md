@@ -696,9 +696,75 @@ https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/analytics-sql-referen
 
 16. Click **Create function** 
 
-17. In this GitHub repository, you will see a file called _lambda_function.py_. Copy and paste the code in that file to the body of your Lambda function, which should look similar to below:
+17. Copy and paste the following code into the body of your Lambda function (the Python file can also be found in the GitHub repository):
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/lambda.png" /></p> 
+```
+import json
+import boto3
+import base64
+import datetime
+
+cloudwatch = boto3.client('cloudwatch')
+
+def lambda_handler(event, context):
+    
+    for record in event['records']:
+
+        bytesArray = base64.b64decode(record['data'])
+        my_json = bytesArray.decode('utf8').replace("'", '"')
+        data = json.loads(my_json)
+        payload = json.dumps(data)
+
+        playerID = data["playerID"]
+        wins = data["Wins"]
+        losses = data["Losses"]
+        timeplayed = data["TimePlayed"]
+        caughtat = data["CaughtAt"]
+        caughtby = data["CaughtBy"]
+
+        response = cloudwatch.put_metric_data(
+        MetricData = [
+            {
+                'MetricName': 'playerID',
+                'Timestamp': datetime.datetime.now(),
+                'Value': playerID,
+                'StorageResolution': 1
+            },
+            {
+                'MetricName': 'wins',
+                'Timestamp': datetime.datetime.now(),
+                'Value': wins,
+                'StorageResolution': 1
+            },
+            {
+                'MetricName': 'losses',
+                'Timestamp': datetime.datetime.now(),
+                'Value': losses,
+                'StorageResolution': 1
+            },
+            {
+                'MetricName': 'timePlayed',
+                'Timestamp': datetime.datetime.now(),
+                'Value': timeplayed,
+                'StorageResolution': 1
+            },
+            {
+                'MetricName': 'caughtAt',
+                'Timestamp': datetime.datetime.now(),
+                'Value': caughtat,
+                'StorageResolution': 1
+            },
+            {
+                'MetricName': 'CaughtBy',
+                'Timestamp': datetime.datetime.now(),
+                'Value': caughtby,
+                'StorageResolution': 1
+            },
+
+        ],
+        Namespace='serverless-analytics-demo'
+        )
+```
 
 * This code will take the filtered data sent from the Kinesis Data Analytics stream and send it to a CloudWatch dashboard as custom metrics. It does this using the CloudWatch Boto 3 SDK for Python. 
 
@@ -716,7 +782,7 @@ https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/analytics-sql-referen
 
 22. Now go back to the open tab with your Kinesis Data Analytics stream to connect to a destination. Choose **Connect to a destination** and choose the destination to be an **AWS Lambda function**. 
 
-23. Select the Lambda function you just created
+23. Select the Lambda function you just created.
 
 24. For **In-application stream**, select **Choose an existing in-application stream** and choose data_stream, which is a stream that is created in the continous filter SQL query.
 
@@ -762,7 +828,7 @@ Finally, you should be able to see a graph similar to below that populates data 
 
 * This is a sample dashboard that shows live data for wins and losses over time, the amount of time played, and p90 wins and losses. 
 
-Congratulations! You created real-time visualizations in CloudWatch using Kinesis Data Analytics and Lambda. 
+Congratulations! You created real-time visualizations in CloudWatch using Kinesis Data Analytics and Lambda. Make sure to stop sending data from the Kinesis Data Generator when you are done! 
 
 <a id="cleanup"></a>
 [[Top](#Top)]
