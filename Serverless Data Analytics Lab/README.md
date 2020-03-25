@@ -425,7 +425,7 @@ Now you are able to successfully send your own player data to S3 as you play the
  
 ```
 {
-"PlayerID":{{random.number(10000)}},
+"playerID":{{random.number(10000)}},
 "TimePlayed":{{random.number(100000)}},
 "Wins":{{random.number(5)}},
 "Losses":{{random.number(50)}},
