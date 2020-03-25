@@ -388,7 +388,7 @@ private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint her
 
 18. **Download** one of the files by clicking on it and hitting download. Take a look at the contents. You should see your game data in JSON format like below:
 
-<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/S3data2.png" /></p>
+<p align="center"><img src="http://d2a4jpfnohww2y.cloudfront.net/serverless-analytics/s3data2.png" /></p>
 
 Congratulations! You successfully created an S3 data lake, a Kinesis Firehose stream, and integrated it with a Unity game.
 
