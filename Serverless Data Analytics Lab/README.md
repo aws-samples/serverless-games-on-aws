@@ -343,7 +343,10 @@ private string API = "API-GATEWAY-ENDPOINT-HERE"; //Put API Gateway endpoint her
 
 * Take a look at the other code in this file. This file gathers game data when a player successfully escapes or dies from the haunted mansion, and makes a POST to API Gateway to send that data to the analytics pipeline. This is the code in the script that makes the POST request to API Gateway using Unity's built-in _UnityWebRequest_ which handles the flow of HTTP communication. There are no external modules required! 
 
-* **Note:** The WWWForm api is eventually planned for deprecation, those looking to future proof will want to use List<IMultipartFormSection>. 
+* The WWWForm api is eventually planned for deprecation, those looking to future proof will want to use List<IMultipartFormSection>. 
+	
+* **NOTE:** For the purpose of this lab, this API Gateway endpoint is unauthenticated and open to the public. In a production environment, you would want to authenticate any calls made to your endpoint. You can do this using an authorizer for your API Gateway which authenticates requests. This can be a Lambda authorizer or a Cognito authorizer. To learn how to use Cognito to set up player authentication and authorization to authenticate requests made to your API Gateway, check out this lab - https://github.com/aws-samples/serverless-games-on-aws/tree/master/Cognito%20User%20Pools%20Authentication%20Lab
+	
 
 ```
     IEnumerator Post(string url, string jsonData)
