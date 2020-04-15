@@ -1,6 +1,9 @@
 ![AWS_logo_RGB.png](http://d2a4jpfnohww2y.cloudfront.net/cognito/AWS_logo_RGB.png)
 
 <a id="Top"></a>
+
+## THE INSTRUCTIONS IN THIS LAB HAVE BEEN DEPRECATED - PLEASE VISIT https://serverless-game-analytics.workshop.aws/en FOR THE MOST UPDATED LAB EXPERIENCE. 
+
 ## Serverless Data Analytics Lab
 This lab will guide you through creating a serverless analytics pipeline and integrating it into a Unity game. This lab will focus on using serverless services to build an analytics pipeline for both batch and near real-time analytics. This way, you can get batch insights over a period of time and also see data populating on a graph in near real-time. Services used in this lab include: Amazon API Gateway, AWS Lambda, Amazon Kinesis, Amazon S3, AWS Glue, Amazon Athena, Amazon QuickSight, and Amazon CloudWatch. In this lab, you will build out the following architecture:
 
