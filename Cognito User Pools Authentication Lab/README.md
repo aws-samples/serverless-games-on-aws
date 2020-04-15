@@ -1,6 +1,9 @@
 ![AWS_logo_RGB.png](http://d2a4jpfnohww2y.cloudfront.net/cognito/AWS_logo_RGB.png)
 
 <a id="Top"></a>
+
+## THE INSTRUCTIONS IN THIS LAB HAVE BEEN DEPRECATED - PLEASE VISIT https://serverless-game-analytics.workshop.aws/en FOR THE MOST UPDATED LAB EXPERIENCE. 
+
 ## Cognito User Pool Authentication Lab
 This lab will guide you through adding authentication to a Unity game using Cognito User Pools and the AWS SDK for .NET. This will involve configuring a user pool and adding code to the Unity game client to integrate the Cognito service with the game. 
 
